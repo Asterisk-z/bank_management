@@ -15,7 +15,7 @@
               <span class="block font-normal">Good evening,</span>
               <span class="block">Mr. Dianne Russell</span>
             </h4>
-            <p class="text-sm text-white font-normal">Welcome to Dashcode</p>
+            <p class="text-sm text-white font-normal">Welcome to Royal Bank</p>
           </div>
         </div>
       </div>

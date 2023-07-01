@@ -28,7 +28,7 @@
           <div class="text-center 2xl:mb-10 mb-5">
             <h4 class="font-medium mb-4">Forgot Your Password?</h4>
             <div class="text-slate-500 dark:text-slate-400 text-base">
-              Reset Password with Dashcode.
+              Reset Password with Royal Bank.
             </div>
           </div>
           <div

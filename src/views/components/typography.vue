@@ -447,7 +447,7 @@
             voluptatem harum?
 
             <span class="text-sm text-slate-400 block mt-3"
-              >Dashcode Admin Template</span
+              >Royal Bank Admin Template</span
             >
           </blockquote>
           <blockquote
@@ -458,7 +458,7 @@
             voluptatem harum?
 
             <span class="text-sm text-slate-400 block mt-3"
-              >Dashcode Admin Template</span
+              >Royal Bank Admin Template</span
             >
           </blockquote>
           <blockquote
@@ -469,7 +469,7 @@
             voluptatem harum?
 
             <span class="text-sm text-slate-400 block mt-3"
-              >Dashcode Admin Template</span
+              >Royal bank Admin Template</span
             >
           </blockquote>
         </div>

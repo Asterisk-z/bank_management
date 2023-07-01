@@ -96,7 +96,7 @@
                   href="mailto:someone@example.com"
                   class="text-base text-slate-600 dark:text-slate-50"
                 >
-                  info-500@dashcode.com
+                  info-500@royalbank.com
                 </a>
               </div>
             </li>

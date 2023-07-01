@@ -83,7 +83,7 @@
             </div>
           </div>
           <div class="auth-footer text-center">
-            Copyright 2021, Dashcode All Rights Reserved.
+            Copyright 2021, Royal Bank All Rights Reserved.
           </div>
         </div>
       </div>

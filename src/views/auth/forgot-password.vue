@@ -49,7 +49,7 @@
             <div class="text-center 2xl:mb-10 mb-5">
               <h4 class="font-medium mb-4">Forgot Your Password?</h4>
               <div class="text-slate-500 dark:text-slate-400 text-base">
-                Reset Password with Dashcode.
+                Reset Password with Royal Bank.
               </div>
             </div>
             <div
@@ -73,7 +73,7 @@
             </div>
           </div>
           <div class="auth-footer text-center">
-            Copyright 2021, Dashcode All Rights Reserved.
+            Copyright 2023, Royal Bank All Rights Reserved.
           </div>
         </div>
       </div>

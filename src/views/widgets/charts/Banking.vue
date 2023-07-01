@@ -21,7 +21,7 @@
                 <span class="block">Mr. Dianne Russell</span>
               </h4>
               <p class="text-sm font-light dark:text-slate-400">
-                Welcome to Dashcode
+                Welcome to Royal Bank
               </p>
             </div>
           </div>

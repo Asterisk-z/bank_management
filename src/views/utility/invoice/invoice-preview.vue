@@ -52,7 +52,7 @@
           <div
             class="text-slate-500 dark:text-slate-300 font-normal leading-5 mt-4 text-sm"
           >
-            Dashcode <br />
+            Royal Bank <br />
             House# 339, New DOHS, Mohakhali, <br />
             Dhaka - 1206, Bangladesh
             <div class="flex space-x-2 mt-2 leading-[1] rtl:space-x-reverse">
@@ -63,7 +63,7 @@
               class="mt-[6px] flex space-x-2 leading-[1] rtl:space-x-reverse"
             >
               <Icon icon="heroicons-outline:mail" />
-              <span>Dashcode@example.com</span>
+              <span>bank@example.com</span>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
               class="mt-[6px] flex space-x-2 leading-[1] rtl:space-x-reverse"
             >
               <Icon icon="heroicons-outline:mail" />
-              <span>Dashcode@example.com</span>
+              <span>bank@example.com</span>
             </div>
           </div>
         </div>

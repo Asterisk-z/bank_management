@@ -10,7 +10,7 @@
       >
         <div class="max-w-[180px]">
           <h4 class="text-xl font-medium text-white mb-2">
-            Upgrade your Dashcode
+            Upgrade your Royal Bank
           </h4>
           <p class="text-sm text-white text-opacity-80">
             Pro plan for better results
@@ -32,7 +32,7 @@
       >
         <div class="max-w-[180px]">
           <div class="text-xl font-medium text-slate-900 mb-2">
-            Upgrade your Dashcode
+            Upgrade your Royal Bank
           </div>
           <p class="text-sm text-slate-800">Pro plan for better results</p>
         </div>
@@ -52,7 +52,7 @@
       >
         <div class="max-w-[180px]">
           <div class="text-xl font-medium text-slate-900 mb-2">
-            Upgrade your Dashcode
+            Upgrade your Royal Bank
           </div>
           <p class="text-sm text-slate-800">Pro plan for better results</p>
         </div>
@@ -76,7 +76,7 @@
             <span class="block font-normal">Good evening,</span>
             <span class="block">Mr. Dianne Russell</span>
           </h4>
-          <p class="text-sm text-white font-normal">Welcome to Dashcode</p>
+          <p class="text-sm text-white font-normal">Welcome to Royal Bank</p>
         </div>
       </div>
       <!-- ?? end Single ?? -->
@@ -94,7 +94,7 @@
               <span class="block">Mr. Dianne Russell</span>
             </div>
             <p class="text-sm text-slate-900 font-normal">
-              Welcome to Dashcode
+              Welcome to Royal Bank
             </p>
           </div>
         </div>
@@ -125,7 +125,7 @@
             <p
               class="text-sm text-wgite text-white dark:text-slate-800 font-normal"
             >
-              Welcome to Dashcode
+              Welcome to Royal Bank
             </p>
           </div>
         </div>

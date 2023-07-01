@@ -21,7 +21,7 @@
                 <span class="block font-light">Good evening,</span>
                 <span class="block">Mr. Jone Doe</span>
               </h4>
-              <p class="text-sm dark:text-slate-300">Welcome to Dashcode</p>
+              <p class="text-sm dark:text-slate-300">Welcome to Royal Bank</p>
             </div>
           </div>
 

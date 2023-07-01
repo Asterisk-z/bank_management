@@ -128,7 +128,7 @@ const isOpen = ref(false);
 const searchList = [
   {
     id: 1,
-    name: "What is Dashcode ?",
+    name: "What is Royal Bank ?",
   },
   {
     id: 2,
