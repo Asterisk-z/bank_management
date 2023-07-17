@@ -15,10 +15,26 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('name');
+            $table->string('country_code');
+            $table->string('phone');
+            $table->enum('user_type', ['admin', 'customer'])->default('customer');
+            $table->enum('status', ['active', 'not_active', 'pending'])->default('active');
+            $table->enum('email_verified', ['yes', 'no'])->default('no');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('temp_password')->nullable();
+            $table->enum('create_by_admin', ['yes', 'no'])->default('no');
+            $table->string('account_number')->nullable();
+            $table->bigInteger('role_id')->nullable();
+            $table->bigInteger('branch_id')->nullable();
+            $table->string('profile_picture')->nullable();
+            $table->string('provider')->nullable();
+            $table->string('provider_id')->nullable();
+            $table->timestamp('sms_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

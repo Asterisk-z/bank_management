@@ -74,6 +74,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/send-money/index.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -82,6 +83,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/exchange-money/index.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -90,6 +92,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/wire-transfer/index.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -98,6 +101,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/payment-request/create.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -106,6 +110,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/payment-request/index.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -114,6 +119,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/deposit-money/automatic.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -122,6 +128,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/deposit-money/blockchain.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -130,6 +137,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/deposit-money/paypal.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -138,6 +146,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/deposit-money/gift-card.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -146,6 +155,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/deposit-money/manual.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -154,6 +164,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/deposit-money/payoneer.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -162,6 +173,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/withdraw-money/index.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -170,6 +182,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/loan/create.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -178,6 +191,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/loan/all-loan.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       {
@@ -186,6 +200,7 @@ const routes = [
         component: () => import("@/views/user-dashboard/loan/calculate.vue"),
         meta: {
           hide: true,
+          middleware: [user],
         },
       },
       
@@ -228,6 +243,7 @@ const routes = [
         component: () => import("@/views/dashboard/users/index.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -236,6 +252,7 @@ const routes = [
         component: () => import("@/views/dashboard/users/create.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -244,6 +261,7 @@ const routes = [
         component: () => import("@/views/dashboard/users/view.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -252,6 +270,7 @@ const routes = [
         component: () => import("@/views/dashboard/transfer-request/index.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -260,6 +279,7 @@ const routes = [
         component: () => import("@/views/dashboard/wire-transfer-request/index.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -268,6 +288,7 @@ const routes = [
         component: () => import("@/views/dashboard/deposit/create.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -276,6 +297,7 @@ const routes = [
         component: () => import("@/views/dashboard/deposit/history.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -284,6 +306,7 @@ const routes = [
         component: () => import("@/views/dashboard/deposit/request.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -292,6 +315,7 @@ const routes = [
         component: () => import("@/views/dashboard/withdraw/create.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -300,6 +324,7 @@ const routes = [
         component: () => import("@/views/dashboard/withdraw/history.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -308,6 +333,7 @@ const routes = [
         component: () => import("@/views/dashboard/withdraw/request.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {
@@ -316,6 +342,7 @@ const routes = [
         component: () => import("@/views/dashboard/transactions/index.vue"),
         meta: {
           hide: true,
+          middleware: [admin],
         },
       },
       {

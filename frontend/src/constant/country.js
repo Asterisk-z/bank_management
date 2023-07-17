@@ -1,970 +1,970 @@
-export const CountryCode = {
-  "AF": {
-    "country": "Afghanistan",
-    "dial_code": "93"
-  },
-  "AX": {
-    "country": "Aland Islands",
-    "dial_code": "358"
-  },
-  "AL": {
-    "country": "Albania",
-    "dial_code": "355"
-  },
-  "DZ": {
-    "country": "Algeria",
-    "dial_code": "213"
-  },
-  "AS": {
-    "country": "AmericanSamoa",
-    "dial_code": "1684"
-  },
-  "AD": {
-    "country": "Andorra",
-    "dial_code": "376"
-  },
-  "AO": {
-    "country": "Angola",
-    "dial_code": "244"
-  },
-  "AI": {
-    "country": "Anguilla",
-    "dial_code": "1264"
-  },
-  "AQ": {
-    "country": "Antarctica",
-    "dial_code": "672"
-  },
-  "AG": {
-    "country": "Antigua and Barbuda",
-    "dial_code": "1268"
-  },
-  "AR": {
-    "country": "Argentina",
-    "dial_code": "54"
-  },
-  "AM": {
-    "country": "Armenia",
-    "dial_code": "374"
-  },
-  "AW": {
-    "country": "Aruba",
-    "dial_code": "297"
-  },
-  "AU": {
-    "country": "Australia",
-    "dial_code": "61"
-  },
-  "AT": {
-    "country": "Austria",
-    "dial_code": "43"
-  },
-  "AZ": {
-    "country": "Azerbaijan",
-    "dial_code": "994"
-  },
-  "BS": {
-    "country": "Bahamas",
-    "dial_code": "1242"
-  },
-  "BH": {
-    "country": "Bahrain",
-    "dial_code": "973"
-  },
-  "BD": {
-    "country": "Bangladesh",
-    "dial_code": "880"
-  },
-  "BB": {
-    "country": "Barbados",
-    "dial_code": "1246"
-  },
-  "BY": {
-    "country": "Belarus",
-    "dial_code": "375"
-  },
-  "BE": {
-    "country": "Belgium",
-    "dial_code": "32"
-  },
-  "BZ": {
-    "country": "Belize",
-    "dial_code": "501"
-  },
-  "BJ": {
-    "country": "Benin",
-    "dial_code": "229"
-  },
-  "BM": {
-    "country": "Bermuda",
-    "dial_code": "1441"
-  },
-  "BT": {
-    "country": "Bhutan",
-    "dial_code": "975"
+export const CountryCodeList = [
+  {
+    value: "93",
+    label: "Afghanistan (+93)"
+  },
+  {
+    value: "358",
+    label: "Aland Islands (+358)"
+  },
+  {
+    value: "355",
+    label: "Albania (+355)"
+  },
+  {
+    value: "213",
+    label: "Algeria (+213)"
+  },
+  {
+    value: "1684",
+    label: "AmericanSamoa (+1684)"
+  },
+  {
+    value: "376",
+    label: "Andorra (+376)"
+  },
+  {
+    value: "244",
+    label: "Angola (+244)"
+  },
+  {
+    value: "1264",
+    label: "Anguilla (+1264)"
+  },
+  {
+    value: "672",
+    label: "Antarctica (+672)"
+  },
+  {
+    value: "1268",
+    label: "Antigua and Barbuda (+1268)"
+  },
+  {
+    value: "54",
+    label: "Argentina (+54)"
+  },
+  {
+    value: "374",
+    label: "Armenia (+374)"
+  },
+  {
+    value: "297",
+    label: "Aruba (+297)"
+  },
+  {
+    value: "61",
+    label: "Australia (+61)"
+  },
+  {
+    value: "43",
+    label: "Austria (+43)"
+  },
+  {
+    value: "994",
+    label: "Azerbaijan (+994)"
+  },
+  {
+    value: "1242",
+    label: "Bahamas (+1242)"
+  },
+  {
+    value: "973",
+    label: "Bahrain (+973)"
+  },
+  {
+    value: "880",
+    label: "Bangladesh (+880)"
+  },
+  {
+    value: "1246",
+    label: "Barbados (+1246)"
+  },
+  {
+    value: "375",
+    label: "Belarus (+375)"
+  },
+  {
+    value: "32",
+    label: "Belgium (+32)"
+  },
+  {
+    value: "501",
+    label: "Belize (+501)"
+  },
+  {
+    value: "229",
+    label: "Benin (+229)"
+  },
+  {
+    value: "1441",
+    label: "Bermuda (+1441)"
+  },
+  {
+    value: "975",
+    label: "Bhutan (+975)"
   },
-  "BO": {
-    "country": "Plurinational State of Bolivia",
-    "dial_code": "591"
+  {
+    value: "591",
+    label: "Plurinational State of Bolivia (+591)"
   },
-  "BA": {
-    "country": "Bosnia and Herzegovina",
-    "dial_code": "387"
+  {
+    value: "387",
+    label: "Bosnia and Herzegovina (+387)"
   },
-  "BW": {
-    "country": "Botswana",
-    "dial_code": "267"
+  {
+    value: "267",
+    label: "Botswana (+267)"
   },
-  "BR": {
-    "country": "Brazil",
-    "dial_code": "55"
+  {
+    value: "55",
+    label: "Brazil (+55)"
   },
-  "IO": {
-    "country": "British Indian Ocean Territory",
-    "dial_code": "246"
+  {
+    value: "246",
+    label: "British Indian Ocean Territory (+246)"
   },
-  "BN": {
-    "country": "Brunei Darussalam",
-    "dial_code": "673"
+  {
+    value: "673",
+    label: "Brunei Darussalam (+673)"
   },
-  "BG": {
-    "country": "Bulgaria",
-    "dial_code": "359"
+  {
+    value: "359",
+    label: "Bulgaria (+359)"
   },
-  "BF": {
-    "country": "Burkina Faso",
-    "dial_code": "226"
+  {
+    value: "226",
+    label: "Burkina Faso (+226)"
   },
-  "BI": {
-    "country": "Burundi",
-    "dial_code": "257"
+  {
+    value: "257",
+    label: "Burundi (+257)"
   },
-  "KH": {
-    "country": "Cambodia",
-    "dial_code": "855"
+  {
+    value: "855",
+    label: "Cambodia (+855)"
   },
-  "CM": {
-    "country": "Cameroon",
-    "dial_code": "237"
+  {
+    value: "237",
+    label: "Cameroon (+237)"
   },
-  "CA": {
-    "country": "Canada",
-    "dial_code": "1"
+  {
+    value: "1",
+    label: "Canada (+1)"
   },
-  "CV": {
-    "country": "Cape Verde",
-    "dial_code": "238"
+  {
+    value: "238",
+    label: "Cape Verde (+238)"
   },
-  "KY": {
-    "country": "Cayman Islands",
-    "dial_code": " 345"
+  {
+    value: " 345",
+    label: "Cayman Islands (+ 345)"
   },
-  "CF": {
-    "country": "Central African Republic",
-    "dial_code": "236"
+  {
+    value: "236",
+    label: "Central African Republic (+236)"
   },
-  "TD": {
-    "country": "Chad",
-    "dial_code": "235"
+  {
+    value: "235",
+    label: "Chad (+235)"
   },
-  "CL": {
-    "country": "Chile",
-    "dial_code": "56"
+  {
+    value: "56",
+    label: "Chile (+56)"
   },
-  "CN": {
-    "country": "China",
-    "dial_code": "86"
+  {
+    value: "86",
+    label: "China (+86)"
   },
-  "CX": {
-    "country": "Christmas Island",
-    "dial_code": "61"
+  {
+    value: "61",
+    label: "Christmas Island (+61)"
   },
-  "CC": {
-    "country": "Cocos (Keeling) Islands",
-    "dial_code": "61"
+  {
+    value: "61",
+    label: "Cocos (Keeling) Islands (+61)"
   },
-  "CO": {
-    "country": "Colombia",
-    "dial_code": "57"
+  {
+    value: "57",
+    label: "Colombia (+57)"
   },
-  "KM": {
-    "country": "Comoros",
-    "dial_code": "269"
+  {
+    value: "269",
+    label: "Comoros (+269)"
   },
-  "CG": {
-    "country": "Congo",
-    "dial_code": "242"
+  {
+    value: "242",
+    label: "Congo (+242)"
   },
-  "CD": {
-    "country": "The Democratic Republic of the Congo",
-    "dial_code": "243"
+  {
+    value: "243",
+    label: "The Democratic Republic of the Congo (+243)"
   },
-  "CK": {
-    "country": "Cook Islands",
-    "dial_code": "682"
+  {
+    value: "682",
+    label: "Cook Islands (+682)"
   },
-  "CR": {
-    "country": "Costa Rica",
-    "dial_code": "506"
+  {
+    value: "506",
+    label: "Costa Rica (+506)"
   },
-  "CI": {
-    "country": "Cote d'Ivoire",
-    "dial_code": "225"
+  {
+    value: "225",
+    label: "Cote d'Ivoire (+225)"
   },
-  "HR": {
-    "country": "Croatia",
-    "dial_code": "385"
+  {
+    value: "385",
+    label: "Croatia (+385)"
   },
-  "CU": {
-    "country": "Cuba",
-    "dial_code": "53"
+  {
+    value: "53",
+    label: "Cuba (+53)"
   },
-  "CY": {
-    "country": "Cyprus",
-    "dial_code": "357"
+  {
+    value: "357",
+    label: "Cyprus (+357)"
   },
-  "CZ": {
-    "country": "Czech Republic",
-    "dial_code": "420"
+  {
+    value: "420",
+    label: "Czech Republic (+420)"
   },
-  "DK": {
-    "country": "Denmark",
-    "dial_code": "45"
+  {
+    value: "45",
+    label: "Denmark (+45)"
   },
-  "DJ": {
-    "country": "Djibouti",
-    "dial_code": "253"
+  {
+    value: "253",
+    label: "Djibouti (+253)"
   },
-  "DM": {
-    "country": "Dominica",
-    "dial_code": "1767"
+  {
+    value: "1767",
+    label: "Dominica (+1767)"
   },
-  "DO": {
-    "country": "Dominican Republic",
-    "dial_code": "1849"
+  {
+    value: "1849",
+    label: "Dominican Republic (+1849)"
   },
-  "EC": {
-    "country": "Ecuador",
-    "dial_code": "593"
+  {
+    value: "593",
+    label: "Ecuador (+593)"
   },
-  "EG": {
-    "country": "Egypt",
-    "dial_code": "20"
+  {
+    value: "20",
+    label: "Egypt (+20)"
   },
-  "SV": {
-    "country": "El Salvador",
-    "dial_code": "503"
+  {
+    value: "503",
+    label: "El Salvador (+503)"
   },
-  "GQ": {
-    "country": "Equatorial Guinea",
-    "dial_code": "240"
+  {
+    value: "240",
+    label: "Equatorial Guinea (+240)"
   },
-  "ER": {
-    "country": "Eritrea",
-    "dial_code": "291"
+  {
+    value: "291",
+    label: "Eritrea (+291)"
   },
-  "EE": {
-    "country": "Estonia",
-    "dial_code": "372"
+  {
+    value: "372",
+    label: "Estonia (+372)"
   },
-  "ET": {
-    "country": "Ethiopia",
-    "dial_code": "251"
+  {
+    value: "251",
+    label: "Ethiopia (+251)"
   },
-  "FK": {
-    "country": "Falkland Islands (Malvinas)",
-    "dial_code": "500"
+  {
+    value: "500",
+    label: "Falkland Islands (Malvinas) (+500)"
   },
-  "FO": {
-    "country": "Faroe Islands",
-    "dial_code": "298"
+  {
+    value: "298",
+    label: "Faroe Islands (+298)"
   },
-  "FJ": {
-    "country": "Fiji",
-    "dial_code": "679"
+  {
+    value: "679",
+    label: "Fiji (+679)"
   },
-  "FI": {
-    "country": "Finland",
-    "dial_code": "358"
+  {
+    value: "358",
+    label: "Finland (+358)"
   },
-  "FR": {
-    "country": "France",
-    "dial_code": "33"
+  {
+    value: "33",
+    label: "France (+33)"
   },
-  "GF": {
-    "country": "French Guiana",
-    "dial_code": "594"
+  {
+    value: "594",
+    label: "French Guiana (+594)"
   },
-  "PF": {
-    "country": "French Polynesia",
-    "dial_code": "689"
+  {
+    value: "689",
+    label: "French Polynesia (+689)"
   },
-  "GA": {
-    "country": "Gabon",
-    "dial_code": "241"
+  {
+    value: "241",
+    label: "Gabon (+241)"
   },
-  "GM": {
-    "country": "Gambia",
-    "dial_code": "220"
+  {
+    value: "220",
+    label: "Gambia (+220)"
   },
-  "GE": {
-    "country": "Georgia",
-    "dial_code": "995"
+  {
+    value: "995",
+    label: "Georgia (+995)"
   },
-  "DE": {
-    "country": "Germany",
-    "dial_code": "49"
+  {
+    value: "49",
+    label: "Germany (+49)"
   },
-  "GH": {
-    "country": "Ghana",
-    "dial_code": "233"
+  {
+    value: "233",
+    label: "Ghana (+233)"
   },
-  "GI": {
-    "country": "Gibraltar",
-    "dial_code": "350"
+  {
+    value: "350",
+    label: "Gibraltar (+350)"
   },
-  "GR": {
-    "country": "Greece",
-    "dial_code": "30"
+  {
+    value: "30",
+    label: "Greece (+30)"
   },
-  "GL": {
-    "country": "Greenland",
-    "dial_code": "299"
+  {
+    value: "299",
+    label: "Greenland (+299)"
   },
-  "GD": {
-    "country": "Grenada",
-    "dial_code": "1473"
+  {
+    value: "1473",
+    label: "Grenada (+1473)"
   },
-  "GP": {
-    "country": "Guadeloupe",
-    "dial_code": "590"
+  {
+    value: "590",
+    label: "Guadeloupe (+590)"
   },
-  "GU": {
-    "country": "Guam",
-    "dial_code": "1671"
+  {
+    value: "1671",
+    label: "Guam (+1671)"
   },
-  "GT": {
-    "country": "Guatemala",
-    "dial_code": "502"
+  {
+    value: "502",
+    label: "Guatemala (+502)"
   },
-  "GG": {
-    "country": "Guernsey",
-    "dial_code": "44"
+  {
+    value: "44",
+    label: "Guernsey (+44)"
   },
-  "GN": {
-    "country": "Guinea",
-    "dial_code": "224"
+  {
+    value: "224",
+    label: "Guinea (+224)"
   },
-  "GW": {
-    "country": "Guinea-Bissau",
-    "dial_code": "245"
+  {
+    value: "245",
+    label: "Guinea-Bissau (+245)"
   },
-  "GY": {
-    "country": "Guyana",
-    "dial_code": "595"
+  {
+    value: "595",
+    label: "Guyana (+595)"
   },
-  "HT": {
-    "country": "Haiti",
-    "dial_code": "509"
+  {
+    value: "509",
+    label: "Haiti (+509)"
   },
-  "VA": {
-    "country": "Holy See (Vatican City State)",
-    "dial_code": "379"
+  {
+    value: "379",
+    label: "Holy See (Vatican City State) (+379)"
   },
-  "HN": {
-    "country": "Honduras",
-    "dial_code": "504"
+  {
+    value: "504",
+    label: "Honduras (+504)"
   },
-  "HK": {
-    "country": "Hong Kong",
-    "dial_code": "852"
+  {
+    value: "852",
+    label: "Hong Kong (+852)"
   },
-  "HU": {
-    "country": "Hungary",
-    "dial_code": "36"
+  {
+    value: "36",
+    label: "Hungary (+36)"
   },
-  "IS": {
-    "country": "Iceland",
-    "dial_code": "354"
+  {
+    value: "354",
+    label: "Iceland (+354)"
   },
-  "IN": {
-    "country": "India",
-    "dial_code": "91"
+  {
+    value: "91",
+    label: "India (+91)"
   },
-  "ID": {
-    "country": "Indonesia",
-    "dial_code": "62"
+  {
+    value: "62",
+    label: "Indonesia (+62)"
   },
-  "IR": {
-    "country": "Iran, Islamic Republic of Persian Gulf",
-    "dial_code": "98"
+  {
+    value: "98",
+    label: "Iran, Islamic Republic of Persian Gulf (+98)"
   },
-  "IQ": {
-    "country": "Iraq",
-    "dial_code": "964"
+  {
+    value: "964",
+    label: "Iraq (+964)"
   },
-  "IE": {
-    "country": "Ireland",
-    "dial_code": "353"
+  {
+    value: "353",
+    label: "Ireland (+353)"
   },
-  "IM": {
-    "country": "Isle of Man",
-    "dial_code": "44"
+  {
+    value: "44",
+    label: "Isle of Man (+44)"
   },
-  "IL": {
-    "country": "Israel",
-    "dial_code": "972"
+  {
+    value: "972",
+    label: "Israel (+972)"
   },
-  "IT": {
-    "country": "Italy",
-    "dial_code": "39"
+  {
+    value: "39",
+    label: "Italy (+39)"
   },
-  "JM": {
-    "country": "Jamaica",
-    "dial_code": "1876"
+  {
+    value: "1876",
+    label: "Jamaica (+1876)"
   },
-  "JP": {
-    "country": "Japan",
-    "dial_code": "81"
+  {
+    value: "81",
+    label: "Japan (+81)"
   },
-  "JE": {
-    "country": "Jersey",
-    "dial_code": "44"
+  {
+    value: "44",
+    label: "Jersey (+44)"
   },
-  "JO": {
-    "country": "Jordan",
-    "dial_code": "962"
+  {
+    value: "962",
+    label: "Jordan (+962)"
   },
-  "KZ": {
-    "country": "Kazakhstan",
-    "dial_code": "77"
+  {
+    value: "77",
+    label: "Kazakhstan (+77)"
   },
-  "KE": {
-    "country": "Kenya",
-    "dial_code": "254"
+  {
+    value: "254",
+    label: "Kenya (+254)"
   },
-  "KI": {
-    "country": "Kiribati",
-    "dial_code": "686"
+  {
+    value: "686",
+    label: "Kiribati (+686)"
   },
-  "KP": {
-    "country": "Democratic People's Republic of Korea",
-    "dial_code": "850"
+  {
+    value: "850",
+    label: "Democratic People's Republic of Korea (+850)"
   },
-  "KR": {
-    "country": "Republic of South Korea",
-    "dial_code": "82"
+  {
+    value: "82",
+    label: "Republic of South Korea (+82)"
   },
-  "KW": {
-    "country": "Kuwait",
-    "dial_code": "965"
+  {
+    value: "965",
+    label: "Kuwait (+965)"
   },
-  "KG": {
-    "country": "Kyrgyzstan",
-    "dial_code": "996"
+  {
+    value: "996",
+    label: "Kyrgyzstan (+996)"
   },
-  "LA": {
-    "country": "Laos",
-    "dial_code": "856"
+  {
+    value: "856",
+    label: "Laos (+856)"
   },
-  "LV": {
-    "country": "Latvia",
-    "dial_code": "371"
+  {
+    value: "371",
+    label: "Latvia (+371)"
   },
-  "LB": {
-    "country": "Lebanon",
-    "dial_code": "961"
+  {
+    value: "961",
+    label: "Lebanon (+961)"
   },
-  "LS": {
-    "country": "Lesotho",
-    "dial_code": "266"
+  {
+    value: "266",
+    label: "Lesotho (+266)"
   },
-  "LR": {
-    "country": "Liberia",
-    "dial_code": "231"
+  {
+    value: "231",
+    label: "Liberia (+231)"
   },
-  "LY": {
-    "country": "Libyan Arab Jamahiriya",
-    "dial_code": "218"
+  {
+    value: "218",
+    label: "Libyan Arab Jamahiriya (+218)"
   },
-  "LI": {
-    "country": "Liechtenstein",
-    "dial_code": "423"
+  {
+    value: "423",
+    label: "Liechtenstein (+423)"
   },
-  "LT": {
-    "country": "Lithuania",
-    "dial_code": "370"
+  {
+    value: "370",
+    label: "Lithuania (+370)"
   },
-  "LU": {
-    "country": "Luxembourg",
-    "dial_code": "352"
+  {
+    value: "352",
+    label: "Luxembourg (+352)"
   },
-  "MO": {
-    "country": "Macao",
-    "dial_code": "853"
+  {
+    value: "853",
+    label: "Macao (+853)"
   },
-  "MK": {
-    "country": "Macedonia",
-    "dial_code": "389"
+  {
+    value: "389",
+    label: "Macedonia (+389)"
   },
-  "MG": {
-    "country": "Madagascar",
-    "dial_code": "261"
+  {
+    value: "261",
+    label: "Madagascar (+261)"
   },
-  "MW": {
-    "country": "Malawi",
-    "dial_code": "265"
+  {
+    value: "265",
+    label: "Malawi (+265)"
   },
-  "MY": {
-    "country": "Malaysia",
-    "dial_code": "60"
+  {
+    value: "60",
+    label: "Malaysia (+60)"
   },
-  "MV": {
-    "country": "Maldives",
-    "dial_code": "960"
+  {
+    value: "960",
+    label: "Maldives (+960)"
   },
-  "ML": {
-    "country": "Mali",
-    "dial_code": "223"
+  {
+    value: "223",
+    label: "Mali (+223)"
   },
-  "MT": {
-    "country": "Malta",
-    "dial_code": "356"
+  {
+    value: "356",
+    label: "Malta (+356)"
   },
-  "MH": {
-    "country": "Marshall Islands",
-    "dial_code": "692"
+  {
+    value: "692",
+    label: "Marshall Islands (+692)"
   },
-  "MQ": {
-    "country": "Martinique",
-    "dial_code": "596"
+  {
+    value: "596",
+    label: "Martinique (+596)"
   },
-  "MR": {
-    "country": "Mauritania",
-    "dial_code": "222"
+  {
+    value: "222",
+    label: "Mauritania (+222)"
   },
-  "MU": {
-    "country": "Mauritius",
-    "dial_code": "230"
+  {
+    value: "230",
+    label: "Mauritius (+230)"
   },
-  "YT": {
-    "country": "Mayotte",
-    "dial_code": "262"
+  {
+    value: "262",
+    label: "Mayotte (+262)"
   },
-  "MX": {
-    "country": "Mexico",
-    "dial_code": "52"
+  {
+    value: "52",
+    label: "Mexico (+52)"
   },
-  "FM": {
-    "country": "Federated States of Micronesia",
-    "dial_code": "691"
+  {
+    value: "691",
+    label: "Federated States of Micronesia (+691)"
   },
-  "MD": {
-    "country": "Moldova",
-    "dial_code": "373"
+  {
+    value: "373",
+    label: "Moldova (+373)"
   },
-  "MC": {
-    "country": "Monaco",
-    "dial_code": "377"
+  {
+    value: "377",
+    label: "Monaco (+377)"
   },
-  "MN": {
-    "country": "Mongolia",
-    "dial_code": "976"
+  {
+    value: "976",
+    label: "Mongolia (+976)"
   },
-  "ME": {
-    "country": "Montenegro",
-    "dial_code": "382"
+  {
+    value: "382",
+    label: "Montenegro (+382)"
   },
-  "MS": {
-    "country": "Montserrat",
-    "dial_code": "1664"
+  {
+    value: "1664",
+    label: "Montserrat (+1664)"
   },
-  "MA": {
-    "country": "Morocco",
-    "dial_code": "212"
+  {
+    value: "212",
+    label: "Morocco (+212)"
   },
-  "MZ": {
-    "country": "Mozambique",
-    "dial_code": "258"
+  {
+    value: "258",
+    label: "Mozambique (+258)"
   },
-  "MM": {
-    "country": "Myanmar",
-    "dial_code": "95"
+  {
+    value: "95",
+    label: "Myanmar (+95)"
   },
-  "NA": {
-    "country": "Namibia",
-    "dial_code": "264"
+  {
+    value: "264",
+    label: "Namibia (+264)"
   },
-  "NR": {
-    "country": "Nauru",
-    "dial_code": "674"
+  {
+    value: "674",
+    label: "Nauru (+674)"
   },
-  "NP": {
-    "country": "Nepal",
-    "dial_code": "977"
+  {
+    value: "977",
+    label: "Nepal (+977)"
   },
-  "NL": {
-    "country": "Netherlands",
-    "dial_code": "31"
+  {
+    value: "31",
+    label: "Netherlands (+31)"
   },
-  "AN": {
-    "country": "Netherlands Antilles",
-    "dial_code": "599"
+  {
+    value: "599",
+    label: "Netherlands Antilles (+599)"
   },
-  "NC": {
-    "country": "New Caledonia",
-    "dial_code": "687"
+  {
+    value: "687",
+    label: "New Caledonia (+687)"
   },
-  "NZ": {
-    "country": "New Zealand",
-    "dial_code": "64"
+  {
+    value: "64",
+    label: "New Zealand (+64)"
   },
-  "NI": {
-    "country": "Nicaragua",
-    "dial_code": "505"
+  {
+    value: "505",
+    label: "Nicaragua (+505)"
   },
-  "NE": {
-    "country": "Niger",
-    "dial_code": "227"
+  {
+    value: "227",
+    label: "Niger (+227)"
   },
-  "NG": {
-    "country": "Nigeria",
-    "dial_code": "234"
+  {
+    value: "234",
+    label: "Nigeria (+234)"
   },
-  "NU": {
-    "country": "Niue",
-    "dial_code": "683"
+  {
+    value: "683",
+    label: "Niue (+683)"
   },
-  "NF": {
-    "country": "Norfolk Island",
-    "dial_code": "672"
+  {
+    value: "672",
+    label: "Norfolk Island (+672)"
   },
-  "MP": {
-    "country": "Northern Mariana Islands",
-    "dial_code": "1670"
+  {
+    value: "1670",
+    label: "Northern Mariana Islands (+1670)"
   },
-  "NO": {
-    "country": "Norway",
-    "dial_code": "47"
+  {
+    value: "47",
+    label: "Norway (+47)"
   },
-  "OM": {
-    "country": "Oman",
-    "dial_code": "968"
+  {
+    value: "968",
+    label: "Oman (+968)"
   },
-  "PK": {
-    "country": "Pakistan",
-    "dial_code": "92"
+  {
+    value: "92",
+    label: "Pakistan (+92)"
   },
-  "PW": {
-    "country": "Palau",
-    "dial_code": "680"
+  {
+    value: "680",
+    label: "Palau (+680)"
   },
-  "PS": {
-    "country": "Palestinian Territory",
-    "dial_code": "970"
+  {
+    value: "970",
+    label: "Palestinian Territory (+970)"
   },
-  "PA": {
-    "country": "Panama",
-    "dial_code": "507"
+  {
+    value: "507",
+    label: "Panama (+507)"
   },
-  "PG": {
-    "country": "Papua New Guinea",
-    "dial_code": "675"
+  {
+    value: "675",
+    label: "Papua New Guinea (+675)"
   },
-  "PY": {
-    "country": "Paraguay",
-    "dial_code": "595"
+  {
+    value: "595",
+    label: "Paraguay (+595)"
   },
-  "PE": {
-    "country": "Peru",
-    "dial_code": "51"
+  {
+    value: "51",
+    label: "Peru (+51)"
   },
-  "PH": {
-    "country": "Philippines",
-    "dial_code": "63"
+  {
+    value: "63",
+    label: "Philippines (+63)"
   },
-  "PN": {
-    "country": "Pitcairn",
-    "dial_code": "872"
+  {
+    value: "872",
+    label: "Pitcairn (+872)"
   },
-  "PL": {
-    "country": "Poland",
-    "dial_code": "48"
+  {
+    value: "48",
+    label: "Poland (+48)"
   },
-  "PT": {
-    "country": "Portugal",
-    "dial_code": "351"
+  {
+    value: "351",
+    label: "Portugal (+351)"
   },
-  "PR": {
-    "country": "Puerto Rico",
-    "dial_code": "1939"
+  {
+    value: "1939",
+    label: "Puerto Rico (+1939)"
   },
-  "QA": {
-    "country": "Qatar",
-    "dial_code": "974"
+  {
+    value: "974",
+    label: "Qatar (+974)"
   },
-  "RO": {
-    "country": "Romania",
-    "dial_code": "40"
+  {
+    value: "40",
+    label: "Romania (+40)"
   },
-  "RU": {
-    "country": "Russia",
-    "dial_code": "7"
+  {
+    value: "7",
+    label: "Russia (+7)"
   },
-  "RW": {
-    "country": "Rwanda",
-    "dial_code": "250"
+  {
+    value: "250",
+    label: "Rwanda (+250)"
   },
-  "RE": {
-    "country": "Reunion",
-    "dial_code": "262"
+  {
+    value: "262",
+    label: "Reunion (+262)"
   },
-  "BL": {
-    "country": "Saint Barthelemy",
-    "dial_code": "590"
+  {
+    value: "590",
+    label: "Saint Barthelemy (+590)"
   },
-  "SH": {
-    "country": "Saint Helena",
-    "dial_code": "290"
+  {
+    value: "290",
+    label: "Saint Helena (+290)"
   },
-  "KN": {
-    "country": "Saint Kitts and Nevis",
-    "dial_code": "1869"
+  {
+    value: "1869",
+    label: "Saint Kitts and Nevis (+1869)"
   },
-  "LC": {
-    "country": "Saint Lucia",
-    "dial_code": "1758"
+  {
+    value: "1758",
+    label: "Saint Lucia (+1758)"
   },
-  "MF": {
-    "country": "Saint Martin",
-    "dial_code": "590"
+  {
+    value: "590",
+    label: "Saint Martin (+590)"
   },
-  "PM": {
-    "country": "Saint Pierre and Miquelon",
-    "dial_code": "508"
+  {
+    value: "508",
+    label: "Saint Pierre and Miquelon (+508)"
   },
-  "VC": {
-    "country": "Saint Vincent and the Grenadines",
-    "dial_code": "1784"
+  {
+    value: "1784",
+    label: "Saint Vincent and the Grenadines (+1784)"
   },
-  "WS": {
-    "country": "Samoa",
-    "dial_code": "685"
+  {
+    value: "685",
+    label: "Samoa (+685)"
   },
-  "SM": {
-    "country": "San Marino",
-    "dial_code": "378"
+  {
+    value: "378",
+    label: "San Marino (+378)"
   },
-  "ST": {
-    "country": "Sao Tome and Principe",
-    "dial_code": "239"
+  {
+    value: "239",
+    label: "Sao Tome and Principe (+239)"
   },
-  "SA": {
-    "country": "Saudi Arabia",
-    "dial_code": "966"
+  {
+    value: "966",
+    label: "Saudi Arabia (+966)"
   },
-  "SN": {
-    "country": "Senegal",
-    "dial_code": "221"
+  {
+    value: "221",
+    label: "Senegal (+221)"
   },
-  "RS": {
-    "country": "Serbia",
-    "dial_code": "381"
+  {
+    value: "381",
+    label: "Serbia (+381)"
   },
-  "SC": {
-    "country": "Seychelles",
-    "dial_code": "248"
+  {
+    value: "248",
+    label: "Seychelles (+248)"
   },
-  "SL": {
-    "country": "Sierra Leone",
-    "dial_code": "232"
+  {
+    value: "232",
+    label: "Sierra Leone (+232)"
   },
-  "SG": {
-    "country": "Singapore",
-    "dial_code": "65"
+  {
+    value: "65",
+    label: "Singapore (+65)"
   },
-  "SK": {
-    "country": "Slovakia",
-    "dial_code": "421"
+  {
+    value: "421",
+    label: "Slovakia (+421)"
   },
-  "SI": {
-    "country": "Slovenia",
-    "dial_code": "386"
+  {
+    value: "386",
+    label: "Slovenia (+386)"
   },
-  "SB": {
-    "country": "Solomon Islands",
-    "dial_code": "677"
+  {
+    value: "677",
+    label: "Solomon Islands (+677)"
   },
-  "SO": {
-    "country": "Somalia",
-    "dial_code": "252"
+  {
+    value: "252",
+    label: "Somalia (+252)"
   },
-  "ZA": {
-    "country": "South Africa",
-    "dial_code": "27"
+  {
+    value: "27",
+    label: "South Africa (+27)"
   },
-  "SS": {
-    "country": "South Sudan",
-    "dial_code": "211"
+  {
+    value: "211",
+    label: "South Sudan (+211)"
   },
-  "GS": {
-    "country": "South Georgia and the South Sandwich Islands",
-    "dial_code": "500"
+  {
+    value: "500",
+    label: "South Georgia and the South Sandwich Islands (+500)"
   },
-  "ES": {
-    "country": "Spain",
-    "dial_code": "34"
+  {
+    value: "34",
+    label: "Spain (+34)"
   },
-  "LK": {
-    "country": "Sri Lanka",
-    "dial_code": "94"
+  {
+    value: "94",
+    label: "Sri Lanka (+94)"
   },
-  "SD": {
-    "country": "Sudan",
-    "dial_code": "249"
+  {
+    value: "249",
+    label: "Sudan (+249)"
   },
-  "SR": {
-    "country": "Suricountry",
-    "dial_code": "597"
+  {
+    value: "597",
+    label: "Surivalue (+597)"
   },
-  "SJ": {
-    "country": "Svalbard and Jan Mayen",
-    "dial_code": "47"
+  {
+    value: "47",
+    label: "Svalbard and Jan Mayen (+47)"
   },
-  "SZ": {
-    "country": "Swaziland",
-    "dial_code": "268"
+  {
+    value: "268",
+    label: "Swaziland (+268)"
   },
-  "SE": {
-    "country": "Sweden",
-    "dial_code": "46"
+  {
+    value: "46",
+    label: "Sweden (+46)"
   },
-  "CH": {
-    "country": "Switzerland",
-    "dial_code": "41"
+  {
+    value: "41",
+    label: "Switzerland (+41)"
   },
-  "SY": {
-    "country": "Syrian Arab Republic",
-    "dial_code": "963"
+  {
+    value: "963",
+    label: "Syrian Arab Republic (+963)"
   },
-  "TW": {
-    "country": "Taiwan",
-    "dial_code": "886"
+  {
+    value: "886",
+    label: "Taiwan (+886)"
   },
-  "TJ": {
-    "country": "Tajikistan",
-    "dial_code": "992"
+  {
+    value: "992",
+    label: "Tajikistan (+992)"
   },
-  "TZ": {
-    "country": "Tanzania",
-    "dial_code": "255"
+  {
+    value: "255",
+    label: "Tanzania (+255)"
   },
-  "TH": {
-    "country": "Thailand",
-    "dial_code": "66"
+  {
+    value: "66",
+    label: "Thailand (+66)"
   },
-  "TL": {
-    "country": "Timor-Leste",
-    "dial_code": "670"
+  {
+    value: "670",
+    label: "Timor-Leste (+670)"
   },
-  "TG": {
-    "country": "Togo",
-    "dial_code": "228"
+  {
+    value: "228",
+    label: "Togo (+228)"
   },
-  "TK": {
-    "country": "Tokelau",
-    "dial_code": "690"
+  {
+    value: "690",
+    label: "Tokelau (+690)"
   },
-  "TO": {
-    "country": "Tonga",
-    "dial_code": "676"
+  {
+    value: "676",
+    label: "Tonga (+676)"
   },
-  "TT": {
-    "country": "Trinidad and Tobago",
-    "dial_code": "1868"
+  {
+    value: "1868",
+    label: "Trinidad and Tobago (+1868)"
   },
-  "TN": {
-    "country": "Tunisia",
-    "dial_code": "216"
+  {
+    value: "216",
+    label: "Tunisia (+216)"
   },
-  "TR": {
-    "country": "Turkey",
-    "dial_code": "90"
+  {
+    value: "90",
+    label: "Turkey (+90)"
   },
-  "TM": {
-    "country": "Turkmenistan",
-    "dial_code": "993"
+  {
+    value: "993",
+    label: "Turkmenistan (+993)"
   },
-  "TC": {
-    "country": "Turks and Caicos Islands",
-    "dial_code": "1649"
+  {
+    value: "1649",
+    label: "Turks and Caicos Islands (+1649)"
   },
-  "TV": {
-    "country": "Tuvalu",
-    "dial_code": "688"
+  {
+    value: "688",
+    label: "Tuvalu (+688)"
   },
-  "UG": {
-    "country": "Uganda",
-    "dial_code": "256"
+  {
+    value: "256",
+    label: "Uganda (+256)"
   },
-  "UA": {
-    "country": "Ukraine",
-    "dial_code": "380"
+  {
+    value: "380",
+    label: "Ukraine (+380)"
   },
-  "AE": {
-    "country": "United Arab Emirates",
-    "dial_code": "971"
+  {
+    value: "971",
+    label: "United Arab Emirates (+971)"
   },
-  "GB": {
-    "country": "United Kingdom",
-    "dial_code": "44"
+  {
+    value: "44",
+    label: "United Kingdom (+44)"
   },
-  "US": {
-    "country": "United States",
-    "dial_code": "1"
+  {
+    value: "1",
+    label: "United States (+1)"
   },
-  "UY": {
-    "country": "Uruguay",
-    "dial_code": "598"
+  {
+    value: "598",
+    label: "Uruguay (+598)"
   },
-  "UZ": {
-    "country": "Uzbekistan",
-    "dial_code": "998"
+  {
+    value: "998",
+    label: "Uzbekistan (+998)"
   },
-  "VU": {
-    "country": "Vanuatu",
-    "dial_code": "678"
+  {
+    value: "678",
+    label: "Vanuatu (+678)"
   },
-  "VE": {
-    "country": "Venezuela",
-    "dial_code": "58"
+  {
+    value: "58",
+    label: "Venezuela (+58)"
   },
-  "VN": {
-    "country": "Vietnam",
-    "dial_code": "84"
+  {
+    value: "84",
+    label: "Vietnam (+84)"
   },
-  "VG": {
-    "country": "British Virgin Islands",
-    "dial_code": "1284"
+  {
+    value: "1284",
+    label: "British Virgin Islands (+1284)"
   },
-  "VI": {
-    "country": "U.S. Virgin Islands",
-    "dial_code": "1340"
+  {
+    value: "1340",
+    label: "U.S. Virgin Islands (+1340)"
   },
-  "WF": {
-    "country": "Wallis and Futuna",
-    "dial_code": "681"
+  {
+    value: "681",
+    label: "Wallis and Futuna (+681)"
   },
-  "YE": {
-    "country": "Yemen",
-    "dial_code": "967"
+  {
+    value: "967",
+    label: "Yemen (+967)"
   },
-  "ZM": {
-    "country": "Zambia",
-    "dial_code": "260"
+  {
+    value: "260",
+    label: "Zambia (+260)"
   },
-  "ZW": {
-    "country": "Zimbabwe",
-    "dial_code": "263"
+  {
+    value: "263",
+    label: "Zimbabwe (+263)"
   }
-}
+]

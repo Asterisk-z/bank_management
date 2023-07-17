@@ -19,13 +19,54 @@ export const useAuthStore = defineStore('auth',{
                 timeout: 2000,
              });
             
-            await axios.post(`${import.meta.env.VITE_APP_API_URL}/login`,  {
+            await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/login`,  {
                                         email: username,
                                         password: password
             }).then(function (response) {
                 localStorage.setItem('activeUser', JSON.stringify(response.data));
                 console.log("response");
-                if (response.data.user.status == 1) {
+                if (response.data.user.status == 'active') {
+                    // router.push("/app/dashboard");
+                    toast.success(" Login successfully", {
+                        timeout: 2000,
+                    });
+                    if (response.data.user.user_type == 'admin') {
+                         window.location.replace(import.meta.env.VITE_APP_URL+"app/dashboard")
+                    }
+                    if (response.data.user.user_type == 'customer') {
+                         window.location.replace(import.meta.env.VITE_APP_URL+"app/user-dashboard")
+                    }
+                   
+                    // window.history.replaceState({}, "", "/app/dashboard")
+                    
+                } else {
+                    toast.error("User not found", {
+                        timeout: 2000,
+                    });
+                }
+            });
+
+        },
+        async register(firstName, lastName, countryCode, phone, email, password, confirmPassword) {
+
+            localStorage.removeItem('activeUser');
+
+             toast.info("Registering User", {
+                timeout: 2000,
+             });
+            
+            await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/register`,  {
+                                        lname : lastName,
+                                        fname : firstName,
+                                        email : email,
+                                        country_code : countryCode,
+                                        phone : phone,
+                                        password : password,
+                                        password_confirmation : confirmPassword
+            }).then(function (response) {
+                localStorage.setItem('activeUser', JSON.stringify(response.data));
+                console.log(response);
+                if (response.data.user.status == 'active') {
                     // router.push("/app/dashboard");
                     toast.success(" Login successfully", {
                         timeout: 2000,

@@ -6,9 +6,11 @@
     
     <InputGroup type="text" label="Phone Number" placeholder="Phone Number" v-model="phone" :error="phoneError">
           <template v-slot:prepend>
-              <Country />
+              <Select label="" :options="CountryCodeList" v-model="countryCode"  style="width: 200px"/>
           </template>
       </InputGroup>
+
+
 
     <Textinput label="Password" type="password" placeholder="8+ characters, 1 capital letter " name="password" v-model="password" :error="passwordError" hasicon classInput="h-[48px]" />
     <Textinput label="Confirm Password" type="password" placeholder="8+ characters, 1 capital letter " name="cpassword" v-model="cPassword" :error="cPasswordError" hasicon classInput="h-[48px]" />
@@ -35,15 +37,21 @@ import { inject } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import Country from "./Country";
+import Select from "@/components/Select";
+import { CountryCodeList } from "@/constant/country";
+import { useAuthStore } from '@/store/authUser';
+
 export default {
   components: {
     Textinput,
     Country,
     InputGroup,
+    Select,
   },
   data() {
     return {
       checkbox: false,
+      CountryCodeList,
     };
   },
   setup() {
@@ -54,11 +62,13 @@ export default {
       cPassword: yup.string().required("Password is  required").min(8),
       lname: yup.string().required("Last name is required"),
       fname: yup.string().required("First name is required"),
-      phone: yup.string().required("Full name is required"),
+      phone: yup.string().required("Phone is required"),
+      countryCode: yup.string().required("Country Code is required"),
     });
     const swal = inject("$swal");
     const toast = useToast();
     const router = useRouter();
+    const auth = useAuthStore(); 
 
     // Create a form context with the validation schema
     const users = [];
@@ -68,39 +78,52 @@ export default {
     // No need to define rules for fields
 
     const { value: email, errorMessage: emailError } = useField("email");
-    const { value: name, errorMessage: nameError } = useField("name");
-    const { value: password, errorMessage: passwordError } =
-      useField("password");
+    const { value: lname, errorMessage: lnameError } = useField("lname");
+    const { value: fname, errorMessage: fnameError } = useField("fname");
+    const { value: phone, errorMessage: phoneError } = useField("phone");
+    const { value: countryCode, errorMessage: countryCodeError } = useField("countryCode");
+    const { value: cPassword, errorMessage: cPasswordError } = useField("cPassword");
+    const { value: password, errorMessage: passwordError } = useField("password");
 
     const onSubmit = handleSubmit((values) => {
       // add value into user array if same email not found
-      if (!users.find((user) => user.email === values.email)) {
-        users.push(values);
-        localStorage.setItem("users", JSON.stringify(users));
-        router.push("/");
-        // use vue-toast-notification app use
-        toast.success -
-          500(" Account Create successfully", {
-            timeout: 2000,
-          });
-      } else {
-        // use sweetalert 2
-        swal.fire({
-          title: "Email already exists",
-          text: "Please try another email",
-          icon: "error",
-          confirmButtonText: "Ok",
-        });
-      }
+
+      console.log(values);
+       auth.register(values.fname, values.lname, values.countryCode, values.phone, values.email, values.password, values.cPassword)
+      // if (!users.find((user) => user.email === values.email)) {
+      //   // users.push(values);
+      //   // localStorage.setItem("users", JSON.stringify(users));
+      //   // router.push("/");
+      //   // // use vue-toast-notification app use
+      //   toast.success(" Account Create successfully", {
+      //       timeout: 2000,
+      //     });
+      // } else {
+      //   // use sweetalert 2
+      //   swal.fire({
+      //     title: "Email already exists",
+      //     text: "Please try another email",
+      //     icon: "error",
+      //     confirmButtonText: "Ok",
+      //   });
+      // }
     });
 
     return {
       email,
-      name,
-      nameError,
       emailError,
+      phone,
+      phoneError,
+      countryCode,
+      countryCodeError,
+      fname,
+      fnameError,
+      lname,
+      lnameError,
       password,
       passwordError,
+      cPassword,
+      cPasswordError,
       onSubmit,
     };
   },

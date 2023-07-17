@@ -15,7 +15,10 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $v = Validator::make($request->all(), [
-            'name' => 'required|min:3',
+            'lname' => 'required|min:3',
+            'fname' => 'required|min:3',
+            'country_code' => 'required|min:2|max:6',
+            'phone' => 'required|min:10',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:3|confirmed',
         ]);
@@ -26,11 +29,17 @@ class AuthController extends Controller
             ], 422);
         }
         $user = new User();
-        $user->name = $request->name;
+        $user->last_name = $request->lname;
+        $user->first_name = $request->fname;
+        $user->phone = $request->phone;
+        $user->country_code = $request->country_code;
+        $user->name = $request->lname . " " . $request->fname;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
-        return response()->json(['status' => true], 200);
+
+        $token = $this->guard()->attempt($request->only('email', 'password'));
+        return response()->json(['status' => true, "token" => $token, 'user' => auth()->user()], 200);
     }
     /**
      * Login user and return a token

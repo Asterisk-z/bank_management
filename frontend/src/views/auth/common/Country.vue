@@ -14,7 +14,7 @@
                     leave-to-class="opacity-0">
                     <ListboxOptions
                         class="absolute max-h-60 w-full overflow-auto border border-slate-200 dark:border-slate-700 dark:bg-slate-800 rounded bg-white mt-1">
-                        <ListboxOption v-slot="{ active }" v-for="item in CountryCode" :key="item" :value="item.dial_code"
+                        <ListboxOption v-slot="{ active }" v-for="item in CountryCodeList" :key="item" :value="item.dial_code"
                             as="template">
                             <li :class="[
                                 active
@@ -41,7 +41,7 @@ import {
     ListboxOption,
 } from "@headlessui/vue";
 import Icon from "@/components/Icon";
-import { CountryCode } from "@/constant/country";
+import { CountryCodeList } from "@/constant/country";
 
 const currencies = [{ name: "Select" }, { name: "USD" }, { name: "EUR" }, { name: "AUD" }];
 const selectedCountry = ref("Select");
