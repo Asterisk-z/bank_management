@@ -87,26 +87,8 @@ export default {
 
     const onSubmit = handleSubmit((values) => {
       // add value into user array if same email not found
-
-      console.log(values);
        auth.register(values.fname, values.lname, values.countryCode, values.phone, values.email, values.password, values.cPassword)
-      // if (!users.find((user) => user.email === values.email)) {
-      //   // users.push(values);
-      //   // localStorage.setItem("users", JSON.stringify(users));
-      //   // router.push("/");
-      //   // // use vue-toast-notification app use
-      //   toast.success(" Account Create successfully", {
-      //       timeout: 2000,
-      //     });
-      // } else {
-      //   // use sweetalert 2
-      //   swal.fire({
-      //     title: "Email already exists",
-      //     text: "Please try another email",
-      //     icon: "error",
-      //     confirmButtonText: "Ok",
-      //   });
-      // }
+
     });
 
     return {

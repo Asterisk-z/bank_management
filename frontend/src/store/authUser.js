@@ -8,13 +8,13 @@ const router = useRouter();
 
 export const useAuthStore = defineStore('auth',{
     state: () => ({
-        user: JSON.parse(localStorage.getItem('activeUser')),
+        user: JSON.parse(sessionStorage.getItem('RoyalBankUserr')),
         returnUrl: null
     }),
     actions: {
         async login(username, password) {
             this.user = null;
-            localStorage.removeItem('activeUser');
+            sessionStorage.removeItem('RoyalBankUserr');
              toast.info("Logging in", {
                 timeout: 2000,
              });
@@ -23,8 +23,8 @@ export const useAuthStore = defineStore('auth',{
                                         email: username,
                                         password: password
             }).then(function (response) {
-                localStorage.setItem('activeUser', JSON.stringify(response.data));
-                console.log("response");
+                sessionStorage.setItem('RoyalBankUserr', JSON.stringify(response.data));
+                
                 if (response.data.user.status == 'active') {
                     // router.push("/app/dashboard");
                     toast.success(" Login successfully", {
@@ -44,12 +44,16 @@ export const useAuthStore = defineStore('auth',{
                         timeout: 2000,
                     });
                 }
+            }).catch(function (error) {
+                toast.error("User not found", {
+                    timeout: 2000,
+                });
             });
 
         },
         async register(firstName, lastName, countryCode, phone, email, password, confirmPassword) {
 
-            localStorage.removeItem('activeUser');
+            sessionStorage.removeItem('RoyalBankUserr');
 
              toast.info("Registering User", {
                 timeout: 2000,
@@ -64,7 +68,7 @@ export const useAuthStore = defineStore('auth',{
                                         password : password,
                                         password_confirmation : confirmPassword
             }).then(function (response) {
-                localStorage.setItem('activeUser', JSON.stringify(response.data));
+                sessionStorage.setItem('RoyalBankUserr', JSON.stringify(response.data));
                 console.log(response);
                 if (response.data.user.status == 'active') {
                     // router.push("/app/dashboard");
@@ -89,9 +93,9 @@ export const useAuthStore = defineStore('auth',{
 
         },
         logout() {
-            this.user = null;
+            // this.user = null;
             // axios.post(`${import.meta.env.VITE_APP_API_URL}/logout`);
-            localStorage.removeItem('activeUser');
+            sessionStorage.removeItem('RoyalBankUserr');
             // router.push('/login');
         }
     }

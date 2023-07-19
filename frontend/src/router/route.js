@@ -1,8 +1,5 @@
-import auth from "@/middleware/auth";
-import guest from "@/middleware/guest";
 import admin from "@/middleware/admin";
 import user from "@/middleware/user";
-import status from "@/middleware/status";
 
 const routes = [
   {
@@ -54,9 +51,6 @@ const routes = [
     path: "/app",
     name: "Layout",
     component: () => import("@/Layout/index.vue"),
-    meta: {
-      middleware: [auth, status],
-    },
     children: [
       //USER DASHBOARD
       {
@@ -123,7 +117,7 @@ const routes = [
         },
       },
       {
-        path: "automatic-deposit/blockchain",
+        path: "automatic-deposit-blockchain",
         name: "automatic-deposit Blockchain",
         component: () => import("@/views/user-dashboard/deposit-money/blockchain.vue"),
         meta: {
@@ -132,7 +126,7 @@ const routes = [
         },
       },
       {
-        path: "automatic-deposit/paypal",
+        path: "automatic-deposit-paypal",
         name: "automatic-deposit Paypal",
         component: () => import("@/views/user-dashboard/deposit-money/paypal.vue"),
         meta: {
@@ -150,16 +144,25 @@ const routes = [
         },
       },
       {
-        path: "manual-deposit",
-        name: "manual-deposit",
-        component: () => import("@/views/user-dashboard/deposit-money/manual.vue"),
+        path: "deposit-history",
+        name: "deposit-history",
+        component: () => import("@/views/user-dashboard/deposit-money/history.vue"),
         meta: {
           hide: true,
           middleware: [user],
         },
       },
       {
-        path: "manual-deposit/payoneer",
+        path: "manual-deposit",
+        name: "manual-deposit",
+        component: () => import("@/views/user-dashboard/deposit-money/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
+      {
+        path: "manual-deposit-payoneer",
         name: "manual-deposit payoneer",
         component: () => import("@/views/user-dashboard/deposit-money/payoneer.vue"),
         meta: {

@@ -20,11 +20,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('country_code');
             $table->string('phone');
+            $table->string('email')->unique();
             $table->enum('user_type', ['admin', 'customer'])->default('customer');
             $table->enum('status', ['active', 'not_active', 'pending'])->default('active');
             $table->enum('email_verified', ['yes', 'no'])->default('no');
-            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->enum('sms_verified', ['yes', 'no'])->default('no');
+            $table->timestamp('sms_verified_at')->nullable();
             $table->string('password');
             $table->string('temp_password')->nullable();
             $table->enum('create_by_admin', ['yes', 'no'])->default('no');
@@ -34,7 +36,6 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
-            $table->timestamp('sms_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

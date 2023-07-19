@@ -89,8 +89,8 @@ export default {
     const auth = useAuthStore(); 
 
     const formValues = {
-      email: "",
-      password: "",
+      email: "admin@royal.com",
+      password: "1qa2ws3ed4rf",
     };
 
     const { handleSubmit } = useForm({

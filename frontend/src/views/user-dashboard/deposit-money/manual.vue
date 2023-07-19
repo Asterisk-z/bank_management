@@ -54,7 +54,7 @@ export default {
                     button: "Deposit Now",
                     bg: "bg-primary-500",
                     doit: () => {
-                         this.$router.push("/app/manual-deposit/payoneer");
+                         this.$router.push("/app/manual-deposit-payoneer");
                     }
                 },
             ],

@@ -47,6 +47,11 @@ class User extends Authenticatable implements JWTSubject
         "otp_expires_at" => 'datetime',
     ];
 
+    public function deposit_requests()
+    {
+        return $this->hasMany(DepositRequest::class);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');

@@ -15,86 +15,88 @@
                     <Button text="Create User" btnClass="btn-primary btn-xs float-right h-[50px]" link="/app/create-user" />
                 </div>
             </div>
+            <template v-if="all_users">
+                     <vue-good-table :columns="columns" styleClass=" vgt-table bordered centered" :rows="all_users"
+                         :pagination-options="{
+                             enabled: true,
+                             perPage: perpage,
+                         }" :search-options="{
+                                    enabled: true,
+                                    externalQuery: searchTerm,
+                                }" :select-options="{
+                                    enabled: true,
+                                    selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+                                    selectioninfoClass: 'custom-class',
+                                    selectionText: 'rows selected',
+                                    clearSelectionText: 'clear',
+                                    disableSelectinfo: true, // disable the select info-500 panel on top
+                                    selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+                                }">
+                         <template v-slot:table-row="props">
+                             <span v-if="props.column.field == 'name'" class="flex">
+                                 <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
+                                     <img :src="user3" :alt="props.row.name"
+                                    class="object-cover w-full h-full rounded-full" />
+                                 </span>
+                                 <span class="text-sm text-slate-600 dark:text-slate-300 capitalize">{{ props.row.name
+                                 }}</span>
+                             </span>
+                             <span v-if="props.column.field == 'phone'">
+                                 {{ props.row.country_code + "" + props.row.phone }}
+                             </span>
+                             <span v-if="props.column.field == 'id'" class="text-slate-500 dark:text-slate-300">
+                                 {{ props.row.id }}
+                             </span>
+                             <span v-if="props.column.field == 'status'" class="block w-full">
+                                 <span class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                     :class="`${props.row.status === 'active'
+                                         ? 'text-success-500 bg-success-500'
+                                         : ''
+                                         } 
+                                                                                     ${props.row.status === 'pending'
+                                             ? 'text-warning-500 bg-warning-500'
+                                             : ''
+                                         }
+                                                                                     ${props.row.status === 'not_active'
+                                             ? 'text-danger-500 bg-danger-500'
+                                             : ''
+                                         }
+                                                `">
+                                     {{ props.row.status }}
+                                 </span>
+                             </span>
+                             <span v-if="props.column.field == 'action'">
+                                 <Dropdown classMenuItems=" w-[140px]">
+                                     <span class="text-xl">
+                                         <Icon icon="heroicons-outline:dots-vertical" />
+                                     </span>
+                                     <template v-slot:menus>
+                                         <MenuItem v-for="(item, i) in actions" :key="i">
+                                         <div  @click="item.doit" :class="`${item.name === 'delete' ? 'bg-danger-500 text-danger-500 bg-opacity-30   hover:bg-opacity-100 hover:text-white'
+                                             : 'hover:bg-slate-900 hover:text-white dark:hover:bg-slate-600 dark:hover:bg-opacity-50'}
+                                                    w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
+                                             <span class="text-base">
+                                                 <Icon :icon="item.icon" />
+                                             </span>
+                                             <span>{{ item.name }}</span>
+                                         </div>
+                                         </MenuItem>
+                                     </template>
+                                 </Dropdown>
+                             </span>
+                         </template>
+                         <template #pagination-bottom="props">
+                             <div class="py-4 px-3">
+                                 <Pagination :total="all_users.length" :current="current" :per-page="perpage" :pageRange="pageRange"
+                                     @page-changed="current = $event" :pageChanged="props.pageChanged"
+                                     :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
+                                     >
+                                 </Pagination>
+                             </div>
+                         </template>
+                     </vue-good-table>
+            </template>
 
-            <vue-good-table :columns="columns" styleClass=" vgt-table bordered centered" :rows="users"
-                :pagination-options="{
-                    enabled: true,
-                    perPage: perpage,
-                }" :search-options="{
-                        enabled: true,
-                        externalQuery: searchTerm,
-                    }" :select-options="{
-                        enabled: true,
-                        selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-                        selectioninfoClass: 'custom-class',
-                        selectionText: 'rows selected',
-                        clearSelectionText: 'clear',
-                        disableSelectinfo: true, // disable the select info-500 panel on top
-                        selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-                    }">
-                <template v-slot:table-row="props">
-                    <span v-if="props.column.field == 'customer'" class="flex">
-                        <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
-                            <img :src="props.row.customer.image" :alt="props.row.customer.name"
-                                class="object-cover w-full h-full rounded-full" />
-                        </span>
-                        <span class="text-sm text-slate-600 dark:text-slate-300 capitalize">{{ props.row.customer.name
-                        }}</span>
-                    </span>
-                    <span v-if="props.column.field == 'order'">
-                        {{ "#" + props.row.order }}
-                    </span>
-                    <span v-if="props.column.field == 'date'" class="text-slate-500 dark:text-slate-300">
-                        {{ props.row.date }}
-                    </span>
-                    <span v-if="props.column.field == 'status'" class="block w-full">
-                        <span class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
-                            :class="`${props.row.status === 'paid'
-                                    ? 'text-success-500 bg-success-500'
-                                    : ''
-                                } 
-                                            ${props.row.status === 'due'
-                                    ? 'text-warning-500 bg-warning-500'
-                                    : ''
-                                }
-                                            ${props.row.status === 'cancled'
-                                    ? 'text-danger-500 bg-danger-500'
-                                    : ''
-                                }
-                                             `">
-                            {{ props.row.status }}
-                        </span>
-                    </span>
-                    <span v-if="props.column.field == 'action'">
-                        <Dropdown classMenuItems=" w-[140px]">
-                            <span class="text-xl">
-                                <Icon icon="heroicons-outline:dots-vertical" />
-                            </span>
-                            <template v-slot:menus>
-                                <MenuItem v-for="(item, i) in actions" :key="i">
-                                <div  @click="item.doit" :class="`${item.name === 'delete' ? 'bg-danger-500 text-danger-500 bg-opacity-30   hover:bg-opacity-100 hover:text-white'
-                                            : 'hover:bg-slate-900 hover:text-white dark:hover:bg-slate-600 dark:hover:bg-opacity-50' }
-                                                w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
-                                    <span class="text-base">
-                                        <Icon :icon="item.icon" />
-                                    </span>
-                                    <span>{{ item.name }}</span>
-                                </div>
-                                </MenuItem>
-                            </template>
-                        </Dropdown>
-                    </span>
-                </template>
-                <template #pagination-bottom="props">
-                    <div class="py-4 px-3">
-                        <Pagination :total="50" :current="current" :per-page="perpage" :pageRange="pageRange"
-                            @page-changed="current = $event" :pageChanged="props.pageChanged"
-                            :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
-                            >
-                        </Pagination>
-                    </div>
-                </template>
-            </vue-good-table>
         </Card>
     </div>
 </template>
@@ -108,7 +110,9 @@ import { MenuItem } from "@headlessui/vue";
 import { users } from "@/constant/basic-tablle-data";
 import Button from "@/components/Button";
 import SplitDropdown from '@/components/Dropdown/SplitDropdown';
-
+import axios from "axios";
+import { useToast } from "vue-toastification";
+import user3 from "@/assets/images/users/user-3.jpg"
 
 export default {
     components: {
@@ -121,10 +125,40 @@ export default {
         Card,
         MenuItem,
     },
+    mounted() {
+        this.fetchUsers()
+        const toast = useToast();
+    },
+    methods: {
+        async fetchUsers() {
+            const data =  await axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/all_user`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
 
+                if (response.data?.status) {
+                    // console.log(response.data.users)
+                    useToast().success("User Fetch successfully", {
+                        timeout: 2000,
+                    });
+                    return response.data?.users
+                    
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            });
+            this.all_users = data
+        }
+    },
     data() {
         return {
+            user3,
             users,
+            all_users: "",
             current: 1,
             perpage: 10,
             pageRange: 5,
@@ -173,35 +207,35 @@ export default {
                 },
                 {
                     label: "Name",
-                    field: "customer",
+                    field: "name",
                 },
                 {
                     label: "AC Number",
-                    field: "order",
+                    field: "account_number",
                 },
                 {
                     label: "Email",
-                    field: "order",
+                    field: "email",
                 },
                 {
                     label: "Phone",
-                    field: "date",
+                    field: "phone",
                 },
 
                 {
-                    label: "Status",
+                    label: "Account Status",
                     field: "status",
                 },
 
-                {
-                    label: "Account Verified",
-                    field: "status",
-                },
+                // {
+                //     label: "Account Verified",
+                //     field: "status",
+                // },
 
-                {
-                    label: "Email Verified",
-                    field: "status",
-                },
+                // {
+                //     label: "Email Verified",
+                //     field: "status",
+                // },
                 {
                     label: "Action",
                     field: "action",

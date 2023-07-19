@@ -718,6 +718,10 @@ export const UserMenuItem = [
     link: "#",
     child: [
       {
+        childtitle: "Deposit History",
+        childlink: "deposit-history",
+      },
+      {
         childtitle: "Automatic Deposit",
         childlink: "automatic-deposit",
       },

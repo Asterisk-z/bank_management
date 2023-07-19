@@ -56,4 +56,16 @@ class UserController extends Controller
         return response()->json(['status' => true, 'message' => "user created successfully", "user" => $user]);
 
     }
+
+    public function all_user()
+    {
+        $users = User::where('user_type', 'customer')->get();
+        return response()->json(['status' => true, 'message' => "Customer Fetch Successful", 'users' => $users]);
+    }
+
+    public function user($user_id)
+    {
+        $users = User::where('user_type', 'customer')->get();
+        return response()->json(['status' => true, 'message' => "Customer Fetch Successful", 'users' => $users]);
+    }
 }
