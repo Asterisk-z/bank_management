@@ -61,6 +61,7 @@ export default {
                     bg: "bg-warning-500",
                     doit: () => {
                         console.log("here")
+                        this.$router.push('/app/automatic-deposit-blockchain')
                     }
                 },
                 {
@@ -73,6 +74,7 @@ export default {
                     bg: "bg-primary-500",
                      doit: () => {
                         console.log("here")
+                        this.$router.push('/app/automatic-deposit-paypal')
                     }
                 },
             ],

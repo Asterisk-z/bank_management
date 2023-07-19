@@ -47,6 +47,10 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('customer')->namespace('Customer')->middleware('auth:api')->group(function () {
         Route::post('deposit_via_payoneer', [DepositController::class, 'payoneer'])->name('deposit_via_payoneer');
+        Route::post('deposit_via_blockchain', [DepositController::class, 'blockchain'])->name('deposit_via_blockchain');
+        Route::post('deposit_via_paypal', [DepositController::class, 'paypal'])->name('deposit_via_paypal');
+        Route::post('use_gift_card', [DepositController::class, 'use_gift_card'])->name('use_gift_card');
+        Route::post('check_gift_card', [DepositController::class, 'check_gift_card'])->name('check_gift_card');
         Route::post('deposit_requests', [DepositController::class, 'list_requests'])->name('deposit_requests');
     });
 

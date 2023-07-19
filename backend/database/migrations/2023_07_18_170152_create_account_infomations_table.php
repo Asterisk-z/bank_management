@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('account_infomations', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id');
+            $table->string('usd_balance')->default('0');
+            $table->string('aud_balance')->default('0');
+            $table->string('eur_balance')->default('0');
+            $table->string('account_number')->nullable()->unique();
+            $table->enum('status', ['active', 'not_active']);
+            $table->enum('usd_status', ['active', 'not_active'])->default('active');
+            $table->enum('aud_status', ['active', 'not_active'])->default('active');
+            $table->enum('eur_status', ['active', 'not_active'])->default('active');
             $table->timestamps();
         });
     }

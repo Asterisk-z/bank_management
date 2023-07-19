@@ -59,15 +59,10 @@
 <script>
 import Breadcrumb from "@/views/components/Breadcrumbs";
 import Card from "@/components/Card";
-import Button from "@/components/Button";
 import InputGroup from "@/components/InputGroup";
-import VueSelect from "@/components/Select/VueSelect";
 import Textarea from "@/components/Textarea";
-import SelectCurrency from "@/views/dashboard/components/select-currency";
 import { useDropzone } from "vue3-dropzone";
 import Select from "@/components/Select";
-import Textinput from "@/components/Textinput";
-import Dropdown from "@/components/Dropdown";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 import { inject, ref } from "vue";
@@ -83,15 +78,8 @@ export default {
         Textarea,
         Breadcrumb,
         Card,
-        Button,
-        Select,
-        VueSelect,
-        SelectCurrency,
-        Textinput,
-        Dropdown,
         Select,
         Breadcrumb,
-        Card,
     },
     data() {
         return {

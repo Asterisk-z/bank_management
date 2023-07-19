@@ -61,13 +61,12 @@
                                 </span>
                             </span>
                             <span v-if="props.column.field == 'action'">
-                                    <Modal
+                                    <Modal v-if="props.row.proof"
                                         title="View Attachment"
                                         label="View Attachment"
                                         labelClass="btn-outline-dark"
                                         ref="modal2"
                                         centered
-                                        icon="heroicons-outline:eye" 
                                         >
                                         <h4 class="font-medium text-lg mb-3 text-slate-900">
                                             
@@ -152,7 +151,7 @@ export default {
             columns: [
                 {
                     label: "Request Reference",
-                    field: "id",
+                    field: "deposit_ref",
                 },
                 {
                     label: "Description",

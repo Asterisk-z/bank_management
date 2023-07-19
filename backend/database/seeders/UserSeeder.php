@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Services\Helper;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -26,6 +27,9 @@ class UserSeeder extends Seeder
         $user->password = bcrypt("1qa2ws3ed4rf");
         $user->save();
 
+        $account_number = Helper::generate_account_number();
+        $user->account_details()->create(['account_number' => $account_number]);
+
         $user = new User();
         $user->last_name = "Daniel";
         $user->first_name = "User";
@@ -37,6 +41,10 @@ class UserSeeder extends Seeder
         $user->status = "active";
         $user->password = bcrypt("1qa2ws3ed4rf");
         $user->save();
+        $account_number = Helper::generate_account_number();
+        $user->account_details()->create(['account_number' => $account_number]);
+        $user->account_details->add_balance(300, "USD");
+        $user->account_details->add_balance(30, "USD");
 
         $user = new User();
         $user->last_name = "Olang";
@@ -49,6 +57,9 @@ class UserSeeder extends Seeder
         $user->status = "active";
         $user->password = bcrypt("1qa2ws3ed4rf");
         $user->save();
+        $account_number = Helper::generate_account_number();
+        $user->account_details()->create(['account_number' => $account_number]);
+        $user->account_details->add_balance(1000, "USD");
 
     }
 }

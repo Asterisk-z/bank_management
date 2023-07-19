@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\Helper;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
@@ -28,6 +29,7 @@ class AuthController extends Controller
                 'errors' => $v->errors(),
             ], 422);
         }
+        $account_number = Helper::generate_account_number();
         $user = new User();
         $user->last_name = $request->lname;
         $user->first_name = $request->fname;
@@ -37,6 +39,8 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
+
+        $user->account_details()->create(['account_number' => $account_number]);
 
         $token = $this->guard()->attempt($request->only('email', 'password'));
         return response()->json(['status' => true, "token" => $token, 'user' => auth()->user()], 200);

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\GiftCard;
 use App\Models\PaymentMethod;
 use App\Services\Helper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class DepositController extends Controller
@@ -52,6 +54,166 @@ class DepositController extends Controller
         ]);
         //EMAIL_REQUIRED
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
+    }
+
+    public function blockchain(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'amount' => 'required',
+            'btc_value' => 'required',
+            'description' => '',
+            'currency' => 'required',
+        ]);
+        if ($v->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $v->errors(),
+            ], 422);
+        }
+
+        $payment_method = PaymentMethod::where('name', 'BitCoin')->where('type', 'deposit')->where('process', 'automatic')->first();
+
+        if (!$payment_method) {
+            return response()->json([
+                'status' => false,
+                'errors' => "Payment Method Not Available",
+            ], 422);
+
+        }
+
+        $charge = $payment_method->fixed_charge;
+        $charge += ($payment_method->charge_in_percentage / 100) * $request->amount;
+
+        $deposit_ref = Helper::generate_deposit_ref(auth()->user()->id);
+        auth()->user()->deposit_requests()->create([
+            'method' => 'blockchain',
+            'amount' => $request['amount'],
+            'currency' => $request['currency'],
+            'description' => $request['description'],
+            'deposit_ref' => $deposit_ref,
+            'status' => 'approved',
+        ]);
+
+        //PAYMENTGATEWAY
+
+        $trans_ref = Helper::generate_trans_ref(auth()->user()->id);
+
+        auth()->user()->transactions()->create([
+            'currency' => $request['currency'],
+            'amount' => $request['amount'],
+            'fee' => $charge,
+            'process' => 'credit',
+            'method' => 'blockchain',
+            'type' => 'deposit',
+            'status' => 'approved',
+            'transaction_ref' => $trans_ref,
+            'description' => $request['description'],
+            'btc_value' => $request['btc_value'],
+            'deposit_ref' => $deposit_ref,
+        ]);
+        //EMAIL_REQUIRED
+        return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
+    }
+
+    public function paypal(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'amount' => 'required',
+            'description' => 'required',
+            'currency' => 'required',
+        ]);
+        if ($v->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $v->errors(),
+            ], 422);
+        }
+
+        $payment_method = PaymentMethod::where('name', 'PayPal')->where('type', 'deposit')->where('process', 'automatic')->first();
+
+        if (!$payment_method) {
+            return response()->json([
+                'status' => false,
+                'errors' => "Payment Method Not Available",
+            ], 422);
+
+        }
+
+        $charge = $payment_method->fixed_charge;
+        $charge += ($payment_method->charge_in_percentage / 100) * $request->amount;
+
+        $deposit_ref = Helper::generate_deposit_ref(auth()->user()->id);
+        auth()->user()->deposit_requests()->create([
+            'method' => 'paypal',
+            'amount' => $request['amount'],
+            'currency' => $request['currency'],
+            'description' => $request['description'],
+            'deposit_ref' => $deposit_ref,
+            'status' => 'approved',
+        ]);
+
+        //PAYMENTGATEWAY
+
+        $trans_ref = Helper::generate_trans_ref(auth()->user()->id);
+
+        auth()->user()->transactions()->create([
+            'currency' => $request['currency'],
+            'amount' => $request['amount'],
+            'fee' => $charge,
+            'process' => 'credit',
+            'method' => 'paypal',
+            'type' => 'deposit',
+            'status' => 'approved',
+            'transaction_ref' => $trans_ref,
+            'description' => $request['description'],
+            'deposit_ref' => $deposit_ref,
+        ]);
+        //EMAIL_REQUIRED
+        return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
+    }
+
+    public function check_gift_card(Request $request)
+    {
+
+        $gift_card = GiftCard::where('code', request('code'))->where('status', 'active')->where('is_general', 'yes')->first();
+        if ($gift_card) {
+            return response()->json(['status' => true, 'message' => "FOund Active GiftCard", 'data' => $gift_card]);
+        }
+        return response()->json(['status' => false, 'message' => "No active Gift Card"]);
+
+    }
+
+    public function use_gift_card(Request $request)
+    {
+
+        $gift_card = GiftCard::where('code', request('code'))->where('status', 'active')->where('is_general', 'yes')->first();
+        if ($gift_card) {
+
+            DB::beginTransaction();
+            $trans_ref = Helper::generate_trans_ref(auth()->user()->id);
+
+            auth()->user()->transactions()->create([
+                'currency' => $gift_card->currency,
+                'amount' => $gift_card->amount,
+                'process' => 'credit',
+                'method' => 'gift_card',
+                'type' => 'deposit',
+                'status' => 'approved',
+                'transaction_ref' => $trans_ref,
+                'description' => "Gift Card",
+                'gift_card_id' => $gift_card->id,
+            ]);
+
+            $gift_card->status = 'used';
+            $gift_card->stopped_at = now();
+            $gift_card->save();
+            //EMAIL_REQUIRED
+            DB::commit();
+
+            return response()->json(['status' => true, 'message' => "All User Deposit Requests", 'data' => $gift_card]);
+        }
+        return response()->json(['status' => false, 'message' => "No active Gift Card"]);
+
     }
 
     public function list_requests()

@@ -47,9 +47,14 @@ class User extends Authenticatable implements JWTSubject
         "otp_expires_at" => 'datetime',
     ];
 
+    public function account_details()
+    {
+        return $this->hasOne(AccountInfomation::class);
+    }
+
     public function deposit_requests()
     {
-        return $this->hasMany(DepositRequest::class);
+        return $this->hasMany(DepositRequest::class)->orderBy('id', 'desc');
     }
 
     public function role()
@@ -64,7 +69,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class, 'user_id')->with('currency')->orderBy('id', 'desc');
+        return $this->hasMany(Transaction::class, 'user_id')->orderBy('id', 'desc');
     }
 
     public function loans()
