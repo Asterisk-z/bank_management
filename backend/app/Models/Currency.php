@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Currency extends Model
 {
     use HasFactory;
+
+    public function convert($to, $amount)
+    {
+
+    }
+    public function rate($name)
+    {
+        // return $this->where()
+    }
 }

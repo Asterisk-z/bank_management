@@ -163,6 +163,10 @@ export default {
       type: String,
     },
     modelValue: {
+      // type: String,
+      default: "",
+    },
+    mValue: {
       type: String,
       default: "",
     },

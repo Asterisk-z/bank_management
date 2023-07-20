@@ -31,6 +31,8 @@ return new class extends Migration
             $table->string('sender_id')->nullable();
             $table->string('deposit_ref')->nullable();
             $table->string('loan_id')->nullable();
+            $table->string('x_currency')->nullable();
+            $table->string('x_amount')->nullable();
             $table->string('gift_card_id')->nullable();
             $table->timestamps();
         });

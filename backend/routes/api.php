@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Customer\DepositController;
+use App\Http\Controllers\Customer\ExchangeMoneyController;
 use App\Http\Controllers\Customer\OtpController;
 use App\Http\Controllers\Customer\SendMoneyController;
 use Illuminate\Http\Request;
@@ -56,6 +57,7 @@ Route::prefix('v1')->group(function () {
         Route::post('deposit_requests', [DepositController::class, 'list_requests'])->name('deposit_requests');
 
         Route::post('send_money', [SendMoneyController::class, 'send_money'])->name('send_money');
+        Route::post('exchange', [ExchangeMoneyController::class, 'exchange'])->name('exchange');
 
         Route::post('get_otp', [OtpController::class, 'get_otp'])->name('get_otp');
         Route::post('verify_otp', [OtpController::class, 'verify_otp'])->name('verify_otp');

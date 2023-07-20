@@ -3,22 +3,23 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Currency;
 use App\Models\User;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
 
-class SendMoneyController extends Controller
+class ExchangeMoneyController extends Controller
 {
-    public function send_money(Request $request)
+    public function exchange(Request $request)
     {
         $auth_user = auth()->user();
         $v = Validator::make($request->all(), [
             'amount' => 'required',
             'description' => 'required',
             'currency' => 'required',
-            'recipient' => 'required',
+            'xCurrency' => 'required',
         ]);
 
         if ($v->fails()) {
@@ -27,6 +28,12 @@ class SendMoneyController extends Controller
                 'errors' => $v->errors(),
             ], 422);
         }
+
+        $currency = Currency::where('name', request('currency'))->first();
+        $currencytwo = Currency::where('name', request('xCurrency'))->first();
+        $amount = $request->amount;
+        $newAmount = (floatval(request('amount')) / $currency->rate) * $currencytwo->rate;
+
         //Check Balance
         $received = $auth_user->transactions()->where('process', 'credit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
         $sent = $auth_user->transactions()->where('process', 'debit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
@@ -38,6 +45,7 @@ class SendMoneyController extends Controller
                 'message' => 'Your balance and transaction balance does not match',
             ], 400);
         }
+
         // Add Fee
         $charge = 0;
         if ($stored_balance < $request->amount) {
@@ -46,22 +54,6 @@ class SendMoneyController extends Controller
                 'message' => 'Insufficient Fund, Try making a deposit',
             ], 400);
 
-        }
-        // Find Recipient
-        $user = User::where('email', $request->recipient)->orWhere('account_number', $request->recipient)->first();
-
-        if (!$user) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Account Number or Email not correct',
-            ], 400);
-        }
-
-        if ($auth_user->email == $user->email) {
-            return response()->json([
-                'status' => false,
-                'message' => 'You cant send money to yourself, try the deposit tab',
-            ], 400);
         }
 
         DB::beginTransaction();
@@ -73,12 +65,13 @@ class SendMoneyController extends Controller
             'fee' => $charge,
             'process' => 'debit',
             'method' => 'online',
-            'type' => 'send_money',
+            'type' => 'exchange',
             'status' => 'awaiting_otp',
             'transaction_ref' => $trans_ref,
             'description' => $request['description'],
-            'notify' => "You are sending " . $request['currency'] . " " . $request['amount'] . " to " . $user->email,
-            'receiver_id' => $user->id,
+            'notify' => "You are converting your " . $request['currency'] . " to " . $request['xCurrency'],
+            'x_currency' => $request['xCurrency'],
+            'x_amount' => $newAmount,
         ]);
         //EMAIL_REQUIRED
 
@@ -95,7 +88,7 @@ class SendMoneyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Sending Money Is been processed ',
+            'message' => 'Exchange Money Is been processed ',
         ], 200);
 
     }

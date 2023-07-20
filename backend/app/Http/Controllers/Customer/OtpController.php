@@ -82,11 +82,12 @@ class OtpController extends Controller
                 'message' => 'Your Transaction Has Expired',
             ], 400);
         }
+
         if ($transaction->type == "send_money") {
             DB::beginTransaction();
             $user = User::where('id', $transaction->receiver_id)->first();
             $trans_ref = Helper::generate_trans_ref($user->id);
-            $transaction = $user->transactions()->create([
+            $user->transactions()->create([
                 'currency' => $transaction->currency,
                 'amount' => $transaction->amount,
                 'fee' => $transaction->fee,
@@ -116,6 +117,43 @@ class OtpController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Money Sent successfully',
+            ], 200);
+
+        }
+
+        if ($transaction->type == "exchange") {
+            DB::beginTransaction();
+
+            $trans_ref = Helper::generate_trans_ref($auth_user->id);
+            $auth_user->transactions()->create([
+                'currency' => $transaction->x_currency,
+                'amount' => $transaction->x_amount,
+                'fee' => $transaction->fee,
+                'process' => 'credit',
+                'method' => 'online',
+                'type' => 'exchange',
+                'status' => 'approved',
+                'transaction_ref' => $trans_ref,
+                'description' => "",
+                'notify' => "You are converted " . $transaction->currency . " to " . $transaction->x_currency,
+            ]);
+            $auth_user->account_details->add_balance($transaction->x_amount, $transaction->x_currency);
+            //EMAIL_REQUIRED to receive money
+            $otp->status = 'used';
+            $otp->save();
+
+            $transaction->status = 'approved';
+            $transaction->notify = "You are converted " . $transaction->currency . " " . $transaction->x_currency;
+            $transaction->save();
+
+            $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
+            //EMAIL_REQUIRED to receive money
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Exchange Completed  Sent successfully',
             ], 200);
 
         }
