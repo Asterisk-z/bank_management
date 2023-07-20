@@ -12,9 +12,15 @@ class BankController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function get_swift()
     {
-        //
+        $banks = Bank::where('status', 'active')->orderBy('name')->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Fetched Banks',
+            'banks' => $banks,
+        ], 200);
+
     }
 
     /**
@@ -22,9 +28,15 @@ class BankController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function singlebank()
     {
-        //
+        $bank = Bank::where('id', request('bank'))->first();
+        return response()->json([
+            'status' => true,
+            'message' => 'Fetched Bank',
+            'banks' => $bank,
+        ], 200);
+
     }
 
     /**

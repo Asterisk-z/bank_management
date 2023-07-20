@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\ExchangeMoneyController;
 use App\Http\Controllers\Customer\OtpController;
@@ -61,6 +62,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('get_otp', [OtpController::class, 'get_otp'])->name('get_otp');
         Route::post('verify_otp', [OtpController::class, 'verify_otp'])->name('verify_otp');
+
+        Route::post('get_swift', [BankController::class, 'get_swift'])->name('get_swift');
 
     });
 
