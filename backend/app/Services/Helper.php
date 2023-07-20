@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\AccountInfomation;
+use App\Models\OtpCode;
 use App\Models\User;
 
 class Helper
@@ -30,6 +31,16 @@ class Helper
 
         if ($check_one || $check_two) {
             self::generate_account_number();
+        }
+        return $code;
+    }
+    public static function generate_otp()
+    {
+        $code = substr(str_shuffle(str_repeat('01234567890987654321', 6)), 0, 6);
+        $check_one = OtpCode::where('code', $code)->first();
+
+        if ($check_one) {
+            self::generate_otp();
         }
         return $code;
     }

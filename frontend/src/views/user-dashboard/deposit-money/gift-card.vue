@@ -72,7 +72,7 @@ export default {
                 }
             }).then(function (response) {
                 if (response.data?.status) {
-                    console.log(response)
+                    
                     toast.success("Found an Active Gift Card", {
                         timeout: 2000,
                     });

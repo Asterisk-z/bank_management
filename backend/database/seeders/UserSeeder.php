@@ -43,8 +43,8 @@ class UserSeeder extends Seeder
         $user->save();
         $account_number = Helper::generate_account_number();
         $user->account_details()->create(['account_number' => $account_number]);
-        $user->account_details->add_balance(300, "USD");
-        $user->account_details->add_balance(30, "USD");
+        // $user->account_details->add_balance(300, "USD");
+        // $user->account_details->add_balance(30, "USD");
 
         $user = new User();
         $user->last_name = "Olang";
@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
         $user->save();
         $account_number = Helper::generate_account_number();
         $user->account_details()->create(['account_number' => $account_number]);
-        $user->account_details->add_balance(1000, "USD");
+        // $user->account_details->add_balance(1000, "USD");
 
     }
 }

@@ -57,6 +57,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(DepositRequest::class)->orderBy('id', 'desc');
     }
 
+    public function otps()
+    {
+        return $this->hasOne(OtpCode::class);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');

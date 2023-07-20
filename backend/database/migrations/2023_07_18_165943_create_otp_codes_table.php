@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('otp_codes', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id');
+            $table->string('code');
+            $table->timestamp('expires_at');
+            $table->string('trans_id')->nullable();
+            $table->enum('status', ['active', 'expired', 'used'])->default('active');
+            $table->enum('use', ['transaction', 'login', 'register', '2fa'])->default('transaction');
             $table->timestamps();
         });
     }

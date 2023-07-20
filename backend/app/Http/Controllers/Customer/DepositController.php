@@ -111,6 +111,8 @@ class DepositController extends Controller
             'btc_value' => $request['btc_value'],
             'deposit_ref' => $deposit_ref,
         ]);
+        auth()->user()->account_details->add_balance($request['amount'], $request['currency']);
+
         //EMAIL_REQUIRED
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
     }
@@ -168,6 +170,7 @@ class DepositController extends Controller
             'description' => $request['description'],
             'deposit_ref' => $deposit_ref,
         ]);
+        auth()->user()->account_details->add_balance($request['amount'], $request['currency']);
         //EMAIL_REQUIRED
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
     }
@@ -207,6 +210,7 @@ class DepositController extends Controller
             $gift_card->status = 'used';
             $gift_card->stopped_at = now();
             $gift_card->save();
+            auth()->user()->account_details->add_balance($gift_card->amount, $gift_card->currency);
             //EMAIL_REQUIRED
             DB::commit();
 

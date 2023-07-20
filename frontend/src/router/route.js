@@ -207,6 +207,15 @@ const routes = [
         },
       },
       
+      {
+        path: "otp",
+        name: "otp",
+        component: () => import("@/views/user-dashboard/checkotp.vue"),
+        meta: {
+            hide: true,
+            middleware: [user],
+        },
+      },
 
 
 
@@ -387,6 +396,13 @@ const routes = [
         },
       },
       {
+        path: "changelog",
+        name: "changelog",
+        component: () => import("@/views/changelog.vue"),
+        
+      },
+
+      {
         path: "crm",
         name: "crm",
         component: () => import("@/views/home/crm.vue"),
@@ -401,11 +417,6 @@ const routes = [
         meta: {
           hide: true,
         },
-      },
-      {
-        path: "changelog",
-        name: "changelog",
-        component: () => import("@/views/changelog.vue"),
       },
 
       // components

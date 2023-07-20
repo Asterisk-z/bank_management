@@ -43,4 +43,21 @@ class AccountInfomation extends Model
             $this->save();
         }
     }
+
+    public function balance($currency)
+    {
+
+        if ($currency == 'USD') {
+            return $this->usd_balance;
+        }
+
+        if ($currency == 'AUD') {
+            return $this->usd_balance;
+        }
+
+        if ($currency == 'EUR') {
+            return $this->usd_balance;
+        }
+
+    }
 }
