@@ -10,28 +10,28 @@
                     <form @submit.prevent="onSubmit" class="space-y-4" enctype="multipart/form-data">
 
                         <div class="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-5">
-                             <div class="fromGroup relative" :class="`${error ? 'has-error' : ''}  ${validate ? 'is-valid' : '' } `">
+                             <div class="fromGroup relative" :class="`${selectedBankError ? 'has-error' : ''}  `">
                                 <label :class="`inline-block input-label `">{{ 'Bank' }}</label>
                                 <select name="swift" class="input-control block w-full focus:outline-none h-[48px]"  @change="select_bank" v-model="selectedBank">
                                     <option value="">Select A Bank</option>
                                     <option v-for="bank in swift_bank"  :value="bank.id" v-bind:key="bank.id">{{ bank.name }}</option>
                                 </select>
+                                
+                                 <span v-if="selectedBankError" class="mt-2 text-danger-500 block text-sm" >{{ selectedBankError }}</span >
                             </div>
-                            <InputGroup type="text" label="Swift Code" placeholder="Swift Code" v-model="swiftCode"
-                                :error="swiftCodeError" classInput="h-[48px]" isReadonly>
+                            <InputGroup type="text" label="Swift Code" placeholder="Swift Code" v-model="swiftCode" classInput="h-[48px]" isReadonly>
                             </InputGroup>
-                            <InputGroup type="text" label="Currency" placeholder="Currency" v-model="swiftCurrency"
-                                :error="currencyError" classInput="h-[48px]" isReadonly>
+                            <InputGroup type="text" label="Currency" placeholder="Currency" v-model="swiftCurrency" classInput="h-[48px]" isReadonly>
                             </InputGroup>
                         </div>
                         <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
-                            <InputGroup type="text" label="Account Holder Name" placeholder="James Doe" v-model="amount"
-                                :error="amountError" classInput="h-[48px]" >
+                            <InputGroup type="text" label="Account Holder Name" placeholder="James Doe" v-model="accountHolder"
+                                :error="accountHolderError" classInput="h-[48px]" >
                             </InputGroup>
                         </div>
                         <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-5">
-                            <InputGroup type="text" label="Account Number " placeholder="Account Number " v-model="amount"
-                                :error="amountError" classInput="h-[48px]" >
+                            <InputGroup type="text" label="Account Number " placeholder="Account Number " v-model="accountNumber"
+                                :error="accountNumberError" classInput="h-[48px]" >
                             </InputGroup>
                             <InputGroup type="text" label="Amount" placeholder="Amount" v-model="amount"
                                 :error="amountError" classInput="h-[48px]" >
@@ -131,8 +131,6 @@ export default {
         }
     },
     mounted() {
-        this.currency = this.currencies[0].value
-        this.xCurrency = this.currencies[1].value
         this.get_swift_code();
     },
     methods: { 
@@ -145,7 +143,7 @@ export default {
                 if (this.swift_bank[index].id == this.selectedBank) {
                     this.selectedBankDetails = this.swift_bank[index]
                     this.swiftCode = this.selectedBankDetails.swift_code
-                    this.swiftCurrency = this.selectedBankDetails.swift_code
+                    this.swiftCurrency = this.selectedBankDetails.bank_currency
                 }
                 
             }
@@ -184,11 +182,11 @@ export default {
     },
     setup() {
         const schema = yup.object({
+            accountHolder: yup.string('Account Holder').required("Account Holder  is required"), 
+            accountNumber: yup.number('Account Number Can only be numbers').required("Account Number is required"),
             amount: yup.number('Amount Can only be numbers').required("Amount is required"),
-            xAmount: yup.number('Amount Can only be numbers').nullable("Amount is required"),
             description: yup.string().required("Description is required"),
-            currency: yup.string().required("Country Code is required"),
-            xCurrency: yup.string().required("Country Code is required"),
+            selectedBank: yup.string().required("Bank is required"),
         });
         const swal = inject("$swal");
         const toast = useToast();
@@ -199,31 +197,26 @@ export default {
             validationSchema: schema,
         });
 
+        const { value: accountHolder, errorMessage: accountHolderError } = useField("accountHolder");
+        const { value: accountNumber, errorMessage: accountNumberError } = useField("accountNumber");
         const { value: amount, errorMessage: amountError } = useField("amount");
-        const { value: xAmount, errorMessage: xAmountError } = useField("xAmount");
         const { value: description, errorMessage: descriptionError } = useField("description");
-        const { value: currency, errorMessage: currencyError } = useField("currency");
-        const { value: xCurrency, errorMessage: xCurrencyError } = useField("xCurrency");
+        const { value: selectedBank, errorMessage: selectedBankError } = useField("selectedBank");
 
         const onSubmit = handleSubmit((values) => {
 
             toast.info("Making Exchange", {
                 timeout: 5000,
             });
-            if (values.currency == values.xCurrency) {
-                toast.error("Can not convert same currency", {
-                    timeout: 2000,
-                });
-                return
-            }
-
+            
             const fromData = new FormData();
             fromData.append("amount", values.amount);
             fromData.append("description", values.description);
-            fromData.append("currency", values.currency);
-            fromData.append("xCurrency", values.xCurrency);
+            fromData.append("accountHolder", values.accountHolder);
+            fromData.append("accountNumber", values.accountNumber);
+            fromData.append("selectedBank", values.selectedBank);
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/exchange`, fromData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/wire_transfer`, fromData, {
                 headers: {
                     "Authorization": "Bearer " + auth.user.token
                 }
@@ -254,14 +247,14 @@ export default {
         });
 
         return {
+            accountHolder,
+            accountHolderError,
+            accountNumber,
+            accountNumberError,
             amount,
             amountError,
-            currency,
-            currencyError,
-            xAmount,
-            xAmountError,
-            xCurrency,
-            xCurrencyError,
+            selectedBank,
+            selectedBankError,
             description,
             descriptionError,
             onSubmit,

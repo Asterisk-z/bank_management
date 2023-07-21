@@ -1,164 +1,131 @@
 <template>
     <div>
         <Breadcrumb />
-
         <Card noborder>
             <div class="md:flex pb-6 items-center">
-                <h6 class="flex-1 md:mb-0 mb-3">Deposit Request</h6>
+                <h6 class="flex-1 md:mb-0 mb-3">All Payment Requests</h6>
                 <div class="md:flex md:space-x-3 items-center flex-none rtl:space-x-reverse"
                     :class="window.width < 768 ? 'space-x-rb' : ''">
                     <InputGroup v-model="searchTerm" placeholder="Search" type="text" prependIcon="heroicons-outline:search"
                         merged />
-                    <Button icon="heroicons-outline:plus-sm" text="Add Record" btnClass=" btn-dark font-normal btn-sm "
-                        iconClass="text-lg" link="invoice-add" />
+                    <Button icon="heroicons-outline:plus-sm" text="Deposit via Payoneer"
+                        btnClass=" btn-dark font-normal btn-sm " iconClass="text-lg" link="manual-deposit-payoneer" />
                 </div>
             </div>
             <div class="-mx-6">
-                <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="advancedTable" :sort-options="{
-                        enabled: false,
-                    }" :pagination-options="{
-                        enabled: true,
-                        perPage: perpage,
-                    }" :search-options="{
-                        enabled: true,
-                        externalQuery: searchTerm,
-                    }" :select-options="{
-                        enabled: true,
-                        selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-                        selectioninfoClass: 'table-input-checkbox',
-                        selectionText: 'rows selected',
-                        clearSelectionText: 'clear',
-                        disableSelectinfo: true, // disable the select info-500 panel on top
-                        selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-                    }">
-                    <template v-slot:table-row="props">
-                        <span v-if="props.column.field == 'customer'" class="flex items-center">
-                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
-                                <img :src="props.row.customer.image" :alt="props.row.customer.name"
-                                    class="object-cover w-full h-full rounded-full" />
+                <template v-if="deposit_requests">
+                    <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="deposit_requests"
+                        :sort-options="{
+                            enabled: false,
+                        }" :pagination-options="{
+                                enabled: true,
+                                perPage: perpage,
+                            }" :search-options="{
+                                enabled: true,
+                                externalQuery: searchTerm,
+                            }" :select-options="{
+                                enabled: true,
+                                selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+                                selectioninfoClass: 'table-input-checkbox',
+                                selectionText: 'rows selected',
+                                clearSelectionText: 'clear',
+                                disableSelectinfo: true, // disable the select info-500 panel on top
+                                selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+                            }">
+                        <template v-slot:table-row="props">
+                            <span v-if="props.column.field == 'user_id'" class="flex items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
+                                    props.row.user.name }}</span>
                             </span>
-                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
-                                props.row.customer.name }}</span>
-                        </span>
-                        <span v-if="props.column.field == 'order'" class="font-medium">
-                            {{ "#" + props.row.order }}
-                        </span>
-                        <span v-if="props.column.field == 'date'" class="text-slate-500 dark:text-slate-400">
-                            {{ props.row.date }}
-                        </span>
-                        <span v-if="props.column.field == 'status'" class="block w-full">
-                            <span
-                                class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
-                                :class="`${props.row.status === 'paid'
+                            <span v-if="props.column.field == 'amount'" class="font-medium">
+                                {{ props.row.currency + " " + props.row.amount }}
+                            </span>
+                            <span v-if="props.column.field == 'description'" class="text-slate-500 dark:text-slate-400">
+                                {{ props.row.description.substring(0, 15)+"..." }}
+                            </span>
+                            <span v-if="props.column.field == 'status'" class="block w-full">
+                                <span
+                                    class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                    :class="`${props.row.status === 'paid'
                                         ? 'text-success-500 bg-success-500'
                                         : ''
-                                    } 
-                                            ${props.row.status === 'due'
-                                        ? 'text-warning-500 bg-warning-500'
-                                        : ''
-                                    }
-                                            ${props.row.status === 'cancled'
-                                        ? 'text-danger-500 bg-danger-500'
-                                        : ''
-                                    }
-                                    `">
-                                {{ props.row.status }}
-                            </span>
-                        </span>
-                        <span v-if="props.column.field == 'action'">
-                            <Dropdown classMenuItems=" w-[140px]">
-                                <span class="text-xl">
-                                    <Icon icon="heroicons-outline:dots-vertical" />
+                                        } 
+                                                                                                                    ${props.row.status === 'pending'
+                                            ? 'text-warning-500 bg-warning-500'
+                                            : ''
+                                        }
+                                                                                                                    ${props.row.status === 'canceled'
+                                            ? 'text-danger-500 bg-danger-500'
+                                            : ''
+                                        }  `">
+                                    {{ props.row.status }}
                                 </span>
-                                <template v-slot:menus>
-                                    <MenuItem v-for="(item, i) in actions" :key="i">
-                                    <div @click="item.doit"
-                                        :class="`  ${item.name === 'delete'
-                                                ? 'bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white'
-                                                : 'hover:bg-slate-900 hover:text-white'
-                                            }  w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
-                                        <span class="text-base">
-                                            <Icon :icon="item.icon" />
-                                        </span>
-                                        <span>{{ item.name }}</span>
+                            </span>
+                            <span v-if="props.column.field == 'action'">
+                                <Modal v-if="props.row.proof" title="View Attachment" label="View Attachment"
+                                    labelClass="btn-outline-dark" ref="modal2" centered>
+                                    <h4 class="font-medium text-lg mb-3 text-slate-900">
+
+                                    </h4>
+                                    <div class="text-base text-slate-600 dark:text-slate-300">
+                                        <img :src="app_url + '/uploads/deposit_proof/' + props.row.proof"
+                                            class="object-cover w-full h-full" />
                                     </div>
-                                    </MenuItem>
-                                </template>
-                            </Dropdown>
-                        </span>
-                    </template>
-                    <template #pagination-bottom="props">
-                        <div class="py-4 px-3">
-                            <Pagination :total="50" :current="current" :per-page="perpage" :pageRange="pageRange"
-                                @page-changed="current = $event" :pageChanged="props.pageChanged"
-                                :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
-                                >
-                            </Pagination>
-                        </div>
-                    </template>
-                </vue-good-table>
+                                    <template v-slot:footer>
+                                        <Button text="Close" btnClass="btn-dark " @click="$refs.modal2.closeModal()" />
+                                    </template>
+                                </Modal>
+                            </span>
+                        </template>
+                        <template #pagination-bottom="props">
+                            <div class="py-4 px-3">
+                                <Pagination :total="deposit_requests.length" :current="current" :per-page="perpage"
+                                    :pageRange="pageRange" @page-changed="current = $event" :pageChanged="props.pageChanged"
+                                    :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
+                                    >
+                                </Pagination>
+                            </div>
+                        </template>
+                    </vue-good-table>
+                </template>
+
             </div>
         </Card>
     </div>
 </template>
 <script>
 import Dropdown from "@/components/Dropdown";
+import Breadcrumb from "@/views/components/Breadcrumbs";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
 import InputGroup from "@/components/InputGroup";
 import Pagination from "@/components/Pagination";
-import { MenuItem } from "@headlessui/vue";
-import { advancedTable } from "@/constant/basic-tablle-data";
 import window from "@/mixins/window";
-import Breadcrumb from "@/views/components/Breadcrumbs";
-
+import axios from "axios";
+import { useToast } from "vue-toastification";
+import Modal from '@/components/Modal/Modal';
 export default {
     mixins: [window],
     components: {
         Pagination,
         InputGroup,
-        Breadcrumb,
         Dropdown,
         Icon,
+        Breadcrumb,
         Card,
-        MenuItem,
         Button,
+        Modal,
     },
 
     data() {
         return {
-            advancedTable,
+            deposit_requests: "",
+            app_url: import.meta.env.VITE_APP_API_BASEURL,
             current: 1,
             perpage: 10,
             pageRange: 5,
             searchTerm: "",
-            actions: [
-                {
-                    name: "send",
-                    icon: "ph:paper-plane-right",
-                    doit: () => {
-                        this.$router.push("/app/invoice-add");
-                    },
-                },
-                {
-                    name: "view",
-                    icon: "heroicons-outline:eye",
-                    doit: () => {
-                        this.$router.push("/app/invoice-preview");
-                    },
-                },
-                {
-                    name: "edit",
-                    icon: "heroicons:pencil-square",
-                    doit: () => {},
-                },
-                {
-                    name: "delete",
-                    icon: "heroicons-outline:trash",
-                    doit: () => { },
-                },
-            ],
             options: [
                 {
                     value: "1",
@@ -175,36 +142,27 @@ export default {
             ],
             columns: [
                 {
-                    label: "Id",
-                    field: "id",
+                    label: "Request Reference",
+                    field: "payment_ref",
                 },
                 {
-                    label: "Created",
-                    field: "order",
+                    label: "Description",
+                    field: "description",
                 },
                 {
-                    label: "Currency",
-                    field: "customer",
+                    label: "Benefactor",
+                    field: "user_id",
                 },
                 {
                     label: "Amount",
-                    field: "date",
-                },
-
-                {
-                    label: "Status",
-                    field: "quantity",
-                },
-
-                {
-                    label: "Sender",
                     field: "amount",
                 },
 
                 {
-                    label: "Receiver",
+                    label: "Status",
                     field: "status",
                 },
+
                 {
                     label: "Action",
                     field: "action",
@@ -212,6 +170,31 @@ export default {
             ],
         };
     },
+    mounted() {
+        this.fetch_deposit_requests();
+        const toast = useToast();
+    },
+    methods: {
+        async fetch_deposit_requests() {
+            const data = await axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/all_request`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    return response.data?.data
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            });
+            this.deposit_requests = data
+        }
+    }
 };
 </script>
 <style lang="scss"></style>

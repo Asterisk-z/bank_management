@@ -6,7 +6,9 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\ExchangeMoneyController;
 use App\Http\Controllers\Customer\OtpController;
+use App\Http\Controllers\Customer\PaymentRequestController;
 use App\Http\Controllers\Customer\SendMoneyController;
+use App\Http\Controllers\Customer\WireTransferController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,11 +61,17 @@ Route::prefix('v1')->group(function () {
 
         Route::post('send_money', [SendMoneyController::class, 'send_money'])->name('send_money');
         Route::post('exchange', [ExchangeMoneyController::class, 'exchange'])->name('exchange');
+        Route::post('wire_transfer', [WireTransferController::class, 'wire_transfer'])->name('wire_transfer');
 
         Route::post('get_otp', [OtpController::class, 'get_otp'])->name('get_otp');
         Route::post('verify_otp', [OtpController::class, 'verify_otp'])->name('verify_otp');
 
         Route::post('get_swift', [BankController::class, 'get_swift'])->name('get_swift');
+
+        Route::post('request_payment', [PaymentRequestController::class, 'request_payment'])->name('request_payment');
+        Route::post('all_request', [PaymentRequestController::class, 'all_request'])->name('all_request');
+        Route::post('sent_request', [PaymentRequestController::class, 'sent_request'])->name('sent_request');
+        Route::post('received_requests', [PaymentRequestController::class, 'received_requests'])->name('received_requests');
 
     });
 

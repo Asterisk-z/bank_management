@@ -57,6 +57,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(DepositRequest::class)->orderBy('id', 'desc');
     }
 
+    public function payment_requests()
+    {
+        return $this->hasMany(PaymentRequest::class)->with('user')->orderBy('id', 'desc');
+    }
+
     public function otps()
     {
         return $this->hasOne(OtpCode::class);

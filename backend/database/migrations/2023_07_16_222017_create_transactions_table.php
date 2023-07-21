@@ -34,6 +34,9 @@ return new class extends Migration
             $table->string('x_currency')->nullable();
             $table->string('x_amount')->nullable();
             $table->string('gift_card_id')->nullable();
+            $table->string('account_holder')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('bank')->nullable();
             $table->timestamps();
         });
     }

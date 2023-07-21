@@ -158,5 +158,27 @@ class OtpController extends Controller
 
         }
 
+        if ($transaction->type == "wire_transfer") {
+            DB::beginTransaction();
+
+            $otp->status = 'used';
+            $otp->save();
+
+            $transaction->status = 'approved';
+            $transaction->notify = "You sent  money via wire tranfer" . $transaction->currency;
+            $transaction->save();
+
+            $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
+            //EMAIL_REQUIRED to Sent money
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Your Transfer Request send sucessfully. You will notified after reviewing by authority.',
+            ], 200);
+
+        }
+
     }
 }

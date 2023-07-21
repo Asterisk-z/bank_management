@@ -23,6 +23,11 @@ class Helper
         $code = substr(str_shuffle(str_repeat('01234567890QWERTYUIOPASDFGHJKLZXCVBNM', 16)), 0, 16);
         return $code . "" . $user_id;
     }
+    public static function generate_payment_ref($user_id)
+    {
+        $code = substr(str_shuffle(str_repeat('01234567890QWERTYUIOPASDFGHJKLZXCVBNM', 8)), 0, 8);
+        return $code . "" . $user_id;
+    }
     public static function generate_account_number()
     {
         $code = substr(str_shuffle(str_repeat('01234567890987654321', 10)), 0, 10);

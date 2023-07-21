@@ -83,8 +83,6 @@ export default {
             toast.success("OTP Found Successfully", {
                 timeout: 2000,
             });
-            // router.push("/app/deposit-history");
-            // router.push("/app/manual-deposit");
 
         } else {
           let message = response.data?.message[0];
@@ -128,14 +126,14 @@ export default {
           "Authorization": "Bearer " + auth.user.token
         }
       }).then(function (response) {
-        console.log(response.data)
+        
         if (response.data?.status) {
 
           toast.success(response.data?.message, {
             timeout: 2000,
           });
-          // router.push("/app/deposit-history");
-          router.push("/app/send-money");
+          
+          router.push("/app/user-dashboard");
 
         } else {
           let message = response.data?.message[0];
