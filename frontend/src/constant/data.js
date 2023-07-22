@@ -719,7 +719,7 @@ export const UserMenuItem = [
     child: [
       {
         childtitle: "Deposit History",
-        childlink: "deposit-history",
+        childlink: "deposithistory",
       },
       {
         childtitle: "Automatic Deposit",
@@ -800,7 +800,7 @@ export const UserMenuItem = [
   {
     title: "Transactions Report",
     icon: "heroicons:users",
-    link: "users",
+    link: "transaction",
   },
 
 ];

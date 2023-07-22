@@ -144,18 +144,9 @@ const routes = [
         },
       },
       {
-        path: "deposit-history",
-        name: "deposit-history",
-        component: () => import("@/views/user-dashboard/deposit-money/history.vue"),
-        meta: {
-          hide: true,
-          middleware: [user],
-        },
-      },
-      {
         path: "manual-deposit",
         name: "manual-deposit",
-        component: () => import("@/views/user-dashboard/deposit-money/history.vue"),
+        component: () => import("@/views/user-dashboard/deposit-money/manual.vue"),
         meta: {
           hide: true,
           middleware: [user],
@@ -214,6 +205,24 @@ const routes = [
         meta: {
             hide: true,
             middleware: [user],
+        },
+      },
+      {
+        path: "transaction",
+        name: "transaction",
+        component: () => import("@/views/user-dashboard/transaction/index.vue"),
+        meta: {
+            hide: true,
+            middleware: [user],
+        },
+      },
+      {
+        path: "deposithistory",
+        name: "deposithistory",
+        component: () => import("@/views/user-dashboard/deposit-money/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
         },
       },
 

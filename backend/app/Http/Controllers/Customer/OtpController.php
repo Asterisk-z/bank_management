@@ -164,7 +164,7 @@ class OtpController extends Controller
             $otp->status = 'used';
             $otp->save();
 
-            $transaction->status = 'approved';
+            $transaction->status = 'pending';
             $transaction->notify = "You sent  money via wire tranfer" . $transaction->currency;
             $transaction->save();
 
@@ -175,7 +175,7 @@ class OtpController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Your Transfer Request send sucessfully. You will notified after reviewing by authority.',
+                'message' => 'Your Transfer Request has been sent. You will notified after reviewing by authority.',
             ], 200);
 
         }

@@ -119,7 +119,7 @@ export default {
                     });
                     // router.push("/app/deposit-history");
 
-                    router.push("/app/manual-deposit");
+                    router.push("/app/deposithistory");
 
                 } else {
                     let message = response.data?.message[0];

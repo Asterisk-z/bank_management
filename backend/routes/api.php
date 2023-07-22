@@ -8,6 +8,7 @@ use App\Http\Controllers\Customer\ExchangeMoneyController;
 use App\Http\Controllers\Customer\OtpController;
 use App\Http\Controllers\Customer\PaymentRequestController;
 use App\Http\Controllers\Customer\SendMoneyController;
+use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\Customer\WireTransferController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,9 @@ Route::prefix('v1')->group(function () {
         Route::post('all_request', [PaymentRequestController::class, 'all_request'])->name('all_request');
         Route::post('sent_request', [PaymentRequestController::class, 'sent_request'])->name('sent_request');
         Route::post('received_requests', [PaymentRequestController::class, 'received_requests'])->name('received_requests');
+        Route::post('pay_request', [PaymentRequestController::class, 'pay_request'])->name('pay_request');
+
+        Route::post('list_transactions', [TransactionController::class, 'index'])->name('list_transactions');
 
     });
 

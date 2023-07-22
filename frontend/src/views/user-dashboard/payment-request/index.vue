@@ -3,13 +3,15 @@
         <Breadcrumb />
         <Card noborder>
             <div class="md:flex pb-6 items-center">
-                <h6 class="flex-1 md:mb-0 mb-3">All Payment Requests</h6>
+                <h6 class="flex-1 md:mb-0 mb-3">{{ banner }}</h6>
                 <div class="md:flex md:space-x-3 items-center flex-none rtl:space-x-reverse"
                     :class="window.width < 768 ? 'space-x-rb' : ''">
                     <InputGroup v-model="searchTerm" placeholder="Search" type="text" prependIcon="heroicons-outline:search"
                         merged />
-                    <Button icon="heroicons-outline:plus-sm" text="Deposit via Payoneer"
-                        btnClass=" btn-dark font-normal btn-sm " iconClass="text-lg" link="manual-deposit-payoneer" />
+                    <Button text="Sent Request Only"
+                        btnClass=" btn-dark font-normal btn-sm " iconClass="text-lg"  @click="fetch_deposit_requests" />
+                    <Button text="Received Request Only"
+                        btnClass=" btn-dark font-normal btn-sm " iconClass="text-lg" @click="fetch_receive_requests" />
                 </div>
             </div>
             <div class="-mx-6">
@@ -62,19 +64,39 @@
                                 </span>
                             </span>
                             <span v-if="props.column.field == 'action'">
-                                <Modal v-if="props.row.proof" title="View Attachment" label="View Attachment"
-                                    labelClass="btn-outline-dark" ref="modal2" centered>
+                                <Modal v-if="props.row.benefactor == this.$store.authStore.user.user.id " title="Send Money" label="Send Money"
+                                    labelClass="btn-outline-dark btn-sm" ref="modal2" centered >
                                     <h4 class="font-medium text-lg mb-3 text-slate-900">
 
                                     </h4>
                                     <div class="text-base text-slate-600 dark:text-slate-300">
-                                        <img :src="app_url + '/uploads/deposit_proof/' + props.row.proof"
-                                            class="object-cover w-full h-full" />
+                                        <!-- {{ props.row }} -->
+                                        <div class="space-y-[5px]">
+                                            <span class="block text-slate-900 dark:text-slate-300 font-medium leading-5 text-xl mb-4" > Billing Details:</span >
+                                            <h4 class="text-slate-600 font-medium dark:text-slate-300 text-sm uppercase">
+                                                Sender's Name: {{ props.row.user.name }}
+                                            </h4>
+                                            <h4 class="text-slate-600 font-medium dark:text-slate-300 text-sm uppercase">
+                                                Payment number: {{ props.row.payment_ref }}
+                                            </h4>
+                                            <h4 class="text-slate-600 font-medium dark:text-slate-300 text-sm uppercase">
+                                                Amount : {{ props.row.currency + " " + props.row.amount }}
+                                            </h4>
+                                            <h4 class="text-slate-600 font-medium dark:text-slate-300 text-sm uppercase">
+                                                Date : {{ props.row.created_at }}
+                                            </h4>
+                                            <div class="text-slate-600 font-medium dark:text-slate-300 text-sm" >
+                                                Description : {{ props.row.description }}
+                                            </div>
+                                        </div>
                                     </div>
+                                    
                                     <template v-slot:footer>
-                                        <Button text="Close" btnClass="btn-dark " @click="$refs.modal2.closeModal()" />
+                                        <Button text="send money" btnClass="btn-primary btn-sm " @click="make_payment(props.row.id)" />
+                                        <Button text="Close" btnClass="btn-dark btn-sm " @click="$refs.modal2.closeModal()" />
                                     </template>
                                 </Modal>
+                                <Button v-if="props.row.user_id == this.$store.authStore.user.user.id"  text="Deactivate" btnClass="btn-dark btn-sm " @click="cancel" />
                             </span>
                         </template>
                         <template #pagination-bottom="props">
@@ -126,6 +148,7 @@ export default {
             perpage: 10,
             pageRange: 5,
             searchTerm: "",
+            banner: "All Payment Requests",
             options: [
                 {
                     value: "1",
@@ -193,7 +216,62 @@ export default {
                 }
             });
             this.deposit_requests = data
-        }
+        },
+        async fetch_receive_requests() {
+            const data = await axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/received_requests`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    return response.data?.data
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            });
+            this.deposit_requests = data
+        },
+        make_payment() {
+            this.$swal.fire({
+                title: 'Do you want to save the changes?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                denyButtonText: `Don't save`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/pay_request`, {}, {
+                        headers: {
+                            "Authorization": "Bearer " + this.$store.authStore.user.token
+                        }
+                    }).then(function (response) {
+
+                        if (response.data?.status) {
+                            return response.data?.data
+
+                        } else {
+                            let message = response.data?.message[0];
+                            toast.error(message, {
+                                timeout: 4000,
+                            });
+                        }
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            
+            // this.deposit_requests = data
+        },
+        cancel() {
+
+        },
     }
 };
 </script>

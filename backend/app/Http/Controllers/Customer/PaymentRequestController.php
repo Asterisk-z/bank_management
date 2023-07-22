@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentRequest;
 use App\Models\User;
 use App\Services\Helper;
 use Illuminate\Http\Request;
@@ -70,15 +71,32 @@ class PaymentRequestController extends Controller
 
     public function all_request()
     {
+        $payment = PaymentRequest::Where('user_id', auth()->user()->id)->join('users', 'payment_requests.benefactor', '=', 'users.id')->with('user')->select('users.email', 'users.name', 'payment_requests.*')->get();
         return response()->json([
             'status' => true,
             'message' => "Request Found",
-            'data' => auth()->user()->payment_requests,
+            'data' => $payment,
+        ], 200);
+    }
+
+    public function received_requests()
+    {
+        // $payment = PaymentRequest::Where('benefactor', auth()->user()->id)->join('users', 'payment_requests.benefactor', '=', 'users.id')->with('user')->select('users.email', 'users.name', 'payment_requests.*')->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Request Found",
+            'data' => auth()->user()->received_requests,
         ], 200);
     }
 
     public function pay_request(Request $request)
     {
+        return response()->json([
+            'status' => true,
+            'message' => "you havent worked on this yet",
+            'data' => "",
+        ], 200);
+
         $auth_user = auth()->user();
         $v = Validator::make($request->all(), [
             'amount' => 'required',
