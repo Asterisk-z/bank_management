@@ -163,7 +163,7 @@ export default {
                     
                     $this.swift_bank = response.data.banks;
 
-                    toast.success("Bank List Successfully", {
+                    toast.success("Bank List Updated Successfully", {
                         timeout: 2000,
                     });
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\AccountInfomation;
 use App\Models\OtpCode;
+use App\Models\SupportTicket;
 use App\Models\User;
 
 class Helper
@@ -38,6 +39,18 @@ class Helper
             self::generate_account_number();
         }
         return $code;
+    }
+    public static function generate_ticket_ref()
+    {
+        $code = substr(str_shuffle(str_repeat('01234567890987654321', 5)), 0, 5);
+        $code = "RBTK" . $code;
+        $check_one = SupportTicket::where('ticket_ref', $code)->first();
+
+        if ($check_one) {
+            self::generate_ticket_ref();
+        }
+        return $code;
+
     }
     public static function generate_otp()
     {

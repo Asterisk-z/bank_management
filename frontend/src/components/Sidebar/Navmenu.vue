@@ -2,7 +2,7 @@
   <ul>
     <li v-for="(item, i) in items" :key="i" :class="` ${item.child ? 'item-has-children' : ''} ${activeSubmenu === i ? 'open' : ''} ${this.$route.name === item.link ? 'menu-item-active' : ''} `" class="single-sidebar-menu">
 
-      <router-link :to="`${item.link}`" class="menu-link" v-if="!item.child && !item.isHeadr" >
+      <router-link :to="{ name : item.link}" class="menu-link" v-if="!item.child && !item.isHeadr" >
         <span class="menu-icon flex-grow-0" v-if="item.icon">
           <Icon :icon="item.icon"/>
         </span>
@@ -61,7 +61,7 @@
             :key="index"
             class="block ltr:pl-4 rtl:pr-4 ltr:pr-1 rtl:-l-1 mb-4 first:mt-4"
           >
-            <router-link :to="ci.childlink" v-slot="{ isActive }">
+            <router-link :to="{name : ci.childlink}" v-slot="{ isActive }">
               <span class="text-sm flex space-x-3 rtl:space-x-reverse items-center transition-all duration-150" :class=" isActive   ? ' text-slate-900 dark:text-white font-medium'   : 'text-slate-600 dark:text-slate-300' " >
                 <span class="h-2 w-2 rounded-full border border-slate-600 dark:border-slate-300 inline-block flex-none" :class="   isActive     ? ' bg-slate-900 dark:bg-slate-300 ring-4 ring-opacity-[15%] ring-black-500 dark:ring-slate-300 dark:ring-opacity-20'     : '' " ></span>
                 <span class="flex-1">

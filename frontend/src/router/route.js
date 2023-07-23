@@ -136,7 +136,7 @@ const routes = [
       },
       {
         path: "redeem-gift-card",
-        name: "gift-card",
+        name: "redeem-gift-card",
         component: () => import("@/views/user-dashboard/deposit-money/gift-card.vue"),
         meta: {
           hide: true,
@@ -220,6 +220,33 @@ const routes = [
         path: "deposithistory",
         name: "deposithistory",
         component: () => import("@/views/user-dashboard/deposit-money/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
+      {
+        path: "support-tickets",
+        name: "support-tickets",
+        component: () => import("@/views/user-dashboard/support-ticket/index.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
+      {
+        path: "create-ticket",
+        name: "create-ticket",
+        component: () => import("@/views/user-dashboard/support-ticket/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
+      {
+        path: "ticket-chat/:ticket_id",
+        name: "ticket-chat",
+        component: () => import("@/views/user-dashboard/support-ticket/chat.vue"),
         meta: {
           hide: true,
           middleware: [user],

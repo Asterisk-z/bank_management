@@ -764,14 +764,14 @@ export const UserMenuItem = [
     icon: "heroicons-outline:document",
     link: "#",
     child: [
-      {
-        childtitle: "Apply New FRD",
-        childlink: "new-deposit",
-      },
-      {
-        childtitle: "FDR History",
-        childlink: "all-deposit",
-      },
+      // {
+      //   childtitle: "Apply New FRD",
+      //   childlink: "new-deposit",
+      // },
+      // {
+      //   childtitle: "FDR History",
+      //   childlink: "support-tickets",
+      // },
     ],
   },
   {
@@ -781,19 +781,23 @@ export const UserMenuItem = [
     child: [
       {
         childtitle: "Create New Ticket",
-        childlink: "new-deposit",
+        childlink: "create-ticket",
+      },
+      {
+        childtitle: "All Tickets",
+        childlink: "support-tickets",
       },
       {
         childtitle: "Pending Tickets",
-        childlink: "all-deposit",
+        childlink: "support-tickets",
       },
       {
         childtitle: "Active Tickets",
-        childlink: "all-deposit",
+        childlink: "support-tickets",
       },
       {
         childtitle: "Close Tickets",
-        childlink: "all-deposit",
+        childlink: "support-tickets",
       },
     ],
   },

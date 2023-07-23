@@ -54,7 +54,19 @@ export default {
                     button: "Deposit Now",
                     bg: "bg-primary-500",
                     doit: () => {
-                         this.$router.push("/app/manual-deposit-payoneer");
+                        this.$router.push({name : "manual-deposit payoneer"});
+                    }
+                },
+                {
+                    title: "Electronic Check",
+                    price_Yearly: "$126",
+                    price_Monthly: "$16",
+                    limit: "Deposit Limit($50.00 - $10,000,000.00)",
+                    charge: "Deposit Charge($0.00 + 1.00 %)",
+                    button: "Deposit Now",
+                    bg: "bg-primary-500",
+                    doit: () => {
+                        this.$router.push({name : "manual-deposit check"});
                     }
                 },
             ],

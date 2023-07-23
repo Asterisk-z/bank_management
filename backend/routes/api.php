@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Customer\ExchangeMoneyController;
 use App\Http\Controllers\Customer\OtpController;
 use App\Http\Controllers\Customer\PaymentRequestController;
 use App\Http\Controllers\Customer\SendMoneyController;
+use App\Http\Controllers\Customer\SupportTicketController;
 use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\Customer\WireTransferController;
 use Illuminate\Http\Request;
@@ -50,6 +52,10 @@ Route::prefix('v1')->group(function () {
         Route::post('create_user', [UserController::class, 'create_user'])->name('create_user');
         Route::post('all_user', [UserController::class, 'all_user'])->name('all_user');
         Route::post('user/{user_id}', [UserController::class, 'single_user'])->name('single_user');
+
+        Route::post('make_active', [AdminSupportTicketController::class, 'make_active'])->name('make_active');
+        Route::post('close_ticket', [AdminSupportTicketController::class, 'close_ticket'])->name('close_ticket');
+
     });
 
     Route::prefix('customer')->namespace('Customer')->middleware('auth:api')->group(function () {
@@ -76,6 +82,11 @@ Route::prefix('v1')->group(function () {
         Route::post('pay_request', [PaymentRequestController::class, 'pay_request'])->name('pay_request');
 
         Route::post('list_transactions', [TransactionController::class, 'index'])->name('list_transactions');
+
+        Route::post('create_ticket', [SupportTicketController::class, 'create_ticket'])->name('create_ticket');
+        Route::post('list_tickets', [SupportTicketController::class, 'list_tickets'])->name('list_tickets');
+        Route::post('close_ticket', [SupportTicketController::class, 'close_ticket'])->name('close_ticket');
+        Route::post('find_ticket', [SupportTicketController::class, 'find_ticket'])->name('find_ticket');
 
     });
 

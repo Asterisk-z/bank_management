@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('support_tickets', function (Blueprint $table) {
+        Schema::create('ticket_messages', function (Blueprint $table) {
             $table->id();
+            $table->string('message');
+            $table->string('attachment')->nullable();
+            $table->integer('sender_id');
+            $table->integer('receiver_id');
+            $table->enum('status', ['seen', 'not_seen'])->default('not_seen');
+            $table->integer('support_ticket_id');
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('support_tickets');
+        Schema::dropIfExists('ticket_messages');
     }
 };

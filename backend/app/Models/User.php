@@ -67,6 +67,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(PaymentRequest::class, 'benefactor')->with('user')->orderBy('id', 'desc');
     }
 
+    public function support_tickets()
+    {
+        return $this->hasMany(SupportTicket::class, 'user_id')->orderBy('id', 'desc');
+    }
+
     public function otps()
     {
         return $this->hasOne(OtpCode::class);
@@ -95,11 +100,6 @@ class User extends Authenticatable implements JWTSubject
     public function fixed_deposits()
     {
         return $this->hasMany(FixedDeposit::class, 'user_id')->with('currency')->orderBy('id', 'desc');
-    }
-
-    public function support_tickets()
-    {
-        return $this->hasMany(SupportTicket::class, 'user_id')->orderBy('id', 'desc');
     }
 
     public function documents()
