@@ -40,6 +40,20 @@ class Helper
         }
         return $code;
     }
+    public static function generate_card_number()
+    {
+        $start = ['50', '51', '52', '53', '54', '55'];
+        $selectStart = $start[rand(0, 5)];
+
+        $code = $selectStart . '' . substr(str_shuffle(str_repeat('01234567890987654321', 14)), 0, 14);
+        $check_one = AccountInfomation::where('first_card_number', $code)->orWhere('seconds_card_number', $code)->first();
+
+        if ($check_one) {
+            self::generate_card_number();
+        }
+        return $code;
+
+    }
     public static function generate_ticket_ref()
     {
         $code = substr(str_shuffle(str_repeat('01234567890987654321', 5)), 0, 5);

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->decimal('amount', 15, 2);
             $table->decimal('fee', 15, 2);
             $table->enum('process', ['debit', 'credit']);
-            $table->enum('method', ['manual', 'online', 'gift_card', 'payoneer', 'paypal', 'blockchain']);
-            $table->enum('type', ['deposit', 'wire_transfer', 'exchange', 'send_money']);
+            $table->enum('method', ['manual', 'online', 'gift_card', 'payoneer', 'paypal', 'blockchain', 'check']);
+            $table->enum('type', ['deposit', 'wire_transfer', 'exchange', 'send_money', 'fixed_deposit']);
             $table->enum('status', ['pending', 'awaiting_otp', 'approved', 'declined', 'canceled'])->default('pending');
             $table->string('transaction_ref');
             $table->string('btc_value')->nullable();

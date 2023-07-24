@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('loan_products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('minimum_amount');
-            $table->string('maximum_amount');
-            $table->string('description');
-            $table->string('interest_rate');
+            $table->decimal('minimum_amount', 10, 2);
+            $table->decimal('maximum_amount', 10, 2);
+            $table->string('description')->nullable();
+            $table->decimal('interest_rate', 10, 2);
             $table->string('interest_type');
             $table->string('term');
             $table->string('term_period');

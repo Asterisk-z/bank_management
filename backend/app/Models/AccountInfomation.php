@@ -52,11 +52,11 @@ class AccountInfomation extends Model
         }
 
         if ($currency == 'AUD') {
-            return $this->usd_balance;
+            return $this->aud_balance;
         }
 
         if ($currency == 'EUR') {
-            return $this->usd_balance;
+            return $this->eur_balance;
         }
 
     }

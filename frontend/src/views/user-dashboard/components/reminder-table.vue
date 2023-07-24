@@ -1,25 +1,13 @@
 <template>
     <div>
-            <Card  bodyClass="m-2">
+            <Card  bodyClass="m-2" v-for="notify in table_data" v-bind:key="notify">
                 <div class="rounded-md bg-white dark:bg-slate-800 p-4 relative border-l-4 border-indigo-500 "   >
                     <div class="max-w-full">
                         <h4 class="text-lg font-medium text-slate-900 dark:text-white mb-2">
-                            Deposit 500 to My wallet
+                            {{ Object.values(notify.data)[0] }}
                         </h4>
                         <p class="text-sm text-slate-600 dark:text-slate-300 text-opacity-80">
-                            4min ago
-                        </p>
-                    </div>
-                </div>
-            </Card>
-            <Card  bodyClass="m-2">
-                <div class="rounded-md bg-white dark:bg-slate-800 p-4 relative border-l-4 border-indigo-500 "   >
-                    <div class="max-w-full">
-                        <h4 class="text-lg font-medium text-slate-900 dark:text-white mb-2">
-                            Deposit 500 to My wallet
-                        </h4>
-                        <p class="text-sm text-slate-600 dark:text-slate-300 text-opacity-80">
-                            4min ago
+                           {{ fromNow(notify.created_at) }}
                         </p>
                     </div>
                 </div>
@@ -29,9 +17,21 @@
 <script>
 
 import Card from "@/components/Card";
+import moment from 'moment';
 export default {
+    props: {
+        table_data: {
+            type: Object,
+            default: {},
+        }
+    },
     components: {
         Card  
+    },
+    methods: {
+        fromNow(value) {
+            return moment(value).fromNow();
+        }
     },
 
     data() {

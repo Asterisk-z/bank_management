@@ -94,12 +94,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function loans()
     {
-        return $this->hasMany(Loan::class, 'borrower_id')->with('currency')->orderBy('id', 'desc');
+        return $this->hasMany(Loan::class, 'borrower_id')->with('loan_product')->orderBy('id', 'desc');
     }
 
     public function fixed_deposits()
     {
-        return $this->hasMany(FixedDeposit::class, 'user_id')->with('currency')->orderBy('id', 'desc');
+        return $this->hasMany(FixedDeposit::class, 'user_id')->with('plan')->orderBy('id', 'desc');
     }
 
     public function documents()

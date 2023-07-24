@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TransactionMail;
 use App\Models\OtpCode;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Notifications\ExchangeMoneyNotification;
+use App\Notifications\SendMoneyNotification;
 use App\Services\Helper;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class OtpController extends Controller
@@ -31,7 +35,7 @@ class OtpController extends Controller
             $otp->status = 'expired';
             $otp->save();
             $transaction->status = 'canceled';
-            $transaction->notify = 'You Transaction was decline due to expired otp';
+            $transaction->notify = 'Your Transaction was decline due to expired otp';
             $transaction->save();
             return response()->json([
                 'status' => false,
@@ -45,8 +49,8 @@ class OtpController extends Controller
             'status' => true,
             'message' => 'Checking OTP',
             "transaction" => $transaction,
-            "timediff" => $timediff,
-            "otp" => $otp->code,
+            // "timediff" => $timediff,
+            // "otp" => $otp->code,
         ], 200);
 
     }
@@ -87,7 +91,7 @@ class OtpController extends Controller
             DB::beginTransaction();
             $user = User::where('id', $transaction->receiver_id)->first();
             $trans_ref = Helper::generate_trans_ref($user->id);
-            $user->transactions()->create([
+            $receiverTransaction = $user->transactions()->create([
                 'currency' => $transaction->currency,
                 'amount' => $transaction->amount,
                 'fee' => $transaction->fee,
@@ -102,15 +106,22 @@ class OtpController extends Controller
             ]);
             $user->account_details->add_balance($transaction->amount, $transaction->currency);
             //EMAIL_REQUIRED to receive money
+
+            Mail::to($user)->queue(new TransactionMail($receiverTransaction, $user));
+            auth()->user()->notify(new SendMoneyNotification($receiverTransaction->notify));
+
             $otp->status = 'used';
             $otp->save();
 
             $transaction->status = 'approved';
-            $transaction->notify = "You are Sent " . $transaction->currency . " " . $transaction->amount . " to " . $user->email;
+            $transaction->notify = "You sent " . $transaction->currency . " " . $transaction->amount . " to " . $user->email;
             $transaction->save();
 
             $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
             //EMAIL_REQUIRED to receive money
+
+            Mail::to($auth_user)->queue(new TransactionMail($transaction, $auth_user));
+            auth()->user()->notify(new SendMoneyNotification($transaction->notify));
 
             DB::commit();
 
@@ -125,7 +136,7 @@ class OtpController extends Controller
             DB::beginTransaction();
 
             $trans_ref = Helper::generate_trans_ref($auth_user->id);
-            $auth_user->transactions()->create([
+            $new_transaction = $auth_user->transactions()->create([
                 'currency' => $transaction->x_currency,
                 'amount' => $transaction->x_amount,
                 'fee' => $transaction->fee,
@@ -135,7 +146,7 @@ class OtpController extends Controller
                 'status' => 'approved',
                 'transaction_ref' => $trans_ref,
                 'description' => "",
-                'notify' => "You are converted " . $transaction->currency . " to " . $transaction->x_currency,
+                'notify' => "You are converted  " . $transaction->currency . " " . number_format($transaction->amount, 2) . " " . number_format($transaction->x_amount, 2) . " to " . $transaction->x_currency,
             ]);
             $auth_user->account_details->add_balance($transaction->x_amount, $transaction->x_currency);
             //EMAIL_REQUIRED to receive money
@@ -147,7 +158,10 @@ class OtpController extends Controller
             $transaction->save();
 
             $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
-            //EMAIL_REQUIRED to receive money
+
+            Mail::to($auth_user)->queue(new TransactionMail($new_transaction, $auth_user));
+
+            $auth_user->notify(new ExchangeMoneyNotification($new_transaction->notify));
 
             DB::commit();
 

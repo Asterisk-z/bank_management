@@ -18,7 +18,7 @@
       </Card>
     </div>
     <div class="lg:col-span-4 col-span-12">
-      <Card title="Resent OTP ">
+      <Card title="Recent OTP Details">
         <template v-if="transaction">
                 <h5 class="text-xs font-medium">You have an Active OTP</h5>
                 <ul class="space-y-3 mt-6 divide-y dark:divide-slate-700 divide-slate-100">
@@ -76,7 +76,7 @@ export default {
           "Authorization": "Bearer " + this.$store.authStore.user.token
         }
       }).then(function (response) {
-        console.log(response.data)
+        // console.log(response.data)
           if (response.data?.status) {
               $this.transaction = response.data.transaction;
 
@@ -142,8 +142,8 @@ export default {
           });
         }
       }).catch(function (error) {
-        console.log(error);
-        console.log(error.response.data);
+        // console.log(error);
+        // console.log(error.response.data);
         toast.error(error.response.data.message, {
           timeout: 5000,
         });

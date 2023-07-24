@@ -20,10 +20,17 @@ return new class extends Migration
             $table->decimal('aud_balance', 15, 2)->default('0');
             $table->decimal('eur_balance', 15, 2)->default('0');
             $table->string('account_number')->nullable()->unique();
+            $table->string('first_card_number')->nullable()->unique();
+            $table->string('seconds_card_number')->nullable()->unique();
+            $table->decimal('first_card_balance', 15, 2)->default('0');
+            $table->decimal('second_card_balance', 15, 2)->default('0');
+
             $table->enum('status', ['active', 'not_active']);
             $table->enum('usd_status', ['active', 'not_active'])->default('active');
             $table->enum('aud_status', ['active', 'not_active'])->default('active');
             $table->enum('eur_status', ['active', 'not_active'])->default('active');
+            $table->enum('first_card_status', ['active', 'not_active'])->default('not_active');
+            $table->enum('second_card_status', ['active', 'not_active'])->default('not_active');
             $table->timestamps();
         });
     }

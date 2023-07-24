@@ -11,14 +11,16 @@ class AdminNewCustomerNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $message;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($message)
     {
-        //
+        $this->message = $message;
     }
 
     /**
@@ -29,7 +31,7 @@ class AdminNewCustomerNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     public function withDelay(object $notifiable): array
@@ -60,10 +62,10 @@ class AdminNewCustomerNotification extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
-            //
+            "EM" => $this->message ? $this->message : "",
         ];
     }
 }

@@ -113,7 +113,6 @@ export default {
                     preview: URL.createObjectURL(file),
                 })
             );
-            console.log(files._value[0])
         }
 
         const { handleSubmit } = useForm({
@@ -166,7 +165,7 @@ export default {
                     });
                 }
             }).catch(function (error) {
-                // console.log(error);
+                
                 toast.error("Sorry, We are unable to receive your deposit", {
                     timeout: 5000,
                 });

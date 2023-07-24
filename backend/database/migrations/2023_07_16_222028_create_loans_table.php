@@ -16,25 +16,23 @@ return new class extends Migration
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
             $table->string('loan_ref');
+            $table->string('loan_product_id');
             $table->string('borrower_id');
-$table->string('first_payment_date');
-            $table->string('release_date');
+            $table->timestamp('first_payment_date');
+            $table->timestamp('release_date')->nullable();
             $table->string('currency');
-            $table->string('applied_amount');
-            $table->string('total_payable');
-            $table->string('total_paid');
-            $table->string('late_payment_penalties');
-            $table->string('attachment');
-            $table->string('description');
-            $table->string('remarks');
-            $table->enum('status', ['active', 'not_active']);
-$table->string('approved_date');
-$table->string('approved_date');
-$table->string('approved_date');
-$table->string('approved_date');
-$table->string('approved_date');
-$table->string('approved_date');
-
+            $table->decimal('applied_amount');
+            $table->decimal('total_payable')->default(0.00);
+            $table->decimal('total_paid')->default(0.00);
+            $table->string('late_payment_penalties')->nullable();
+            $table->string('attachment')->nullable();
+            $table->string('description')->nullable();
+            $table->string('remarks')->nullable();
+            $table->enum('status', ['active', 'pending', 'canceled'])->default('pending');
+            $table->timestamp('approved_date')->nullable();
+            $table->integer('approved_user_id')->nullable();
+            $table->integer('created_user_id');
+            $table->integer('branch_id')->default(1);
             $table->timestamps();
         });
     }
@@ -49,4 +47,3 @@ $table->string('approved_date');
         Schema::dropIfExists('loans');
     }
 };
-Electronic Check for deposit

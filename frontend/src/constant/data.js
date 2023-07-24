@@ -27,7 +27,7 @@ export const AdminMenuItem = [
   {
     title: "Wire Transfers",
     icon: "heroicons:document",
-    link: "wire-transfer-requests",
+    link: "wire-transfer requests",
   },
   {
     title: "Deposits",
@@ -753,10 +753,10 @@ export const UserMenuItem = [
         childtitle: "My Loan",
         childlink: "all-loan",
       },
-      {
-        childtitle: "Loan Calculate",
-        childlink: "calculate-loan",
-      },
+      // {
+      //   childtitle: "Loan Calculate",
+      //   childlink: "calculate-loan",
+      // },
     ],
   },
   {
@@ -764,14 +764,14 @@ export const UserMenuItem = [
     icon: "heroicons-outline:document",
     link: "#",
     child: [
-      // {
-      //   childtitle: "Apply New FRD",
-      //   childlink: "new-deposit",
-      // },
-      // {
-      //   childtitle: "FDR History",
-      //   childlink: "support-tickets",
-      // },
+      {
+        childtitle: "Apply New FRD",
+        childlink: "fixed-deposit",
+      },
+      {
+        childtitle: "FDR History",
+        childlink: "fixed-deposit-history",
+      },
     ],
   },
   {

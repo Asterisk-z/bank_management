@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OTPMail;
 use App\Models\Currency;
 use App\Models\User;
+use App\Notifications\ExchangeMoneyNotification;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class ExchangeMoneyController extends Controller
@@ -69,20 +72,21 @@ class ExchangeMoneyController extends Controller
             'status' => 'awaiting_otp',
             'transaction_ref' => $trans_ref,
             'description' => $request['description'],
-            'notify' => "You are converting your " . $request['currency'] . " to " . $request['xCurrency'],
+            'notify' => "You are converting your " . $request['currency'] . "" . number_format($request['amount'], 2) . " to " . $request['xCurrency'] . "" . number_format($newAmount, 2),
             'x_currency' => $request['xCurrency'],
             'x_amount' => $newAmount,
         ]);
-        //EMAIL_REQUIRED
 
-        $otp = Helper::generate_otp();
-        $auth_user->otps()->create([
-            'code' => $otp,
+        $otpcode = Helper::generate_otp();
+        $otp = $auth_user->otps()->create([
+            'code' => $otpcode,
             'expires_at' => now()->addMinutes(15),
             'trans_id' => $transaction->id,
             'use' => 'transaction',
         ]);
-        //EMAIL_REQUIRED
+
+        Mail::to(auth()->user())->queue(new OTPMail($otp, auth()->user()));
+        $auth_user->notify(new ExchangeMoneyNotification($transaction->notify));
 
         DB::commit();
 

@@ -17,7 +17,7 @@
                                             {{ "$"+item.count }}
                                         </div>
                                         <div class="flex text-yellow-600 dark:text-yellow-600 text-[16px] font-medium  ml-6 mb-3">
-                                            <Icon :icon="item.iconr"/> 
+                                            <!-- <Icon :icon="item.iconr"/>  -->
                                             <span class="text-[12px] ml-2">{{ item.stat }}</span>
                                         </div>
                                     </div>
@@ -33,7 +33,65 @@
                         <LoanTable class="-mx-2 -mb-6" />
                     </Card> -->
                     <Card title="Recent Transactions" noborder>
-                        <TransactionTable class="-mx-2 -mb-6" />
+                        <!-- <TransactionTable class="-mx-2 -mb-6" :table_data="information.recent_transaction" /> -->
+                        <template v-if="transactions">
+                            <vue-good-table :columns="columns" styleClass=" vgt-table  lesspadding2   v-middle" :rows="transactions" :sort-options="{
+                                enabled: false,
+                            }">
+                                <template v-slot:table-row="props">
+                                    <div v-if="props.column.field == 'amount'" class="flex items-center">
+                                        <div class="flex-1 text-start">
+                                            <h4 class="text-sm font-medium text-slate-600">
+                                                {{ props.row.currency + " " + parseFloat(props.row.amount).toLocaleString("en-US") }}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                
+                                    <span v-if="props.column.field == 'created_at'">
+                                        <template v-if="props.row.created_at">
+                                            {{ format_date(props.row.created_at) }}
+                                        </template>
+                                    </span>
+                                    <span v-if="props.column.field == 'status'" class="block w-full">
+                                        <span class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                            :class="`${props.row.status === 'approved'
+                                                ? 'text-success-500 bg-success-500'
+                                                : ''
+                                                } ${props.row.status === 'due'
+                                                    ? 'text-warning-500 bg-warning-500'
+                                                    : ''
+                                                }${props.row.status === 'pending'
+                                                    ? 'text-danger-500 bg-danger-500'
+                                                    : ''
+                                                }${props.row.status === 'canceled'
+                                                    ? 'text-danger-500 bg-danger-500'
+                                                    : ''
+                                                }${props.row.status === 'shipped'
+                                                    ? 'text-primary-500 bg-primary-500'
+                                                    : ''
+                                                }
+
+                                                `">
+                                            {{ props.row.status }}
+                                        </span>
+                                    </span>
+                                    <span v-if="props.column.field == 'process'" class="block w-full">
+                                        <span class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                            :class="`${props.row.process === 'credit'
+                                                ? 'text-success-500 bg-success-500'
+                                                : ''
+                                                } ${props.row.process === 'debit'
+                                                    ? 'text-danger-500 bg-danger-500'
+                                                    : ''
+                                                }
+
+                                                `">
+                                            {{ props.row.process }}
+                                        </span>
+                                    </span>
+                                </template>
+                            </vue-good-table>
+                        </template>
                     </Card>
                 </Card> 
                 
@@ -48,12 +106,12 @@
                                 <div class="max-w-[180px]">
                                     <h4 class="text-2xl font-medium text-white mb-2">
                                         <span class="block text-sm text-slate-600 dark:text-slate-300">Card balance</span>
-                                        <span class="block text-slate-600 dark:text-slate-300">$34,564</span>
+                                        <span class="block text-slate-600 dark:text-slate-300">{{ '$' + card_balance }}</span>
                                     </h4>
                                 </div>
                             </div>
                             <div class="flex-none">
-                                <Button icon="heroicons-outline:eye" text="Offset" btnClass="btn-light bg-white btn-sm "/>
+                                <Button icon="heroicons-outline:eye" text="Offset" btnClass="btn-primary bg-primary btn-sm " v-if="card_balance != 0"/>
                             </div>
                         </div>
                         
@@ -74,7 +132,7 @@
                                         Card Number
                                     </p>
                                     <p class="font-medium tracking-more-wider tracking-[.25em]">
-                                        <span class="mr-2">7632</span>   <span class="mr-2">7632</span>   <span class="mr-2">7632</span>   <span class="mr-2">7632</span>
+                                        <span class="mr-2">{{ card_number[0] }}</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>
                                     </p>
                                 </div>
                                 <div class="pt-2 pr-6">
@@ -84,7 +142,7 @@
                                                 Name
                                             </p>
                                             <p class="font-medium tracking-wider text-sm">
-                                                Olang Daniel
+                                                {{ this.$store.authStore.user.user.name }}
                                             </p>
                                         </div>
                                         <div class="">
@@ -92,7 +150,7 @@
                                                 Exp. Date
                                             </p>
                                             <p class="font-medium tracking-wider text-sm">
-                                                03/25
+                                                08/27
                                             </p>
                                         </div>
                                         
@@ -110,7 +168,7 @@
                 
                 <div class="xl:col-span-12 col-span-12 mt-10">
                     <Card title="Reminders" noborder bodyClass="bg-transparent p-6">
-                        <ReminderTable class="-mx-2 -mb-6" />
+                        <ReminderTable class="-mx-2 -mb-6" :table_data="information.recent_notification"/>
                     </Card>
                 </div>
             </div>
@@ -131,6 +189,9 @@ import ReminderTable from "@/views/user-dashboard/components/reminder-table.vue"
 import TransactionTable from "@/views/user-dashboard/components/dashboard-transaction-table.vue";
 import Button from "@/components/Button";
 import Chart from "@/views/user-dashboard/components/chart.vue";
+import { useToast } from "vue-toastification";
+import axios from 'axios';
+import moment from 'moment';
 
 export default {
     mixins: [window],
@@ -148,13 +209,13 @@ export default {
         return {
             statistics1: [
                 {
-                    title: "Overview Total Balance",
-                    count: "3,564",
+                    title: "Recent Transaction",
+                    count: "0",
                     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
                     text: "text-info-500",
                     icon: "heroicons:users",
-                    iconr: "heroicons:arrow-trending-up-solid",
-                    stat: 'per month in a year 2023',
+                    iconr: "",
+                    stat: '',
                     chart: {
 
                         series: [44, 55],
@@ -195,12 +256,12 @@ export default {
                 },
                 {
                     title: "AUD Balance",
-                    count: "3,564",
+                    count: "0.00",
                     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
                     text: "text-info-500",
                     icon: "heroicons:users",
-                    iconr: "heroicons:arrow-trending-up-solid",
-                    stat: 'per week',
+                    iconr: "",
+                    stat: '',
                     chart: {
                         series: [
                             {
@@ -277,12 +338,12 @@ export default {
                 },
                 {
                     title: "USD Balance",
-                    count: "3,564",
+                    count: "0.00",
                     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
                     text: "text-info-500",
                     icon: "heroicons:users",
-                    iconr: "heroicons:arrow-trending-up-solid",
-                    stat: 'per week',
+                    iconr: "",
+                    stat: '',
                     chart: {
                         series: [
                             {
@@ -359,12 +420,12 @@ export default {
                 },
                 {
                     title: "EUR Balance",
-                    count: "3,564",
+                    count: "0.00",
                     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
                     text: "text-info-500",
                     icon: "heroicons:users",
-                    iconr: "heroicons:arrow-trending-up-solid",
-                    stat: 'per week',
+                    iconr: "",
+                    stat: '',
                     chart: {
                         series: [
                             {
@@ -438,59 +499,6 @@ export default {
                     chartType: 'bar',
                     chartHeight: '120',
                     chartWeight: '124',
-                },
-            ],
-            statistics2: [
-                {
-                    title: "USD Balance",
-                    count: "564",
-                    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-                    text: "text-info-500",
-                    icon: "heroicons:cube",
-                },
-                {
-                    title: "EUR Balance",
-                    count: "564",
-                    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-                    text: "text-info-500",
-                    icon: "heroicons:cube",
-                },
-                {
-                    title: "AUD Balance",
-                    count: "564",
-                    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-                    text: "text-info-500",
-                    icon: "heroicons:cube",
-                },
-            ],
-            statistics3: [
-                {
-                    title: "Active Loan",
-                    count: "564",
-                    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-                    text: "text-warning-500",
-                    icon: "heroicons:arrow-trending-up-solid",
-                },
-                {
-                    title: "Payment Requests",
-                    count: "564",
-                    bg: "bg-[#FFEDE6] dark:bg-slate-900	",
-                    text: "text-warning-500",
-                    icon: "heroicons:arrow-trending-up-solid",
-                },
-                {
-                    title: "Active Fixed Deposits",
-                    count: "564",
-                    bg: "bg-[#FFEDE6] dark:bg-slate-900	",
-                    text: "text-warning-500",
-                    icon: "heroicons:arrow-trending-up-solid",
-                },
-                {
-                    title: "Active Tickets",
-                    count: "564",
-                    bg: "bg-[#FFEDE6] dark:bg-slate-900	",
-                    text: "text-warning-500",
-                    icon: "heroicons:arrow-trending-up-solid",
                 },
             ],
             chartOne: {
@@ -526,6 +534,82 @@ export default {
 
 
             },
+            information: "",
+            card_balance: 0.00,
+            card_number: '',
+            transactions: [],
+            columns: [
+                {
+                    label: "Transaction Ref",
+                    field: "transaction_ref",
+                },
+
+                {
+                    label: "Amount",
+                    field: "amount",
+                },
+                {
+                    label: "Process",
+                    field: "process",
+                },
+                {
+                    label: "Method",
+                    field: "method",
+                },
+                {
+                    label: "Status",
+                    field: "status",
+                },
+                {
+                    label: "Date",
+                    field: "created_at",
+                },
+            ],
+        }
+    },
+    mounted() {
+        this.dashboard();
+    },
+    methods: {
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
+        dashboard() {
+            
+            let $this = this
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/dashboard`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+                
+                if (response.data?.status) {
+                    $this.information = response.data.data;
+
+                    $this.statistics1[0].count =  parseFloat($this.information.last_transaction.amount).toLocaleString("en-US"); 
+                    $this.transactions = $this.information.recent_transaction;
+                    $this.statistics1[0].stat = $this.information.last_transaction.notify;
+                    $this.statistics1[1].count =  parseFloat($this.information.account_details.aud_balance).toLocaleString("en-US");
+                    $this.statistics1[2].count =  parseFloat($this.information.account_details.usd_balance).toLocaleString("en-US");
+                    $this.statistics1[3].count = parseFloat($this.information.account_details.eur_balance).toLocaleString("en-US");
+                    $this.statistics1[3].count = parseFloat($this.information.account_details.eur_balance).toLocaleString("en-US");
+                    $this.card_balance = $this.information.account_details.first_card_balance
+                    $this.card_number = $this.information.account_details.first_card_number.match(/.{1,4}/g);
+
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (error) {
+                toast.error(error.response.data.message, {
+                    timeout: 5000,
+                });
+            });
         }
     }
 }

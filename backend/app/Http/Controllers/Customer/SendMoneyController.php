@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OTPMail;
 use App\Models\User;
+use App\Notifications\SendMoneyNotification;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class SendMoneyController extends Controller
@@ -31,7 +34,7 @@ class SendMoneyController extends Controller
         $received = $auth_user->transactions()->where('process', 'credit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
         $sent = $auth_user->transactions()->where('process', 'debit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
         $balance_from_transaction_history = floatval($received) - floatval($sent);
-        $stored_balance = $auth_user->account_details->balance($request->currency);
+        $stored_balance = $auth_user->account_details->balance(request('currency'));
         if ($stored_balance != $balance_from_transaction_history) {
             return response()->json([
                 'status' => false,
@@ -77,25 +80,36 @@ class SendMoneyController extends Controller
             'status' => 'awaiting_otp',
             'transaction_ref' => $trans_ref,
             'description' => $request['description'],
-            'notify' => "You are sending " . $request['currency'] . " " . $request['amount'] . " to " . $user->email,
+            'notify' => "You are sending " . $request['currency'] . " " . number_format($request['amount'], 2) . " to " . $user->email,
             'receiver_id' => $user->id,
         ]);
-        //EMAIL_REQUIRED
 
-        $otp = Helper::generate_otp();
-        $auth_user->otps()->create([
-            'code' => $otp,
+        $otp_code = Helper::generate_otp();
+        $otp = $auth_user->otps()->create([
+            'code' => $otp_code,
             'expires_at' => now()->addMinutes(15),
             'trans_id' => $transaction->id,
             'use' => 'transaction',
         ]);
-        //EMAIL_REQUIRED
+
+        Mail::to(auth()->user())->queue(new OTPMail($otp, auth()->user()));
+        auth()->user()->notify(new SendMoneyNotification($transaction->notify));
 
         DB::commit();
 
         return response()->json([
             'status' => true,
             'message' => 'Sending Money Is been processed ',
+        ], 200);
+
+    }
+
+    public function send_money_history()
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Sending Money Is been processed ',
+            'data' => auth()->user()->transactions()->where('type', 'send_money')->take(8)->get(),
         ], 200);
 
     }

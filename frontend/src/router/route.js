@@ -252,6 +252,33 @@ const routes = [
           middleware: [user],
         },
       },
+      {
+        path: "manual-deposit-check",
+        name: "manual-deposit check",
+        component: () => import("@/views/user-dashboard/deposit-money/check.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
+      {
+        path: "fixed-deposit",
+        name: "fixed-deposit",
+        component: () => import("@/views/user-dashboard/fixed-deposit/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
+      {
+        path: "fixed-deposit-history",
+        name: "fixed-deposit-history",
+        component: () => import("@/views/user-dashboard/fixed-deposit/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
 
 
 

@@ -3,142 +3,142 @@
         <Breadcrumb />
         <Card noborder>
             <div class="md:flex pb-6 items-center">
-                <h6 class="flex-1 md:mb-0 mb-3">All Loan</h6>
+                <h6 class="flex-1 md:mb-0 mb-3">My Loans</h6>
                 <div class="md:flex md:space-x-3 items-center flex-none rtl:space-x-reverse"
                     :class="window.width < 768 ? 'space-x-rb' : ''">
                     <InputGroup v-model="searchTerm" placeholder="Search" type="text" prependIcon="heroicons-outline:search"
                         merged />
-                    <Button icon="heroicons-outline:plus-sm" text="Request Loan" btnClass=" btn-dark font-normal btn-sm "
-                        iconClass="text-lg" link="new-loan" />
+                        <Button icon="heroicons-outline:plus-sm" text="Request Loan" btnClass=" btn-dark font-normal btn-sm "
+                            iconClass="text-lg" link="new-loan" />
                 </div>
             </div>
             <div class="-mx-6">
-                <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="advancedTable" :sort-options="{
-                    enabled: false,
-                }" :pagination-options="{
+                <template v-if="transactions">
+                    <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="transactions"
+                        :sort-options="{
+                            enabled: true,
+                        }" :pagination-options="{
     enabled: true,
     perPage: perpage,
 }" :search-options="{
     enabled: true,
     externalQuery: searchTerm,
-}" :select-options="{
-    enabled: true,
-    selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-    selectioninfoClass: 'table-input-checkbox',
-    selectionText: 'rows selected',
-    clearSelectionText: 'clear',
-    disableSelectinfo: true, // disable the select info-500 panel on top
-    selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
 }">
-                    <template v-slot:table-row="props">
-                        <span v-if="props.column.field == 'customer'" class="flex items-center">
-                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
-                                <img :src="props.row.customer.image" :alt="props.row.customer.name"
-                                    class="object-cover w-full h-full rounded-full" />
+                        <template v-slot:table-row="props">
+                            <span v-if="props.column.field == 'customer'" class="flex items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
+                                    props.row.customer.name }}</span>
                             </span>
-                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
-                                props.row.customer.name }}</span>
-                        </span>
-                        <span v-if="props.column.field == 'order'" class="font-medium">
-                            {{ "#" + props.row.order }}
-                        </span>
-                        <span v-if="props.column.field == 'date'" class="text-slate-500 dark:text-slate-400">
-                            {{ props.row.date }}
-                        </span>
-                        <span v-if="props.column.field == 'status'" class="block w-full">
-                            <span
-                                class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
-                                :class="`${props.row.status === 'paid'
+                            <span v-if="props.column.field == 'action'" class="block w-full">
+                                <span
+                                    class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                    :class="`${props.row.process === 'credit'
                                         ? 'text-success-500 bg-success-500'
                                         : ''
-                                    } 
-                                            ${props.row.status === 'due'
-                                        ? 'text-warning-500 bg-warning-500'
-                                        : ''
-                                    }
-                                            ${props.row.status === 'cancled'
-                                        ? 'text-danger-500 bg-danger-500'
-                                        : ''
-                                    }
-            
-             `">
-                                {{ props.row.status }}
+                                        } ${props.row.process === 'debit'
+                                            ? 'text-danger-500 bg-danger-500'
+                                            : ''
+                                        }  `">
+                                    {{ props.row.process }}
+                                </span>
                             </span>
-                        </span>
-                    </template>
-                    <template #pagination-bottom="props">
-                        <div class="py-4 px-3">
-                            <Pagination :total="50" :current="current" :per-page="perpage" :pageRange="pageRange"
-                                @page-changed="current = $event" :pageChanged="props.pageChanged"
-                                :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
-                                >
-                            </Pagination>
-                        </div>
-                    </template>
-                </vue-good-table>
+                            <span v-if="props.column.field == 'total_payable'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.total_payable).toLocaleString("en-US") }}
+                            </span>
+                            <span v-if="props.column.field == 'total_paid'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.total_paid).toLocaleString("en-US") }}
+                            </span>
+                            <span v-if="props.column.field == 'due_amount'" class="font-medium">
+                                {{ props.row.currency + " " + (parseFloat(props.row.total_payable) - parseFloat(props.row.total_paid)).toLocaleString("en-US") }}
+                            </span>
+                            <span v-if="props.column.field == 'applied_amount'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.applied_amount).toLocaleString("en-US") }}
+                            </span>
+                            <span v-if="props.column.field == 'fee'" class="font-medium">
+                                <template v-if="props.row.fee != 0">
+                                    {{ props.row.currency + " " + parseFloat(props.row.fee).toLocaleString("en-US") }}
+                                </template>
+
+                            </span>
+                            <span v-if="props.column.field == 'total'" class="font-medium">
+                                {{ props.row.currency + " " + (parseFloat(props.row.fee) +
+                                    parseFloat(props.row.amount)).toLocaleString("en-US") }}
+                            </span>
+                            <span v-if="props.column.field == 'status'" class="block w-full">
+                                <span
+                                    class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                    :class="`${props.row.status === 'active'
+                                        ? 'text-success-500 bg-success-500'
+                                        : ''
+                                        }  ${props.row.status === 'pending'
+                                            ? 'text-warning-500 bg-warning-500'
+                                            : ''
+                                        }${props.row.status === 'canceled'
+                                            ? 'text-danger-500 bg-danger-500'
+                                            : ''
+                                        }  `">
+                                    {{ props.row.status }}
+                                </span>
+                            </span>
+                            <span v-if="props.column.field == 'release_date'">
+                                <template v-if="props.row.release_date">
+                                    {{ format_date(props.row.release_date) }}
+                                </template>
+                            </span>
+                            <span v-if="props.column.field == 'loan_product'">
+                                {{ props.row.loan_product.name }}
+                            </span>
+                        </template>
+                        <template #pagination-bottom="props">
+                            <div class="py-4 px-3">
+                                <Pagination :total="transactions.length" :current="current" :per-page="perpage"
+                                    :pageRange="pageRange" @page-changed="current = $event" :pageChanged="props.pageChanged"
+                                    :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
+                                    >
+                                </Pagination>
+                            </div>
+                        </template>
+                    </vue-good-table>
+                </template>
+
             </div>
         </Card>
     </div>
 </template>
 <script>
 import Dropdown from "@/components/Dropdown";
-import Button from "@/components/Button";
 import Breadcrumb from "@/views/components/Breadcrumbs";
+import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
 import InputGroup from "@/components/InputGroup";
 import Pagination from "@/components/Pagination";
-import { MenuItem } from "@headlessui/vue";
-import { advancedTable } from "@/constant/basic-tablle-data";
 import window from "@/mixins/window";
+import axios from "axios";
+import { useToast } from "vue-toastification";
+import Modal from '@/components/Modal/Modal';
+import moment from 'moment';
 export default {
     mixins: [window],
     components: {
         Pagination,
-        Breadcrumb,
         InputGroup,
         Dropdown,
         Icon,
+        Breadcrumb,
         Card,
-        MenuItem,
         Button,
+        Modal,
     },
 
     data() {
         return {
-            advancedTable,
+            transactions: "",
+            app_url: import.meta.env.VITE_APP_API_BASEURL,
             current: 1,
             perpage: 10,
             pageRange: 5,
             searchTerm: "",
-            actions: [
-                {
-                    name: "send",
-                    icon: "ph:paper-plane-right",
-                    doit: () => {
-                        this.$router.push("/app/invoice-add");
-                    },
-                },
-                {
-                    name: "view",
-                    icon: "heroicons-outline:eye",
-                    doit: () => {
-                        this.$router.push("/app/invoice-preview");
-                    },
-                },
-                {
-                    name: "edit",
-                    icon: "heroicons:pencil-square",
-                    doit: () => {
-                        this.$router.push("/app/invoice-edit");
-                    },
-                },
-                {
-                    name: "delete",
-                    icon: "heroicons-outline:trash",
-                    doit: () => { },
-                },
-            ],
             options: [
                 {
                     value: "1",
@@ -155,47 +155,76 @@ export default {
             ],
             columns: [
                 {
-                    label: "Loan ID",
-                    field: "id",
+                    label: "Loa n Ref",
+                    field: "loan_ref",
                 },
                 {
                     label: "Loan Product",
-                    field: "customer",
+                    field: "loan_product",
                 },
-                {
-                    label: "Currency",
-                    field: "date",
-                },
-
                 {
                     label: "Applied Amount",
-                    field: "quantity",
+                    field: "applied_amount",
                 },
-
                 {
                     label: "Total Payable",
-                    field: "amount",
+                    field: "total_payable",
+                },
+                {
+                    label: "Amount Paid",
+                    field: "total_paid",
                 },
 
                 {
-                    label: "Amount Paid",
-                    field: "status",
-                },
-                {
                     label: "Due Amount",
-                    field: "status",
+                    field: "due_amount",
                 },
-                {
-                    label: "Release Date",
-                    field: "status",
-                },
+
                 {
                     label: "Status",
                     field: "status",
                 },
+
+                {
+                    label: "Release Date",
+                    field: "release_date",
+                },
+
+                {
+                    label: "Action",
+                    field: "action",
+                },
             ],
         };
     },
+    mounted() {
+        this.fetch_transactions();
+        const toast = useToast();
+    },
+    methods: {
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
+        async fetch_transactions() {
+            const data = await axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/my_loans`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    return response.data?.data
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            });
+            this.transactions = data
+        }
+    }
 };
 </script>
 <style lang="scss"></style>

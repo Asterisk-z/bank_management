@@ -28,7 +28,8 @@ class UserSeeder extends Seeder
         $user->save();
 
         $account_number = Helper::generate_account_number();
-        $user->account_details()->create(['account_number' => $account_number]);
+        $card_number = Helper::generate_card_number();
+        $user->account_details()->create(['account_number' => $account_number, 'first_card_number' => $card_number]);
 
         $user = new User();
         $user->last_name = "Daniel";
@@ -42,7 +43,8 @@ class UserSeeder extends Seeder
         $user->password = bcrypt("1qa2ws3ed4rf");
         $user->save();
         $account_number = Helper::generate_account_number();
-        $user->account_details()->create(['account_number' => $account_number]);
+        $card_number = Helper::generate_card_number();
+        $user->account_details()->create(['account_number' => $account_number, 'first_card_number' => $card_number]);
         // $user->account_details->add_balance(300, "USD");
         // $user->account_details->add_balance(30, "USD");
 
@@ -58,7 +60,9 @@ class UserSeeder extends Seeder
         $user->password = bcrypt("1qa2ws3ed4rf");
         $user->save();
         $account_number = Helper::generate_account_number();
-        $user->account_details()->create(['account_number' => $account_number]);
+        $card_number = Helper::generate_card_number();
+        $user->account_details()->create(['account_number' => $account_number, 'first_card_number' => $card_number]);
+
         // $user->account_details->add_balance(1000, "USD");
 
     }
