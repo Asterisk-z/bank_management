@@ -11,6 +11,7 @@ use App\Http\Controllers\Customer\FixedDepositController;
 use App\Http\Controllers\Customer\LoanController;
 use App\Http\Controllers\Customer\OtpController;
 use App\Http\Controllers\Customer\PaymentRequestController;
+use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Customer\SendMoneyController;
 use App\Http\Controllers\Customer\SupportTicketController;
 use App\Http\Controllers\Customer\TransactionController;
@@ -40,7 +41,7 @@ Route::prefix('v1')->group(function () {
 
         Route::post('login', [AuthController::class, 'login']);
 
-        Route::get('refresh', [AuthController::class, 'refresh']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
 
         Route::middleware('auth:api')->group(function () {
 
@@ -73,8 +74,12 @@ Route::prefix('v1')->group(function () {
 
         Route::post('send_money', [SendMoneyController::class, 'send_money'])->name('send_money');
         Route::post('send_money_history', [SendMoneyController::class, 'send_money_history'])->name('send_money_history');
+
         Route::post('exchange', [ExchangeMoneyController::class, 'exchange'])->name('exchange');
+        Route::post('exchange_history', [ExchangeMoneyController::class, 'exchange_history'])->name('exchange_history');
+
         Route::post('wire_transfer', [WireTransferController::class, 'wire_transfer'])->name('wire_transfer');
+        Route::post('wire_history', [WireTransferController::class, 'wire_history'])->name('wire_history');
 
         Route::post('get_otp', [OtpController::class, 'get_otp'])->name('get_otp');
         Route::post('verify_otp', [OtpController::class, 'verify_otp'])->name('verify_otp');
@@ -101,6 +106,8 @@ Route::prefix('v1')->group(function () {
         Route::post('list_deposit_plans', [FixedDepositController::class, 'list_deposit_plans'])->name('list_deposit_plans');
         Route::post('send_deposit_request', [FixedDepositController::class, 'send_deposit_request'])->name('send_deposit_request');
         Route::post('my_fixed_deposit', [FixedDepositController::class, 'my_fixed_deposit'])->name('my_fixed_deposit');
+
+        Route::post('upload_profile', [ProfileController::class, 'upload_profile'])->name('upload_profile');
 
     });
 

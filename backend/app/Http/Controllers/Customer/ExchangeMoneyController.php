@@ -40,11 +40,13 @@ class ExchangeMoneyController extends Controller
         //Check Balance
         $received = $auth_user->transactions()->where('process', 'credit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
         $sent = $auth_user->transactions()->where('process', 'debit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
-        $balance_from_transaction_history = floatval($received) - floatval($sent);
+        $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
         $stored_balance = $auth_user->account_details->balance($request->currency);
         if ($stored_balance != $balance_from_transaction_history) {
             return response()->json([
                 'status' => false,
+                'bb' => $balance_from_transaction_history,
+                'sc' => $stored_balance,
                 'message' => 'Your balance and transaction balance does not match',
             ], 400);
         }
@@ -93,6 +95,15 @@ class ExchangeMoneyController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Exchange Money Is been processed ',
+        ], 200);
+
+    }
+    public function exchange_history()
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Exchange money history updated ',
+            'data' => auth()->user()->transactions()->where('type', 'exchange')->take(8)->get(),
         ], 200);
 
     }

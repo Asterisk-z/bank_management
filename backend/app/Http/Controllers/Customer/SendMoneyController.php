@@ -33,7 +33,7 @@ class SendMoneyController extends Controller
         //Check Balance
         $received = $auth_user->transactions()->where('process', 'credit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
         $sent = $auth_user->transactions()->where('process', 'debit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
-        $balance_from_transaction_history = floatval($received) - floatval($sent);
+        $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
         $stored_balance = $auth_user->account_details->balance(request('currency'));
         if ($stored_balance != $balance_from_transaction_history) {
             return response()->json([

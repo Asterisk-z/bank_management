@@ -39,13 +39,10 @@
                 <Card title="Exchange History ">
                     <!-- <h5 class="text-xs font-medium">Send Money History</h5> -->
                     <ul class="space-y-3 mt-6 divide-y dark:divide-slate-700 divide-slate-100">
-                        <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
-                            <span>{{ "You sent olang@royal.com 10 USD" }} </span>
-                            <span>{{ "1st of May" }}</span>
-                        </li>
-                        <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
-                            <span>{{ "olang@royal.com credit you 10 USD" }} </span>
-                            <span>{{ "1st of May" }}</span>
+                        <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3" v-for="item in history" v-bind:key="item">
+                            <span>{{ item.notify }} <br/> {{ format_date(item.created_at) }}</span>
+                            
+                            <span></span>
                         </li>
                     </ul>
                 </Card>
@@ -66,6 +63,7 @@ import { useAuthStore } from '@/store/authUser';
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import axios from 'axios';
+import moment from 'moment';
 
 
 export default {
@@ -96,14 +94,46 @@ export default {
                     rate: 0.640000
                 },
             ],
-            newAmount: ""
+            newAmount: "",
+            history: ""
         }
     },
     mounted() {
         this.currency = this.currencies[0].value
         this.xCurrency = this.currencies[1].value
+        this.fetch_history()
     },
     methods: {
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
+        fetch_history() {
+
+            let $this = this
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/exchange_history`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+                // console.log(response.data)
+                if (response.data?.status) {
+                    $this.history = response.data.data;
+                    console.log($this.history)
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (error) {
+                toast.error(error.response.data.message, {
+                    timeout: 5000,
+                });
+            });
+        },
         get_amount(amount, currency, xCurrency) {
             let from = 0;
             let to = 0

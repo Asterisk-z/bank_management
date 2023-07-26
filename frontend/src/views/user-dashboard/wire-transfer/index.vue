@@ -53,13 +53,10 @@
                 <Card title="Wire Transfer History ">
                     <!-- <h5 class="text-xs font-medium">Send Money History</h5> -->
                     <ul class="space-y-3 mt-6 divide-y dark:divide-slate-700 divide-slate-100">
-                        <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
-                            <span>{{ "You sent olang@royal.com 10 USD" }} </span>
-                            <span>{{ "1st of May" }}</span>
-                        </li>
-                        <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
-                            <span>{{ "olang@royal.com credit you 10 USD" }} </span>
-                            <span>{{ "1st of May" }}</span>
+                        <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3" v-for="item in history" v-bind:key="item">
+                            <span>{{ item.notify }} <br/> {{ format_date(item.created_at) }}</span>
+                            
+                            <span></span>
                         </li>
                     </ul>
                 </Card>
@@ -83,6 +80,7 @@ import axios from 'axios';
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 
+import moment from 'moment';
 
 export default {
     components: {
@@ -96,16 +94,7 @@ export default {
     },
     data() {
         return {
-            voptions :[
-                {
-                    title: "HTML5",
-                    meal: "meal",
-                    author: {
-                        firstName: "Remy",
-                        lastName: "Sharp"
-                    }
-                }
-            ],
+            history: '',
             currencies: [
                 {
                     value: "USD",
@@ -132,8 +121,38 @@ export default {
     },
     mounted() {
         this.get_swift_code();
+        this.fetch_history();
     },
     methods: { 
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
+        fetch_history() {
+
+            let $this = this
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/wire_history`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+                // console.log(response.data)
+                if (response.data?.status) {
+                    $this.history = response.data.data;
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (error) {
+                toast.error(error.response.data.message, {
+                    timeout: 5000,
+                });
+            });
+        },
         select_bank(e) {
             
             let $this = this;

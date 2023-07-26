@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OTPMail;
 use App\Models\Bank;
 use App\Models\User;
+use App\Notifications\WireTransferNotification;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class WireTransferController extends Controller
@@ -34,11 +37,13 @@ class WireTransferController extends Controller
         //Check Balance
         $received = $auth_user->transactions()->where('process', 'credit')->where('status', 'approved')->where('currency', $bank->bank_currency)->sum('amount');
         $sent = $auth_user->transactions()->where('process', 'debit')->where('status', 'approved')->where('currency', $bank->bank_currency)->sum('amount');
-        $balance_from_transaction_history = floatval($received) - floatval($sent);
+        $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
         $stored_balance = $auth_user->account_details->balance($bank->bank_currency);
         if ($stored_balance != $balance_from_transaction_history) {
             return response()->json([
                 'status' => false,
+                "balance_from_transaction_history" => $balance_from_transaction_history,
+                'stored_balance' => $stored_balance,
                 'message' => 'Your balance and transaction balance does not match',
             ], 400);
         }
@@ -75,27 +80,39 @@ class WireTransferController extends Controller
             'status' => 'awaiting_otp',
             'transaction_ref' => $trans_ref,
             'description' => $request['description'],
-            'notify' => "You are converting your " . $bank->bank_currency,
+            'notify' => "You are sending your " . $bank->bank_currency . " " . $request->amount . "  to  " . $request->accountHolder,
             'account_holder' => $request->accountHolder,
             'account_number' => $request->accountNumber,
             'bank' => $bank->name,
         ]);
         //EMAIL_REQUIRED
 
-        $otp = Helper::generate_otp();
-        $auth_user->otps()->create([
-            'code' => $otp,
+        $otp_code = Helper::generate_otp();
+        $otp = $auth_user->otps()->create([
+            'code' => $otp_code,
             'expires_at' => now()->addMinutes(15),
             'trans_id' => $transaction->id,
             'use' => 'transaction',
         ]);
         //EMAIL_REQUIRED
 
+        Mail::to(auth()->user())->queue(new OTPMail($otp, auth()->user()));
+        $auth_user->notify(new WireTransferNotification($transaction->notify));
+
         DB::commit();
 
         return response()->json([
             'status' => true,
             'message' => 'Wire Transfer Is been processed ',
+        ], 200);
+
+    }
+    public function wire_history()
+    {
+        return response()->json([
+            'status' => true,
+            'message' => 'Exchange money history updated ',
+            'data' => auth()->user()->transactions()->where('type', 'wire_transfer')->take(8)->get(),
         ], 200);
 
     }

@@ -684,17 +684,17 @@ export const UserMenuItem = [
   },
   {
     title: "Send Money",
-    icon: "heroicons-outline:home",
+    icon: "tabler:cube-send",
     link: "send-money",
   },
   {
     title: "Exchange Money",
-    icon: "heroicons-outline:home",
+    icon: "bi:currency-exchange",
     link: "exchange-money",
   },
   {
     title: "Wire Transfer",
-    icon: "heroicons-outline:home",
+    icon: "mdi:bank-transfer",
     link: "wire-transfer",
   },
   {

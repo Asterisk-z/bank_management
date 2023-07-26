@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                             <div class="flex-none">
-                                <Button icon="heroicons-outline:eye" text="Offset" btnClass="btn-primary bg-primary btn-sm " v-if="card_balance != 0"/>
+                                <Button icon="heroicons-outline:eye" text="View" btnClass="btn-primary bg-primary btn-sm " v-if="card_balance != 0"/>
                             </div>
                         </div>
                         
@@ -167,7 +167,7 @@
                 </div>
                 
                 <div class="xl:col-span-12 col-span-12 mt-10">
-                    <Card title="Reminders" noborder bodyClass="bg-transparent p-6">
+                    <Card title="Activities" noborder bodyClass="bg-transparent p-6">
                         <ReminderTable class="-mx-2 -mb-6" :table_data="information.recent_notification"/>
                     </Card>
                 </div>
@@ -209,7 +209,7 @@ export default {
         return {
             statistics1: [
                 {
-                    title: "Recent Transaction",
+                    title: "Total Balance",
                     count: "0",
                     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
                     text: "text-info-500",
@@ -586,16 +586,16 @@ export default {
             }).then(function (response) {
                 
                 if (response.data?.status) {
-                    $this.information = response.data.data;
+                    $this.information = response.data?.data;
 
-                    $this.statistics1[0].count =  parseFloat($this.information.last_transaction.amount).toLocaleString("en-US"); 
-                    $this.transactions = $this.information.recent_transaction;
-                    $this.statistics1[0].stat = $this.information.last_transaction.notify;
-                    $this.statistics1[1].count =  parseFloat($this.information.account_details.aud_balance).toLocaleString("en-US");
-                    $this.statistics1[2].count =  parseFloat($this.information.account_details.usd_balance).toLocaleString("en-US");
-                    $this.statistics1[3].count = parseFloat($this.information.account_details.eur_balance).toLocaleString("en-US");
-                    $this.statistics1[3].count = parseFloat($this.information.account_details.eur_balance).toLocaleString("en-US");
-                    $this.card_balance = $this.information.account_details.first_card_balance
+                    $this.statistics1[0].count =  $this.information.last_transaction ? parseFloat($this.information.total_balance).toLocaleString("en-US") : "0"; 
+                    $this.transactions = $this.information.recent_transaction ?  $this.information.recent_transaction : [];
+                    $this.statistics1[0].stat = "";
+                    $this.statistics1[1].count =  parseFloat($this.information.account_details?.aud_balance).toLocaleString("en-US");
+                    $this.statistics1[2].count =  parseFloat($this.information.account_details?.usd_balance).toLocaleString("en-US");
+                    $this.statistics1[3].count = parseFloat($this.information.account_details?.eur_balance).toLocaleString("en-US");
+                    $this.statistics1[3].count = parseFloat($this.information.account_details?.eur_balance).toLocaleString("en-US");
+                    $this.card_balance = $this.information.account_details?.first_card_balance
                     $this.card_number = $this.information.account_details.first_card_number.match(/.{1,4}/g);
 
 
@@ -606,7 +606,8 @@ export default {
                     });
                 }
             }).catch(function (error) {
-                toast.error(error.response.data.message, {
+                console.log(error)
+                toast.error("Error  ", {
                     timeout: 5000,
                 });
             });

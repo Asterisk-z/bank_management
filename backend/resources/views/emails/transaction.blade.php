@@ -345,25 +345,28 @@
                             <tr>
                                 <td style="text-align: center;">
                                     <div class="text-author">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="10em" viewBox="0 0 512 512" style="margin-bottom: 20px;">
-                                            <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z " fill="lightgreen" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 1024 1024" style="margin-bottom: 20px;">
+
+                                            <path fill="lightgreen" d="M512 0C229.232 0 0 229.232 0 512c0 282.784 229.232 512 512 512c282.784 0 512-229.216 512-512C1024 229.232 794.784 0 512 0zm0 961.008c-247.024 0-448-201.984-448-449.01c0-247.024 200.976-448 448-448s448 200.977 448 448s-200.976 449.01-448 449.01zm204.336-636.352L415.935 626.944l-135.28-135.28c-12.496-12.496-32.752-12.496-45.264 0c-12.496 12.496-12.496 32.752 0 45.248l158.384 158.4c12.496 12.48 32.752 12.48 45.264 0c1.44-1.44 2.673-3.009 3.793-4.64l318.784-320.753c12.48-12.496 12.48-32.752 0-45.263c-12.512-12.496-32.768-12.496-45.28 0z" />
+
                                         </svg>
 
                                         <h3 class="name" style="font-weight: bolder; font-size: 20px">{{ $transaction->notify }}</h3>
-                                        <span class="position">Your Funds is available is your account</span>
-                                        <table style="text-align: left; color:black">
+                                        <span class="position" style="display: inline-block; padding-top: 15px; padding-bottom: 15px;">Your Funds is available is your account</span>
+
+                                        <table style="text-align: left; color:black" style=" padding-top: 15px;">
                                             <tr>
-                                                <td style="padding-right: 50px">Transaction Code</td>
-                                                <td style="padding-left: 10px">{{ $transaction->transaction_ref }}</td>
+                                                <td style="padding-right: 50px; padding-bottom: 15px;">Transaction Code</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ $transaction->transaction_ref }}</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-right: 50px">Payment Method</td>
-                                                <td style="padding-left: 10px">{{ $transaction->method }}</td>
+                                                <td style="padding-right: 50px; padding-bottom: 15px;">Payment Method</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ $transaction->method }}</td>
 
                                             </tr>
                                             <tr>
-                                                <td style="padding-right: 50px">Payment Date</td>
-                                                <td style="padding-left: 10px">{{ $transaction->created_at }}</td>
+                                                <td style="padding-right: 50px; padding-bottom: 15px;">Payment Date</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ $transaction->created_at }}</td>
 
                                             </tr>
                                             <tr>
@@ -372,17 +375,17 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-right: 50px">Amount</td>
-                                                <td style="padding-left: 10px">{{ $transaction->currency." ".($transaction->amount - $transaction->fee ) }}</td>
+                                                <td style="padding-right: 50px; padding-bottom: 15px;">Amount</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ $transaction->currency." ".($transaction->amount - $transaction->fee ) }}</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-right: 50px">Fee</td>
-                                                <td style="padding-left: 10px">{{ $transaction->currency." ".$transaction->fee }}</td>
+                                                <td style="padding-right: 50px; padding-bottom: 15px;">Fee</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ $transaction->currency." ".$transaction->fee }}</td>
 
                                             </tr>
                                             <tr>
-                                                <td style="padding-right: 50px">Total</td>
-                                                <td style="padding-left: 10px">{{ $transaction->currency." ".$transaction->amount }}</td>
+                                                <td style="padding-right: 50px; padding-bottom: 15px;">Total</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ $transaction->currency." ".$transaction->amount }}</td>
 
                                             </tr>
 

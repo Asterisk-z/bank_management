@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <ul class="p-5">
     <li v-for="(item, i) in items" :key="i" :class="` ${item.child ? 'item-has-children' : ''} ${activeSubmenu === i ? 'open' : ''} ${this.$route.name === item.link ? 'menu-item-active' : ''} `" class="single-sidebar-menu">
 
       <router-link :to="{ name : item.link}" class="menu-link" v-if="!item.child && !item.isHeadr" >

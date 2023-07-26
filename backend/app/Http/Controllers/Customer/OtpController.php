@@ -9,6 +9,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Notifications\ExchangeMoneyNotification;
 use App\Notifications\SendMoneyNotification;
+use App\Notifications\WireTransferNotification;
 use App\Services\Helper;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,8 +50,6 @@ class OtpController extends Controller
             'status' => true,
             'message' => 'Checking OTP',
             "transaction" => $transaction,
-            // "timediff" => $timediff,
-            // "otp" => $otp->code,
         ], 200);
 
     }
@@ -108,7 +107,7 @@ class OtpController extends Controller
             //EMAIL_REQUIRED to receive money
 
             Mail::to($user)->queue(new TransactionMail($receiverTransaction, $user));
-            auth()->user()->notify(new SendMoneyNotification($receiverTransaction->notify));
+            $user->notify(new SendMoneyNotification($receiverTransaction->notify));
 
             $otp->status = 'used';
             $otp->save();
@@ -121,7 +120,7 @@ class OtpController extends Controller
             //EMAIL_REQUIRED to receive money
 
             Mail::to($auth_user)->queue(new TransactionMail($transaction, $auth_user));
-            auth()->user()->notify(new SendMoneyNotification($transaction->notify));
+            $auth_user->notify(new SendMoneyNotification($transaction->notify));
 
             DB::commit();
 
@@ -146,7 +145,7 @@ class OtpController extends Controller
                 'status' => 'approved',
                 'transaction_ref' => $trans_ref,
                 'description' => "",
-                'notify' => "You are converted  " . $transaction->currency . " " . number_format($transaction->amount, 2) . " " . number_format($transaction->x_amount, 2) . " to " . $transaction->x_currency,
+                'notify' => "You converted  " . $transaction->currency . " " . number_format($transaction->amount, 2) . "  to " . $transaction->x_currency . " " . number_format($transaction->x_amount, 2),
             ]);
             $auth_user->account_details->add_balance($transaction->x_amount, $transaction->x_currency);
             //EMAIL_REQUIRED to receive money
@@ -154,7 +153,7 @@ class OtpController extends Controller
             $otp->save();
 
             $transaction->status = 'approved';
-            $transaction->notify = "You are converted " . $transaction->currency . " " . $transaction->x_currency;
+            $transaction->notify = "You converted " . $transaction->currency . " " . number_format($transaction->amount, 2) . "  to " . $transaction->x_currency . " " . number_format($transaction->x_amount, 2);
             $transaction->save();
 
             $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
@@ -179,17 +178,19 @@ class OtpController extends Controller
             $otp->save();
 
             $transaction->status = 'pending';
-            $transaction->notify = "You sent  money via wire tranfer" . $transaction->currency;
+            $transaction->notify = "Your  Wire Transfer is pending Approval";
             $transaction->save();
 
             $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
             //EMAIL_REQUIRED to Sent money
+            Mail::to($auth_user)->queue(new TransactionMail($transaction, $auth_user));
+            $auth_user->notify(new WireTransferNotification($transaction->notify));
 
             DB::commit();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Your Transfer Request has been sent. You will notified after reviewing by authority.',
+                'message' => 'Your Transfer Request has been sent. You will notified after reviewed by authority.',
             ], 200);
 
         }

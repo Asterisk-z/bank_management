@@ -51,6 +51,29 @@ export const useAuthStore = defineStore('auth',{
             });
 
         },
+        async refresh() {
+            await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/refresh`,{}, {
+          headers: {
+          "Authorization": "Bearer " + this.user.token
+          },
+        }).then(function (response) {
+                
+                
+                if (response.data.user.status == 'active') {
+                         sessionStorage.setItem('RoyalBankUserr', JSON.stringify(response.data));
+                    
+                } else {
+                    toast.error("User not found", {
+                        timeout: 2000,
+                    });
+                }
+            }).catch(function (error) {
+                toast.error("User not found", {
+                    timeout: 2000,
+                });
+            });
+
+        },
         async register(firstName, lastName, countryCode, phone, email, password, confirmPassword) {
 
             sessionStorage.removeItem('RoyalBankUserr');

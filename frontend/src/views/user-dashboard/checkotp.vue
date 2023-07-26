@@ -20,15 +20,15 @@
     <div class="lg:col-span-4 col-span-12">
       <Card title="Recent OTP Details">
         <template v-if="transaction">
-                <h5 class="text-xs font-medium">You have an Active OTP</h5>
-                <ul class="space-y-3 mt-6 divide-y dark:divide-slate-700 divide-slate-100">
-                    <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
-                        <span>{{ transaction.notify }} </span>
-                    </li>
-                    <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
-                        <span>{{ transaction.created_at }}</span>
-                    </li>
-                </ul>
+              <h5 class="text-xs font-medium">You have an Active OTP</h5>
+              <ul class="space-y-3 mt-6 divide-y dark:divide-slate-700 divide-slate-100">
+                  <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
+                      <span>{{ transaction.notify }} </span>
+                  </li>
+                  <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
+                      <span>{{ format_date(transaction.created_at) }}</span>
+                  </li>
+              </ul>
         </template>
     
       </Card>
@@ -46,7 +46,7 @@ import { inject, ref } from "vue";
 import { useAuthStore } from '@/store/authUser';
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
-
+import moment from 'moment';
 import axios from 'axios';
 
 
@@ -66,6 +66,9 @@ export default {
     this.fetchActiveOtp();
   },
   methods: {
+    format_date(value) {
+      return moment(value).format("Do-MMM-YYYY hh:mm A");
+    },
     fetchActiveOtp() {
         
       let $this = this

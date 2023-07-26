@@ -12,16 +12,16 @@ class AccountInfomation extends Model
     public function add_balance($amount, $currency)
     {
         if ($currency == 'USD') {
-            $this->usd_balance = intval($this->usd_balance) + intval($amount);
+            $this->usd_balance = floatval($this->usd_balance) + floatval($amount);
             $this->save();
         }
 
         if ($currency == 'AUD') {
-            $this->aud_balance = intval($this->aud_balance) + intval($amount);
+            $this->aud_balance = floatval($this->aud_balance) + floatval($amount);
             $this->save();
         }
         if ($currency == 'EUR') {
-            $this->eur_balance = intval($this->eur_balance) + intval($amount);
+            $this->eur_balance = floatval($this->eur_balance) + floatval($amount);
             $this->save();
         }
 
@@ -30,16 +30,16 @@ class AccountInfomation extends Model
     public function sub_balance($amount, $currency)
     {
         if ($currency == 'USD') {
-            $this->usd_balance = intval($this->usd_balance) - intval($amount);
+            $this->usd_balance = floatval($this->usd_balance) - floatval($amount);
             $this->save();
         }
 
         if ($currency == 'AUD') {
-            $this->aud_balance = intval($this->aud_balance) - intval($amount);
+            $this->aud_balance = floatval($this->aud_balance) - floatval($amount);
             $this->save();
         }
         if ($currency == 'EUR') {
-            $this->eur_balance = intval($this->eur_balance) - intval($amount);
+            $this->eur_balance = floatval($this->eur_balance) - floatval($amount);
             $this->save();
         }
     }
@@ -58,6 +58,22 @@ class AccountInfomation extends Model
         if ($currency == 'EUR') {
             return $this->eur_balance;
         }
+
+    }
+
+    public function overall_balance()
+    {
+        $usd_balance = $this->balance('USD');
+        $aud_balance = $this->balance('AUD');
+        $eur_balance = $this->balance('EUR');
+
+        $usd_rate = Currency::where('name', 'USD')->first()->rate;
+        $aud_rate = Currency::where('name', 'AUD')->first()->rate;
+        $eur_rate = Currency::where('name', 'EUR')->first()->rate;
+
+        $total = (($aud_balance / $aud_rate) * $usd_rate) + (($eur_balance / $eur_rate) * $usd_rate) + $usd_balance;
+
+        return $total;
 
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Mail\TestMail;
+use App\Mail\TransactionMail;
 use App\Models\GiftCard;
 use App\Models\PaymentMethod;
 use App\Services\Helper;
@@ -143,7 +143,7 @@ class DepositController extends Controller
 
         $trans_ref = Helper::generate_trans_ref(auth()->user()->id);
 
-        auth()->user()->transactions()->create([
+        $transaction = auth()->user()->transactions()->create([
             'currency' => $request['currency'],
             'amount' => $request['amount'],
             'fee' => $charge,
@@ -155,16 +155,14 @@ class DepositController extends Controller
             'description' => $request['description'],
             'btc_value' => $request['btc_value'],
             'deposit_ref' => $deposit_ref,
+            'notify' => "You made a deposit  vie blockchain",
         ]);
         auth()->user()->account_details->add_balance($request['amount'], $request['currency']);
         // auth()->user()->notify(new BlockChainNotication);
         // Mail
         // Notification::send(auth()->user(), new BlockChainNotication);
 
-        Mail::to(auth()->user())
-        // ->cc($moreUsers)
-        // ->bcc($evenMoreUsers)
-            ->queue(new TestMail());
+        Mail::to(auth()->user())->queue(new TransactionMail($transaction, auth()->user()));
 
         //EMAIL_REQUIRED
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);

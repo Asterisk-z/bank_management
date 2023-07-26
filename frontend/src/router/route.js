@@ -279,6 +279,16 @@ const routes = [
           middleware: [user],
         },
       },
+      
+      {
+        path: "user-profile",
+        name: "user-profile",
+        component: () => import("@/views/user-dashboard/profile.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
 
 
 
@@ -933,6 +943,11 @@ const routes = [
         component: () => import("@/views/icons.vue"),
       },
     ],
+  },
+  {
+    path: "/com",
+    name: "com",
+    component: () => import("@/views/utility/comming-soon"),
   },
   {
     path: "/:catchAll(.*)",

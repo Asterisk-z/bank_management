@@ -3,20 +3,16 @@
     <div class="flex items-center">
       <div class="flex-1 ltr:mr-[10px] rtl:ml-[10px]">
         <div class="lg:h-8 lg:w-8 h-7 w-7 rounded-full">
-          <img
-            :src= "profileImg"
-            alt=""
-            class="block w-full h-full object-cover rounded-full"
-          />
+            <img v-if="this.$store.authStore.user.user.profile_picture"
+              :src="app_url + '/uploads/profile_photo/' + this.$store.authStore.user.user.profile_picture" alt=""
+              class="block w-full h-full object-cover rounded-full" />
+            <img v-else src="@/assets/images/users/user-1.jpg" alt="" class="block w-full h-full object-cover rounded-full" />
         </div>
       </div>
       <div
         class="flex-none text-slate-600 dark:text-white text-sm font-normal items-center lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap"
       >
-        <span
-          class="overflow-hidden text-ellipsis whitespace-nowrap w-[85px] block"
-          >Albert Flores</span
-        >
+        <span class="overflow-hidden text-ellipsis whitespace-nowrap w-[85px] block">{{ this.$store.authStore.user.user.name }}</span>
         <span class="text-base inline-block ltr:ml-[10px] rtl:mr-[10px]"
           ><Icon icon="heroicons-outline:chevron-down"></Icon
         ></span>
@@ -49,7 +45,7 @@
 import { MenuItem } from "@headlessui/vue";
 import Dropdown from "@/components/Dropdown";
 import Icon from "@/components/Icon";
-import profileImg from "@/assets/images/all-img/user.png"
+import profileImg from "@/assets/images/users/user-1.jpg"
 export default {
   components: {
     Icon,
@@ -59,27 +55,21 @@ export default {
   data() {
     return {
       profileImg,
+      app_url: import.meta.env.VITE_APP_API_BASEURL,
       ProfileMenu: [
         {
           label: "Profile",
           icon: "heroicons-outline:user",
           link: () => {
-            this.$router.push("profile");
-          },
-        },
-        {
-          label: "Settings",
-          icon: "heroicons-outline:cog",
-          link: () => {
-            this.$router.push("settings");
+            this.$router.push({ name: "user-profile" });
           },
         },
         {
           label: "Logout",
           icon: "heroicons-outline:login",
           link: () => {
-            this.$router.push("/");
             localStorage.removeItem("activeUser");
+            this.$router.push("/");
           },
         },
       ],
