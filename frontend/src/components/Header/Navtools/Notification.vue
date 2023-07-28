@@ -108,7 +108,11 @@ export default {
           timeout: 4000,
         });
       }
-    });
+    }).catch(function (result) {
+      if (result.response?.data?.error == 'Unauthorized') {
+        $this.$router.push({name: 'Login'})
+      }
+    });;
   }
 };
 </script>

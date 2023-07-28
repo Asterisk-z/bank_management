@@ -201,7 +201,8 @@
                             </div>
                             <div class="uicore uicore-extra">
                                 <div class="uicore-cta-wrapper">
-                                    <a href="#" target="_self" class="uicore-btn uicore-inverted">
+                                    <a href="https://portal.rbqholdings.com/" target="_blank"
+                                        class="uicore-btn uicore-inverted">
                                         <span class="elementor-button-text">
                                             Sign Up </span>
                                     </a>
@@ -385,7 +386,7 @@
                                                     data-widget_type="button.default">
                                                     <div class="elementor-widget-container">
                                                         <div class="elementor-button-wrapper">
-                                                            <a href="#"
+                                                            <a href="https://portal.rbqholdings.com/"
                                                                 class="elementor-button-link elementor-button elementor-size-sm"
                                                                 role="button">
                                                                 <span class="elementor-button-content-wrapper">
@@ -1435,7 +1436,7 @@
                 </div>
                 <div class="uicore uicore-extra">
                     <div class="uicore-cta-wrapper">
-                        <a href="#" target="_self" class="uicore-btn uicore-inverted">
+                        <a href="https://portal.rbqholdings.com/" target="_blank" class="uicore-btn uicore-inverted">
                             <span class="elementor-button-text">
                                 Sign Up </span>
                         </a>

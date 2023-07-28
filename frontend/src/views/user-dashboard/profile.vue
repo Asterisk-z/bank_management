@@ -102,7 +102,7 @@
                         PHONE
                       </div>
                       <a
-                        href="tel:0189749676767"
+                        href="#"
                         class="text-base text-slate-600 dark:text-slate-50"
                       >
                          {{ this.$store.authStore.user.user.phone }}

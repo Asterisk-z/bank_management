@@ -1,6 +1,5 @@
 <template>
     <div class="space-y-5">
-        <Breadcrumb />
         <Card>
             <div class="flex justify-between mb-6">
                 <h4 class="text-slate-900 text-xl font-medium">Automatic Deposit Method</h4>

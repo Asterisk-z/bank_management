@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PaymentRequestController as AdminPaymentRequestController;
 use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -62,10 +63,30 @@ Route::prefix('v1')->group(function () {
     Route::prefix('admin')->namespace('Admin')->middleware('auth:api')->group(function () {
         Route::post('create_user', [UserController::class, 'create_user'])->name('create_user');
         Route::post('all_user', [UserController::class, 'all_user'])->name('all_user');
-        Route::post('user/{user_id}', [UserController::class, 'single_user'])->name('single_user');
+        Route::post('user', [UserController::class, 'single_user'])->name('single_user');
+        Route::post('user_transactions', [UserController::class, 'user_transactions'])->name('user_transactions');
+        Route::post('add_money', [UserController::class, 'add_money'])->name('add_money');
+        Route::post('deduct_money', [UserController::class, 'deduct_money'])->name('deduct_money');
+        Route::post('user_loans', [UserController::class, 'user_loans'])->name('user_loans');
+        Route::post('user_fixed_deposit', [UserController::class, 'user_fixed_deposit'])->name('user_fixed_deposit');
+        Route::post('user_tickets', [UserController::class, 'user_tickets'])->name('user_tickets');
+        Route::post('user_send_email', [UserController::class, 'user_send_email'])->name('user_send_email');
+        Route::post('toggle_currency', [UserController::class, 'toggle_currency'])->name('toggle_currency');
+        Route::post('toggle_account', [UserController::class, 'toggle_account'])->name('toggle_account');
+        Route::post('toggle_kyc', [UserController::class, 'toggle_kyc'])->name('toggle_kyc');
+        Route::post('toggle_action', [UserController::class, 'toggle_action'])->name('toggle_action');
 
         Route::post('make_active', [AdminSupportTicketController::class, 'make_active'])->name('make_active');
         Route::post('close_ticket', [AdminSupportTicketController::class, 'close_ticket'])->name('close_ticket');
+
+        Route::post('transfer_requests', [AdminPaymentRequestController::class, 'transfer_requests'])->name('transfer_requests');
+        Route::post('transfer_requests_pending', [AdminPaymentRequestController::class, 'transfer_requests_pending'])->name('transfer_requests_pending');
+        Route::post('transfer_requests_paid', [AdminPaymentRequestController::class, 'transfer_requests_paid'])->name('transfer_requests_paid');
+        Route::post('transfer_requests_canceled', [AdminPaymentRequestController::class, 'transfer_requests_canceled'])->name('transfer_requests_canceled');
+        Route::post('cancel_request', [AdminPaymentRequestController::class, 'cancel_request'])->name('cancel_request');
+
+
+
 
     });
 

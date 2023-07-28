@@ -144,7 +144,7 @@
                             </div>
                             <div class="uicore uicore-extra">
                                 <div class="uicore-cta-wrapper">
-                                    <a href="#" target="_self" class="uicore-btn ">
+                                    <a href="https://portal.rbqholdings.com/" target="_blank" class="uicore-btn ">
                                         <span class="elementor-button-text">
                                             Get Started </span>
                                     </a>
@@ -1933,7 +1933,7 @@
                 </div>
                 <div class="uicore uicore-extra">
                     <div class="uicore-cta-wrapper">
-                        <a href="#" target="_self" class="uicore-btn ">
+                        <a href="https://portal.rbqholdings.com/" target="_blank" class="uicore-btn ">
                             <span class="elementor-button-text">
                                 Get Started </span>
                         </a>

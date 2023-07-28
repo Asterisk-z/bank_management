@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Breadcrumb />
 
         <div class="grid xl:grid-cols-1 grid-cols-1 gap-5">
             <Card title="Redeem Gift Card">

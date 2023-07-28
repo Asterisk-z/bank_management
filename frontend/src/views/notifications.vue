@@ -97,7 +97,9 @@ export default {
           timeout: 4000,
         });
       }
-    });
+    }).finally(function (result) {
+        console.log(result.response.data)
+    }); 
   },
   methods: {
 

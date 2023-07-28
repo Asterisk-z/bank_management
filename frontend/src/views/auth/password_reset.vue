@@ -10,7 +10,7 @@
             v-if="!this.$store.themeSettingsStore.isDark"
           />
           <img
-            src="@/assets/images/logo/Logo_Gold.pngs.svg"
+            src="@/assets/images/logo/Logo_Gold.png"
             alt=""
             class="block mx-auto w-[200px]"
             v-if="this.$store.themeSettingsStore.isDark"

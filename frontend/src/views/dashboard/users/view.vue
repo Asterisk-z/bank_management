@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Breadcrumb />
         <div class="space-y-5 profile-page">
             <div
             class="profiel-wrap px-[35px] pb-10 md:pt-[84px] pt-10 rounded-lg bg-white dark:bg-slate-800 lg:flex lg:space-y-0 space-y-6 justify-between items-end relative z-[1]"
@@ -14,26 +13,27 @@
                     <div
                     class="md:h-[186px] md:w-[186px] h-[140px] w-[140px] md:ml-0 md:mr-0 ml-auto mr-auto md:mb-0 mb-4 rounded-full ring-4 ring-slate-100 relative"
                     >
-                    <img
-                        src="@/assets/images/users/user-1.jpg"
-                        alt=""
-                        class="w-full h-full object-cover rounded-full"
-                    />
-                    <router-link
+                    
+                  <img v-if="this.$store.authStore.user.user.profile_picture"
+                    :src="app_url + '/uploads/profile_photo/' + this.$store.authStore.user.user.profile_picture" alt=""
+                    class="w-full h-full object-cover rounded-full" />
+                  <img v-else src="@/assets/images/users/user-1.jpg" alt="" class="w-full h-full object-cover rounded-full" />
+
+                    <!-- <router-link
                         to="/app/profile-setting"
                         class="absolute right-2 h-8 w-8 bg-slate-50 text-slate-600 rounded-full shadow-sm flex flex-col items-center justify-center md:top-[140px] top-[100px]"
                         ><Icon icon="heroicons:pencil-square" />
-                    </router-link>
+                    </router-link> -->
                     </div>
                 </div>
                 <div class="flex-1">
                     <div
                     class="text-2xl font-medium text-slate-900 dark:text-slate-200 mb-[3px]"
                     >
-                    Albert ref
+                    {{user?.name}}
                     </div>
                     <div class="text-sm font-light text-slate-600 dark:text-slate-400">
-                    Front End Developer
+                    {{ user?.email }}
                     </div>
                 </div>
                 </div>
@@ -44,10 +44,10 @@
             >
                 <div class="flex-1">
                 <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1" >
-                    $32,400
+                   {{  user?.account_details ? "$" + user?.account_details?.aud_balance.toLocaleString("en-US") : "0.00" }}
                 </div>
                 <div class="text-sm text-slate-600 font-light dark:text-slate-300">
-                    Total Balance
+                    AUD Balance
                 </div>
                 </div>
                 <!-- end single -->
@@ -55,10 +55,10 @@
                 <div
                     class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1"
                 >
-                    200
+                    {{  user?.account_details ? "€" + user?.account_details?.eur_balance.toLocaleString("en-US") : "0.00" }}
                 </div>
                 <div class="text-sm text-slate-600 font-light dark:text-slate-300">
-                    Board Card
+                    EUR Balance
                 </div>
                 </div>
                 <!-- end single -->
@@ -66,10 +66,10 @@
                 <div
                     class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1"
                 >
-                    3200
+                    {{  user?.account_details ? "$" + user?.account_details?.usd_balance.toLocaleString("en-US") : "0.00" }}
                 </div>
                 <div class="text-sm text-slate-600 font-light dark:text-slate-300">
-                    Calender Events
+                    USD Balance
                 </div>
                 </div>
                 <!-- end single -->
@@ -109,7 +109,260 @@
                     <div class="xl:col-span-9 lg:col-span-8 col-span-12">
                     <TabPanels>
                         <TabPanel>
-                            <h1>Account Detail</h1>
+                            <Card title="User Details">
+                                
+                    <ul class="grid grid-cols-3">
+                        <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
+                              <Icon icon="heroicons:envelope" />
+                            </div>
+                            <div class="flex-1">
+                              <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
+                                EMAIL
+                              </div>
+                              <a class="text-base text-slate-600 dark:text-slate-50">
+                                    {{ user ? user.email : "" }}
+                              </a>
+                            </div>
+                        </li>
+                      <!-- end single list -->
+                      <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                        <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
+                          <Icon icon="heroicons:phone-arrow-up-right" />
+                        </div>
+                        <div class="flex-1">
+                          <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
+                            PHONE
+                          </div>
+                          <a
+                            href="#"
+                            class="text-base text-slate-600 dark:text-slate-50"
+                          >
+                            {{ user ? user.phone : "" }}
+                          </a>
+                        </div>
+                      </li>
+                          <!-- end single list -->
+                          <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div
+                              class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                            >
+                              <Icon icon="heroicons:map" />
+                            </div>
+                            <div class="flex-1">
+                              <div
+                                class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                              >
+                                Branch
+                              </div>
+                              <div class="text-base text-slate-600 dark:text-slate-50">
+                                Melbourne
+                              </div>
+                            </div>
+                          </li>
+                          <!-- end single list -->
+                          <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div
+                              class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                            >
+                              <Icon icon="heroicons:map" />
+                            </div>
+                            <div class="flex-1">
+                              <div
+                                class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                              >
+                                User Status
+                              </div>
+                              <div class="text-base text-slate-600 dark:text-slate-50">
+                                    {{ user ? user?.status == "active" ? "Active" : "Not Active" : "" }}
+                              </div>
+                            </div>
+                          </li>
+                          <!-- end single list -->
+                              <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                                <div
+                                  class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                                >
+                                  <Icon icon="heroicons:map" />
+                                </div>
+                                <div class="flex-1">
+                                  <div
+                                    class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                                  >
+                                    User Account Status
+                                  </div>
+                                  <div class="text-base text-slate-600 dark:text-slate-50">
+                                        {{ user?.account_details ? user?.account_details?.status == "active" ? "Active" : "Not Active" : "" }}
+                                  </div>
+                                </div>
+                              </li>
+                              <!-- end single list -->
+                              <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                                <div
+                                  class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                                >
+                                  <Icon icon="heroicons:map" />
+                                </div>
+                                <div class="flex-1">
+                                  <div
+                                    class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                                  >
+                                    Email Verified
+                                  </div>
+                                  <div class="text-base text-slate-600 dark:text-slate-50">
+                                    {{ user ? user?.email_verified == "yes" ? "Done" : "Not Done" : "" }}
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                                <div
+                                  class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                                >
+                                  <Icon icon="heroicons:map" />
+                                </div>
+                                <div class="flex-1">
+                                  <div
+                                    class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                                  >
+                                    USD Status
+                                  </div>
+                                  <div class="text-base text-slate-600 dark:text-slate-50">
+                                        {{ user?.account_details ? user?.account_details?.usd_status == "active" ? "Active" : "Not Active" : "" }}
+                                  </div>
+                                       <button class="btn btn-danger btn-sm float-left" v-if="user?.account_details?.usd_status == 'active'" @click="togglecurrency('USD')">Lock</button>
+                                       <button class="btn btn-primary btn-sm float-left" v-if="user?.account_details?.usd_status == 'not_active'"  @click="togglecurrency('USD')">Unlock</button>
+                                </div>
+                              </li>
+                              <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                                <div
+                                  class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                                >
+                                  <Icon icon="heroicons:map" />
+                                </div>
+                                <div class="flex-1">
+                                  <div
+                                    class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                                  >
+                                    EUR Status
+                                  </div>
+                                  <div class="text-base text-slate-600 dark:text-slate-50">
+                                        {{ user?.account_details ? user?.account_details?.eur_status == "active" ? "Active" : "Not Active" : "" }}
+                                  </div>
+                                       <button class="btn btn-danger btn-sm float-left" v-if="user?.account_details?.eur_status == 'active'" @click="togglecurrency('EUR')">Lock</button>
+                                       <button class="btn btn-primary btn-sm float-left" v-if="user?.account_details?.eur_status == 'not_active'"  @click="togglecurrency('EUR')">Unlock</button>
+                                </div>
+                              </li>
+                              <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                                <div
+                                  class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                                >
+                                  <Icon icon="heroicons:map" />
+                                </div>
+                                <div class="flex-1">
+                                  <div
+                                    class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                                  >
+                                    AUD Status
+                                  </div>
+                                  <div class="text-base text-slate-600 dark:text-slate-50">
+                                        {{ user?.account_details ? user?.account_details?.aud_status == "active" ? "Active" : "Not Active" : "" }}
+                                  </div>
+                                   <button class="btn btn-danger btn-sm float-left" v-if="user?.account_details?.aud_status == 'active'" @click="togglecurrency('AUD')">Lock</button>
+                                   <button class="btn btn-primary btn-sm float-left" v-if="user?.account_details?.aud_status == 'not_active'"  @click="togglecurrency('AUD')">Unlock</button>
+                                </div>
+                              </li>
+                          <!-- end single list -->
+                          <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div
+                              class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                            >
+                              <Icon icon="heroicons:map" />
+                            </div>
+                            <div class="flex-1">
+                              <div
+                                class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                              >
+                                KYC Status
+                              </div>
+                              <div class="text-base text-slate-600 dark:text-slate-50">
+                                {{ user ?  user?.kyc_status == "yes" ? "Done" : "Not Done" : "" }}
+                              </div>
+                            </div>
+                          </li>
+                          <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div
+                              class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                            >
+                              <Icon icon="heroicons:map" />
+                            </div>
+                            <div class="flex-1">
+                              <div
+                                class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                              >
+                                Can Withdraw Money
+                              </div>
+                              <div class="text-base text-slate-600 dark:text-slate-50">
+                                {{ user?.account_details ?  user?.account_details?.can_withdraw == "active" ? "Allowed" : "Not Allowed" : "" }}
+                              </div>
+                            </div>
+                          </li>
+                          <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div
+                              class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                            >
+                              <Icon icon="heroicons:map" />
+                            </div>
+                            <div class="flex-1">
+                              <div
+                                class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                              >
+                                Can Deposit Money
+                              </div>
+                              <div class="text-base text-slate-600 dark:text-slate-50">
+                                {{ user?.account_details ?  user?.account_details?.can_deposit == "active" ? "Allowed" : "Not Allowed" : "" }}
+                              </div>
+                            </div>
+                          </li>
+                          <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div
+                              class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                            >
+                              <Icon icon="heroicons:map" />
+                            </div>
+                            <div class="flex-1">
+                              <div
+                                class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                              >
+                                Can Transfer Money
+                              </div>
+                              <div class="text-base text-slate-600 dark:text-slate-50">
+                                {{ user?.account_details ?  user?.account_details?.can_transfer == "active" ? "Allowed" : "Not Allowed" : "" }}
+                              </div>
+                            </div>
+                          </li>
+                          <!-- end single list -->
+                          <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div
+                              class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                            >
+                              <Icon icon="heroicons:map" />
+                            </div>
+                            <div class="flex-1">
+                              <div
+                                class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                              >
+                                Joined At
+                              </div>
+                              <div class="text-base text-slate-600 dark:text-slate-50">
+                                    {{ user ? format_date(user?.created_at) : "" }}
+                              </div>
+                            </div>
+                          </li>
+                      <!-- end single list -->
+                    </ul>
+                            <button class="btn btn-primary float-left" v-if="user?.status == 'not_active'" @click="toggleAccount">Unblock Account</button>
+                            <button class="btn btn-danger float-right"  v-if="user?.status == 'active'" @click="toggleAccount">Block Account</button>
+                            </Card>
                         </TabPanel>
                         <TabPanel>
                             <Transaction/>
@@ -132,9 +385,6 @@
                         <TabPanel>
                             <SendEmail />
                         </TabPanel>
-                        <TabPanel>
-                            <SendSms />
-                        </TabPanel>
                     </TabPanels>
                     </div>
                 </div>
@@ -154,9 +404,11 @@ import Loans from "@/views/dashboard/users/tabs/loans";
 import AddMoney from "@/views/dashboard/users/tabs/add-money";
 import DeductMoney from "@/views/dashboard/users/tabs/deduct-money";
 import SendEmail from "@/views/dashboard/users/tabs/send-email";
-import SendSms from "@/views/dashboard/users/tabs/send-sms";
 import FixedDeposit from "@/views/dashboard/users/tabs/fixed-deposit";
 import SupportTicket from "@/views/dashboard/users/tabs/support-ticket";
+import axios from 'axios';
+import { useToast } from "vue-toastification";
+import moment from 'moment';
 
 export default {
   components: {
@@ -173,12 +425,12 @@ export default {
     DeductMoney,
     SendEmail,
     Loans,
-    SendSms,
     FixedDeposit,
     SupportTicket
   },
   data() {
-    return {
+      return {
+            app_url: import.meta.env.VITE_APP_API_BASEURL,
               tabItems: [
                 {
                     title: "Account Overview",
@@ -204,13 +456,108 @@ export default {
                 {
                     title: "Send Email",
                 },
-                {
-                    title: "Send SMS",
-                },
             ],
+            user: ""
     }
     },
+    mounted() {
+        this.fetchuser()
+    },
+    methods: {
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
+        togglecurrency(currency) {
+            const $this = this
+
+            const toast = useToast();
+            const fromData = new FormData();
+            fromData.append("user_id", $this.$route.params.user_id);
+            fromData.append("currency", currency);
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/toggle_currency`, fromData, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    toast.success("User Found", {
+                        timeout: 4000,
+                    });
+                    $this.user = response.data.user
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        }, 
+        toggleAccount() {
+            const $this = this
+
+            const toast = useToast();
+            const fromData = new FormData();
+            fromData.append("user_id", $this.$route.params.user_id);
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/toggle_account`, fromData, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    toast.success("User Found", {
+                        timeout: 4000,
+                    });
+                    $this.user = response.data.user
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        }, 
+        fetchuser() {
+            const $this = this
+             
+            const toast = useToast();
+            const fromData = new FormData();
+            fromData.append("user_id", $this.$route.params.user_id);
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/user`, fromData, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    toast.success("User Found", {
+                        timeout: 4000,
+                    });
+                    $this.user = response.data.user 
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        },
+    },
     setup() {
+
     },
 }
 </script>

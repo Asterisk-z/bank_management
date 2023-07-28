@@ -38,7 +38,7 @@
         class="flex justify-between flex-wrap space-y-4 px-6 pt-6 bg-slate-50 dark:bg-slate-800 pb-6 rounded-t-md"
       >
         <div>
-          <img
+          <!-- <img
             src="@/assets/images/logo/logo.svg"
             alt=""
             v-if="!this.$store.themeSettingsStore.isDark"
@@ -47,7 +47,7 @@
             src="@/assets/images/logo/logo-white.svg"
             alt=""
             v-if="this.$store.themeSettingsStore.isDark"
-          />
+          /> -->
 
           <div
             class="text-slate-500 dark:text-slate-300 font-normal leading-5 mt-4 text-sm"

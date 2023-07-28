@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Breadcrumb />
+        
         <Card noborder>
             <div class="md:flex pb-6 items-center">
                 <h6 class="flex-1 md:mb-0 mb-3">Fixed Deposit Request</h6>

@@ -9,79 +9,73 @@
                 </div>
             </div>
             <div class="-mx-6">
-                <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="advancedTable" :sort-options="{
+                <template v-if="transactions">
+                <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="transactions" :sort-options="{
                     enabled: false,
                 }" :pagination-options="{
-                        enabled: true,
-                        perPage: perpage,
-                    }" :search-options="{
-                        enabled: true,
-                        externalQuery: searchTerm,
-                    }" >
-                    <template v-slot:table-row="props">
-                        <span v-if="props.column.field == 'customer'" class="flex items-center">
-                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
-                                props.row.customer.name }}</span>
-                        </span>
-                        <span v-if="props.column.field == 'order'" class="font-medium">
-                            {{ "#" + props.row.order }}
-                        </span>
-                        <span v-if="props.column.field == 'date'" class="text-slate-500 dark:text-slate-400">
-                            {{ props.row.date }}
-                        </span>
-                        <span v-if="props.column.field == 'status'" class="block w-full">
-                            <span
-                                class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
-                                :class="`${props.row.status === 'paid'
+    enabled: true,
+    perPage: perpage,
+}" :search-options="{
+    enabled: true,
+    externalQuery: searchTerm,
+}" >
+                        <template v-slot:table-row="props">
+                            <span v-if="props.column.field == 'amount'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.amount).toLocaleString("en-US") }}
+                            </span>
+                            <span v-if="props.column.field == 'fee'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.fee).toLocaleString("en-US") }}
+                            </span>
+                                <span v-if="props.column.field == 'type'" class="block w-full">
+                                    <span>
+                                        {{ props.row.type.replace('_', ' ') }}
+                                    </span>
+                                </span>
+                            <span v-if="props.column.field == 'status'" class="block w-full">
+                                <span
+                                    class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                    :class="`${props.row.status === 'approved'
                                         ? 'text-success-500 bg-success-500'
                                         : ''
-                                    } 
-                                            ${props.row.status === 'due'
-                                        ? 'text-warning-500 bg-warning-500'
-                                        : ''
-                                    }
-                                            ${props.row.status === 'cancled'
-                                        ? 'text-danger-500 bg-danger-500'
-                                        : ''
-                                    } `">
-                                {{ props.row.status }}
-                            </span>
-                        </span>
-                        <span v-if="props.column.field == 'action'">
-                            <Dropdown classMenuItems=" w-[140px]">
-                                <span class="text-xl">
-                                    <Icon icon="heroicons-outline:dots-vertical" />
+                                        } 
+                                                                                                                    ${props.row.status === 'pending' || props.row.status === 'awaiting_otp'
+                                            ? 'text-warning-500 bg-warning-500'
+                                            : ''
+                                        }
+                                                                                                                    ${props.row.status === 'declined'
+                                            ? 'text-danger-500 bg-danger-500'
+                                            : ''
+                                        }  `">
+                                    {{ props.row.status }}
                                 </span>
-                                <template v-slot:menus>
-                                    <MenuItem v-for="(item, i) in actions" :key="i">
-                                    <div @click="item.doit"
-                                        :class="`
+                            </span>
+                            <span v-if="props.column.field == 'process'" class="block w-full">
+                                <span class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                    :class="`${props.row.process === 'credit'
+                                        ? 'text-success-500 bg-success-500'
+                                        : ''
+                                        } ${props.row.process === 'debit'
+                                            ? 'text-danger-500 bg-danger-500'
+                                            : ''
+                                        }
+
+                                    `">
+                                    {{ props.row.process }}
+                                </span>
+                            </span>
+                        </template>
+                        <template #pagination-bottom="props">
+                            <div class="py-4 px-3">
+                                <Pagination :total="transactions.length" :current="current" :per-page="perpage" :pageRange="pageRange"
+                                    @page-changed="current = $event" :pageChanged="props.pageChanged"
+                                    :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
+                                    >
+                                </Pagination>
+                            </div>
+                        </template>
+                    </vue-good-table>
+                </template>
                 
-                  ${item.name === 'delete'
-                                                ? 'bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white'
-                                                : 'hover:bg-slate-900 hover:text-white'
-                                            }
-                   w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
-                                        <span class="text-base">
-                                            <Icon :icon="item.icon" />
-                                        </span>
-                                        <span>{{ item.name }}</span>
-                                    </div>
-                                    </MenuItem>
-                                </template>
-                            </Dropdown>
-                        </span>
-                    </template>
-                    <template #pagination-bottom="props">
-                        <div class="py-4 px-3">
-                            <Pagination :total="50" :current="current" :per-page="perpage" :pageRange="pageRange"
-                                @page-changed="current = $event" :pageChanged="props.pageChanged"
-                                :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
-                                >
-                            </Pagination>
-                        </div>
-                    </template>
-                </vue-good-table>
             </div>
         </Card>
     </div>
@@ -96,6 +90,9 @@ import Pagination from "@/components/Pagination";
 import { MenuItem } from "@headlessui/vue";
 import { advancedTable } from "@/constant/basic-tablle-data";
 import window from "@/mixins/window";
+import axios from 'axios';
+import { useToast } from "vue-toastification";
+
 export default {
     mixins: [window],
     components: {
@@ -115,28 +112,8 @@ export default {
             perpage: 10,
             pageRange: 5,
             searchTerm: "",
+            transactions: "",
             actions: [
-                {
-                    name: "send",
-                    icon: "ph:paper-plane-right",
-                    doit: () => {
-                        this.$router.push("/app/invoice-add");
-                    },
-                },
-                {
-                    name: "view",
-                    icon: "heroicons-outline:eye",
-                    doit: () => {
-                        this.$router.push("/app/invoice-preview");
-                    },
-                },
-                {
-                    name: "edit",
-                    icon: "heroicons:pencil-square",
-                    doit: () => {
-                        this.$router.push("/app/invoice-edit");
-                    },
-                },
                 {
                     name: "delete",
                     icon: "heroicons-outline:trash",
@@ -159,47 +136,67 @@ export default {
             ],
             columns: [
                 {
-                    label: "Date",
-                    field: "order",
-                },
-                {
-                    label: "Currency",
-                    field: "customer",
+                    label: "Transaction Ref",
+                    field: "transaction_ref",
                 },
                 {
                     label: "Amount",
-                    field: "date",
-                },
-
-                {
-                    label: "Charge",
-                    field: "quantity",
-                },
-
-                {
-                    label: "Grand Total",
                     field: "amount",
                 },
 
                 {
-                    label: "DR/CR",
-                    field: "status",
+                    label: "Fee",
+                    field: "fee",
                 },
+
                 {
                     label: "Type",
-                    field: "status",
+                    field: "type",
+                },
+                {
+                    label: "Process",
+                    field: "process",
                 },
                 {
                     label: "Status",
                     field: "status",
                 },
-                {
-                    label: "Action",
-                    field: "action",
-                },
+                // {
+                //     label: "Action",
+                //     field: "action",
+                // },
             ],
         };
     },
+    mounted() {
+        const $this = this
+
+            const toast = useToast();
+        const fromData = new FormData();
+        fromData.append("user_id", $this.$route.params.user_id);
+        axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/user_transactions`, fromData, {
+            headers: {
+                "Authorization": "Bearer " + this.$store.authStore.user.token
+            }
+        }).then(function (response) {
+
+            if (response.data?.status) {
+                // toast.success("User Found", {
+                //     timeout: 4000,
+                // });
+                $this.transactions = response.data.transactions
+            } else {
+                let message = response.data?.message[0];
+                toast.error(message, {
+                    timeout: 4000,
+                });
+            }
+        }).catch(function (result) {
+            if (result.response?.data?.error == 'Unauthorized') {
+                $this.$router.push({ name: 'Login' })
+            }
+        });
+    }
 };
 </script>
 <style lang="scss"></style>

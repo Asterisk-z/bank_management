@@ -16,12 +16,6 @@
         >
           <div class="auth-box2 flex flex-col justify-center h-full">
             <div class="mobile-logo text-center mb-6 lg:hidden block">
-              <!-- <router-link to="/"
-                ><img
-                  src="@/assets/images/logo/logo.svg"
-                  alt=""
-                  class="mx-auto"
-              /></router-link> -->
             </div>
             <div class="text-center 2xl:mb-10 mb-5">
               <h4 class="font-medium mb-4">Forgot Your Password?</h4>

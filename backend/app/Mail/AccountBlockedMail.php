@@ -43,7 +43,7 @@ class AccountBlockedMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'email.account-blocked',
+            view: 'emails.accountBlocked',
             with: [
                 'firstName' => $this->user->name,
             ],

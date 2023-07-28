@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Breadcrumb />
+        
 
         <div class="grid grid-cols-12 gap-5">
             <div class="lg:col-span-8 col-span-12">
@@ -196,6 +196,9 @@ export default {
                 toast.error(error.response.data.message, {
                     timeout: 5000,
                 });
+                    if (result.response?.data?.error == 'Unauthorized') {
+                        $this.$router.push({ name: 'Login' })
+                    }
             });
         },
     },

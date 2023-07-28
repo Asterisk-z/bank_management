@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AccountInfomation extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     public function add_balance($amount, $currency)
     {

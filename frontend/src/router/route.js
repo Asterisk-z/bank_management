@@ -316,7 +316,7 @@ const routes = [
         },
       },
       {
-        path: "user/:id",
+        path: "user/:user_id",
         name: "user",
         component: () => import("@/views/dashboard/users/view.vue"),
         meta: {
@@ -346,6 +346,15 @@ const routes = [
         path: "new-deposit",
         name: "create-deposit",
         component: () => import("@/views/dashboard/deposit/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-loan-create",
+        name: "admin-loan-create",
+        component: () => import("@/views/dashboard/loans/create.vue"),
         meta: {
           hide: true,
           middleware: [admin],
@@ -934,11 +943,11 @@ const routes = [
     name: "coming-soon",
     component: () => import("@/views/utility/comming-soon"),
   },
-  {
-    path: "/under-construction",
-    name: "under-construction",
-    component: () => import("@/views/utility/under-construction"),
-  },
+  // {
+  //   path: "/under-construction",
+  //   name: "under-construction",
+  //   component: () => import("@/views/utility/under-construction"),
+  // },
   {
     path: "/error",
     name: "error",

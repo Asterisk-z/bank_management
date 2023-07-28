@@ -43,7 +43,9 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
-        $user->account_details()->create(['account_number' => $account_number]);
+        $account_number = Helper::generate_account_number();
+        $card_number = Helper::generate_card_number();
+        $user->account_details()->create(['account_number' => $account_number, 'first_card_number' => $card_number]);
 
         $token = $this->guard()->attempt($request->only('email', 'password'));
         return response()->json(['status' => true, "token" => $token, 'user' => auth()->user()], 200);

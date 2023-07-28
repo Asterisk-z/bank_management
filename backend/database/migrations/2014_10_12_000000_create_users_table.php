@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
+            $table->enum('kyc_status', ['yes', 'no'])->default('no');
             $table->rememberToken();
             $table->timestamps();
         });

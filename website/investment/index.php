@@ -138,7 +138,7 @@
                             </div>
                             <div class="uicore uicore-extra">
                                 <div class="uicore-cta-wrapper">
-                                    <a href="https://royalbank.com/" target="_blank" class="uicore-btn ">
+                                    <a href="https://portal.rbqholdings.com/" target="_blank" class="uicore-btn ">
                                         <span class="elementor-button-text">
                                             Get Started </span>
                                     </a>
@@ -339,7 +339,7 @@
                                                     data-widget_type="button.default">
                                                     <div class="elementor-widget-container">
                                                         <div class="elementor-button-wrapper">
-                                                            <a href="#"
+                                                            <a href="https://portal.rbqholdings.com/"
                                                                 class="elementor-button-link elementor-button elementor-size-sm"
                                                                 role="button">
                                                                 <span class="elementor-button-content-wrapper">
@@ -1384,7 +1384,7 @@
                 </div>
                 <div class="uicore uicore-extra">
                     <div class="uicore-cta-wrapper">
-                        <a href="#" target="_self" class="uicore-btn ">
+                        <a href="https://portal.rbqholdings.com/" target="_blank" class="uicore-btn ">
                             <span class="elementor-button-text">
                                 Get Started </span>
                         </a>
