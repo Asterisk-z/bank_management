@@ -699,7 +699,7 @@ export const UserMenuItem = [
   },
   {
     title: "Payment Request",
-    icon: "heroicons-outline:document",
+    icon: "ic:outline-request-page",
     link: "#",
     child: [
       {
@@ -714,7 +714,7 @@ export const UserMenuItem = [
   },
   {
     title: "Deposit Money",
-    icon: "heroicons-outline:document",
+    icon: "vaadin:money-deposit",
     link: "#",
     child: [
       {
@@ -737,12 +737,12 @@ export const UserMenuItem = [
   },
   {
     title: "Withdraw Money",
-    icon: "heroicons:users",
+    icon: "vaadin:money-withdraw",
     link: "withdraw-money",
   },
   {
     title: "Loan",
-    icon: "heroicons-outline:document",
+    icon: "heroicons-outline:collection",
     link: "#",
     child: [
       {
@@ -761,7 +761,7 @@ export const UserMenuItem = [
   },
   {
     title: "Fixed Deposit",
-    icon: "heroicons-outline:document",
+    icon: "uil:moneybag-alt",
     link: "#",
     child: [
       {
@@ -776,7 +776,7 @@ export const UserMenuItem = [
   },
   {
     title: "Support Ticket",
-    icon: "heroicons-outline:document",
+    icon: "healthicons:contact-support-outline",
     link: "#",
     child: [
       {
@@ -803,7 +803,7 @@ export const UserMenuItem = [
   },
   {
     title: "Transactions Report",
-    icon: "heroicons:users",
+    icon: "icon-park-outline:transaction",
     link: "transaction",
   },
 

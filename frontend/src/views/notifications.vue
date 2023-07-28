@@ -25,14 +25,10 @@
           >
             <div class="flex text-left">
               <div class="flex-none mr-3">
-                <div class="h-8 w-8 bg-white rounded-full">
-                  <img
-                    :src="item.image"
-                    alt=""
-                    :class="`${
-                      active ? ' border-white' : ' border-transparent'
-                    } block w-full h-full object-cover rounded-full border`"
-                  />
+                <div
+                  class="h-10 w-10 rounded-full text-sm bg-slate-100 text-slate-900 dark:bg-slate-600 dark:text-slate-200 flex flex-col items-center justify-center font-normal capitalize"
+                >
+                  {{ Object.keys(item.data)[0] }}
                 </div>
               </div>
               <div class="flex-1">
@@ -43,27 +39,20 @@
                       : ' text-slate-600 dark:text-slate-300'
                   } text-sm`"
                 >
-                  {{ item.title }}
+                  <!-- {{ item.type }} -->
+                   {{ Object.values(item.data)[0] }}
                 </div>
-                <div
-                  :class="`${
-                    active
-                      ? 'text-[#68768A] dark:text-slate-200'
-                      : ' text-slate-600 dark:text-slate-300'
-                  } text-xs leading-4`"
-                >
-                  {{ item.desc }}
-                </div>
+                
                 <div class="text-secondary-500 dark:text-slate-400 text-xs">
-                  3 min ago
+                  {{ format_date(item.created_at) }}
                 </div>
               </div>
-              <div class="flex-0" v-if="item.unread">
+              <!-- <div class="flex-0" v-if="item.unread">
                 <span
                   class="h-[10px] w-[10px] bg-danger-500 border border-white rounded-full inline-block"
                 >
                 </span>
-              </div>
+              </div> -->
             </div>
           </div>
         </MenuItem>
@@ -76,6 +65,8 @@
 import { MenuItem, Menu } from '@headlessui/vue';
 import { notifications } from '@/constant/data';
 import Card from '@/components/Card';
+import axios from 'axios';
+import moment from 'moment';
 
 export default {
   components: {
@@ -85,9 +76,35 @@ export default {
   },
   data() {
     return {
-      notifications
+      notifications: ""
+
     };
   },
+  
+  mounted() {
+    const $this = this
+    axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/all_notifications`, {}, {
+      headers: {
+        "Authorization": "Bearer " + this.$store.authStore.user.token
+      }
+    }).then(function (response) {
+
+      if (response.data?.status) {
+        $this.notifications = response.data?.notifications
+      } else {
+        let message = response.data?.message[0];
+        toast.error(message, {
+          timeout: 4000,
+        });
+      }
+    });
+  },
+  methods: {
+
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
+  }
 };
 </script>
 <style lang=""></style>

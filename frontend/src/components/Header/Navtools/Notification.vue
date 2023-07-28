@@ -5,7 +5,7 @@
       ><Icon icon="heroicons-outline:bell" class="animate-tada" />
       <span
         class="absolute lg:right-0 lg:top-0 -top-2 -right-2 h-4 w-4 bg-yellow-600 text-[8px] font-semibold flex flex-col items-center justify-center rounded-full text-white z-[99]"
-        >0</span
+        >{{ count }}</span
       >
     </span>
     <template v-slot:menus>
@@ -26,7 +26,7 @@
       <div class="divide-y divide-slate-100 dark:divide-slate-800">
         <MenuItem
           v-slot="{ active }"
-          v-for="(item, i) in notifications.slice(0, 2)"
+          v-for="(item, i) in notification"
           :key="i"
         >
           <div
@@ -38,15 +38,11 @@
           >
             <div class="flex ltr:text-left rtl:text-right">
               <div class="flex-none ltr:mr-3 rtl:ml-3">
-                <div class="h-8 w-8 bg-white rounded-full">
-                  <img
-                    :src="item.image"
-                    alt=""
-                    :class="`${
-                      active ? ' border-white' : ' border-transparent'
-                    } block w-full h-full object-cover rounded-full border`"
-                  />
-                </div>
+                <div
+                class="h-10 w-10 rounded-full text-sm bg-slate-100 text-slate-900 dark:bg-slate-600 dark:text-slate-200 flex flex-col items-center justify-center font-normal capitalize"
+              >
+                {{ Object.keys(item.data)[0] }}
+              </div>
               </div>
               <div class="flex-1">
                 <div
@@ -56,7 +52,7 @@
                       : ' text-slate-600 dark:text-slate-300'
                   } text-sm`"
                 >
-                  {{ item.title }}
+                  <!-- {{ notification.length }} -->
                 </div>
                 <div
                   :class="`${
@@ -65,17 +61,11 @@
                       : ' text-slate-600 dark:text-slate-300'
                   } text-xs leading-4`"
                 >
-                  {{ item.desc }}
+                  {{ Object.values(item.data)[0] }}
                 </div>
-                <div class="text-slate-400 dark:text-slate-400 text-xs mt-1">
+                <!-- <div class="text-slate-400 dark:text-slate-400 text-xs mt-1">
                   3 min ago
-                </div>
-              </div>
-              <div class="flex-0" v-if="item.unread">
-                <span
-                  class="h-[10px] w-[10px] bg-danger-500 border border-white dark:border-slate-400 rounded-full inline-block"
-                >
-                </span>
+                </div> -->
               </div>
             </div>
           </div>
@@ -88,7 +78,7 @@
 import Dropdown from "@/components/Dropdown";
 import Icon from "@/components/Icon";
 import { MenuItem } from "@headlessui/vue";
-import { notifications } from "@/constant/data";
+import axios from 'axios';
 export default {
   components: {
     Icon,
@@ -97,9 +87,29 @@ export default {
   },
   data() {
     return {
-      notifications,
+      notification: "",
+      count: "0"
     };
   },
+  mounted() {
+    const $this = this
+     axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/notifications`, {}, {
+      headers: {
+        "Authorization": "Bearer " + this.$store.authStore.user.token
+      }
+    }).then(function (response) {
+
+      if (response.data?.status) {
+        $this.notification = response.data?.notifications
+        $this.count = response.data?.count
+      } else {
+        let message = response.data?.message[0];
+        toast.error(message, {
+          timeout: 4000,
+        });
+      }
+    });
+  }
 };
 </script>
 <style lang=""></style>

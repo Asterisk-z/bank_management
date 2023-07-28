@@ -18,34 +18,9 @@ const routes = [
     component: () => import("@/views/auth/forgot-password.vue"),
   },
   {
-    path: "/forgot-password2",
-    name: "forgot-password2",
-    component: () => import("@/views/auth/forgot-password2.vue"),
-  },
-  {
-    path: "/forgot-password3",
-    name: "forgot-password3",
-    component: () => import("@/views/auth/forgot-password3.vue"),
-  },
-  {
-    path: "/lock-screen",
-    name: "lock-screen",
-    component: () => import("@/views/auth/lock-screen.vue"),
-  },
-  {
-    path: "/lock-screen2",
-    name: "lock-screen2",
-    component: () => import("@/views/auth/lock-screen2.vue"),
-  },
-  {
-    path: "/lock-screen3",
-    name: "lock-screen3",
-    component: () => import("@/views/auth/lock-screen3.vue"),
-  },
-  {
-    path: "/success-500",
-    name: "success-500",
-    component: () => import("@/views/auth/success.vue"),
+    path: "/password_reset/:token",
+    name: "password_reset",
+    component: () => import("@/views/auth/password_reset.vue"),
   },
   {
     path: "/app",

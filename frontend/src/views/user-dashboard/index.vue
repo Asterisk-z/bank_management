@@ -1,7 +1,5 @@
 <template>
     <div>
-        <Breadcrumb />
-
         <div class="grid grid-cols-12 gap-5 mb-5">
             <div class="2xl:col-span-8 lg:col-span-8 col-span-8">
                 <Card bodyClass="p-4">
@@ -57,10 +55,10 @@
                                             :class="`${props.row.status === 'approved'
                                                 ? 'text-success-500 bg-success-500'
                                                 : ''
-                                                } ${props.row.status === 'due'
+                                                } ${props.row.status === 'due' || props.row.status === 'awaiting_otp'
                                                     ? 'text-warning-500 bg-warning-500'
                                                     : ''
-                                                }${props.row.status === 'pending'
+                                                }${props.row.status === 'pending' 
                                                     ? 'text-danger-500 bg-danger-500'
                                                     : ''
                                                 }${props.row.status === 'canceled'
@@ -72,7 +70,7 @@
                                                 }
 
                                                 `">
-                                            {{ props.row.status }}
+                                            {{ props.row.status.replace('_', ' ')  }}
                                         </span>
                                     </span>
                                     <span v-if="props.column.field == 'process'" class="block w-full">
@@ -105,7 +103,7 @@
                             <div class="flex-1">
                                 <div class="max-w-[180px]">
                                     <h4 class="text-2xl font-medium text-white mb-2">
-                                        <span class="block text-sm text-slate-600 dark:text-slate-300">Card balance</span>
+                                        <span class="block text-sm text-slate-600 dark:text-slate-300">Card Limit</span>
                                         <span class="block text-slate-600 dark:text-slate-300">{{ '$' + card_balance }}</span>
                                     </h4>
                                 </div>
@@ -117,11 +115,11 @@
                         
                         <div class="w-100 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl">
                 
-                            <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/background.jpg">
+                            <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
                 
                             <div class="w-full px-8 absolute top-8">
                                 <div class="flex justify-between">
-                                    <img class="w-8 h-8" src="@/assets/images/card/icon.svg"/>
+                                    <img class="w-8 h-8" src="@/assets/images/card/small_white.png"/>
                                     <!-- <img class="w-14 h-14 mt-[-10px]" src="https://i.imgur.com/bbPHJVe.png"/> -->
                                 </div>
                             </div>

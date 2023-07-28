@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketCont
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\Custoer\NotificationController;
 use App\Http\Controllers\Customer\DashBoardController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\ExchangeMoneyController;
@@ -42,6 +43,12 @@ Route::prefix('v1')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
 
         Route::post('refresh', [AuthController::class, 'refresh']);
+
+        Route::post('forgot_password', [AuthController::class, 'forgot_password']);
+
+        Route::post('check_token', [AuthController::class, 'check_token']);
+
+        Route::post('password_reset', [AuthController::class, 'password_reset']);
 
         Route::middleware('auth:api')->group(function () {
 
@@ -108,6 +115,8 @@ Route::prefix('v1')->group(function () {
         Route::post('my_fixed_deposit', [FixedDepositController::class, 'my_fixed_deposit'])->name('my_fixed_deposit');
 
         Route::post('upload_profile', [ProfileController::class, 'upload_profile'])->name('upload_profile');
+        Route::post('notifications', [NotificationController::class, 'notifications'])->name('notifications');
+        Route::post('all_notifications', [NotificationController::class, 'all_notifications'])->name('all_notifications');
 
     });
 

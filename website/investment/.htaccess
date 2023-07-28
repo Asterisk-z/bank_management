@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^([^/d]+)/?$ index.php?id=$1 [QSA]
+ErrorDocument 404 /investment/index.php

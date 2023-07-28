@@ -71,7 +71,7 @@
                                             ? 'text-danger-500 bg-danger-500'
                                             : ''
                                         }  `">
-                                    {{ props.row.status }}
+                                    {{ props.row.status.replace('_', ' ')  }}
                                 </span>
                             </span>
                             <span v-if="props.column.field == 'created_at'">

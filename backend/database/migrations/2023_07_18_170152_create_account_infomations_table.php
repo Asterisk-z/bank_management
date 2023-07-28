@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('usd_balance', 15, 2)->default('0');
             $table->decimal('aud_balance', 15, 2)->default('0');
             $table->decimal('eur_balance', 15, 2)->default('0');
+
             $table->string('account_number')->nullable()->unique();
             $table->string('first_card_number')->nullable()->unique();
             $table->string('seconds_card_number')->nullable()->unique();
@@ -31,6 +32,13 @@ return new class extends Migration
             $table->enum('eur_status', ['active', 'not_active'])->default('active');
             $table->enum('first_card_status', ['active', 'not_active'])->default('not_active');
             $table->enum('second_card_status', ['active', 'not_active'])->default('not_active');
+
+            $table->enum('can_withdraw', ['active', 'not_active'])->default('active');
+            $table->enum('can_deposit', ['active', 'not_active'])->default('active');
+            $table->enum('can_transfer', ['active', 'not_active'])->default('active');
+            $table->enum('can_fixed_deposit', ['active', 'not_active'])->default('active');
+            $table->enum('can_loan', ['active', 'not_active'])->default('active');
+
             $table->timestamps();
         });
     }
