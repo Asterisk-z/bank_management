@@ -77,4 +77,24 @@ class AccountInfomation extends Model
         return $total;
 
     }
+
+    public function can_make_withdrawal($currency = null)
+    {
+        if ($currency == null) {
+            return $this->status == 'active' ? true : false;
+        }
+
+        if ($currency == 'AUD') {
+            return $this->status == 'active' && $this->aud_status == 'active' ? true : false;
+        }
+
+        if ($currency == 'USD') {
+            return $this->status == 'active' && $this->usd_status == 'active' ? true : false;
+        }
+
+        if ($currency == 'EUR') {
+            return $this->status == 'active' && $this->eur_status == 'active' ? true : false;
+        }
+
+    }
 }

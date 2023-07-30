@@ -102,7 +102,6 @@
 import Dropdown from "@/components/Dropdown";
 import Breadcrumb from "@/views/components/Breadcrumbs";
 import Button from "@/components/Button";
-import SelectStatus from "@/views/dashboard/transfer-request/select-status.vue";
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
 import InputGroup from "@/components/InputGroup";
@@ -121,7 +120,6 @@ export default {
         Card,
         MenuItem,
         Button,
-        SelectStatus
     },
 
     data() {

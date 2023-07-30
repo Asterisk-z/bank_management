@@ -1,10 +1,10 @@
 import {defineStore} from "pinia";
-import user1Img from "@/assets/images/users/user-1.jpg";
-import user2Img from "@/assets/images/users/user-2.jpg";
-import user3Img from "@/assets/images/users/user-3.jpg";
-import user4Img from "@/assets/images/users/user-4.jpg";
-import user5Img from "@/assets/images/users/user-5.jpg";
-import user6Img from "@/assets/images/users/user-6.jpg";
+import user1Img from "@/assets/images/users/default.jpg";
+import user2Img from "@/assets/images/users/default.jpg";
+import user3Img from "@/assets/images/users/default.jpg";
+import user4Img from "@/assets/images/users/default.jpg";
+import user5Img from "@/assets/images/users/default.jpg";
+import user6Img from "@/assets/images/users/default.jpg";
 
 export const useChatStore = defineStore('chat',{
     state: ()=>{

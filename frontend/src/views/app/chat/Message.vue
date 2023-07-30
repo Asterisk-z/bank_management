@@ -194,7 +194,7 @@ import Dropdown from "@/components/Dropdown";
 import Icon from "@/components/Icon";
 import { computed, ref, onMounted } from "vue";
 import {useChatStore} from "@/store/chat";
-import user1 from "@/assets/images/users/user-1.jpg";
+import user1 from "@/assets/images/users/default.jpg";
 
 const width = ref(0);
 const handleResize = () => {

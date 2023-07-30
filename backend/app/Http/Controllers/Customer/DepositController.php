@@ -162,7 +162,7 @@ class DepositController extends Controller
         // Mail
         // Notification::send(auth()->user(), new BlockChainNotication);
 
-        Mail::to(auth()->user())->queue(new TransactionMail($transaction, auth()->user()));
+        Mail::to(auth()->user())->send(new TransactionMail($transaction, auth()->user()));
 
         //EMAIL_REQUIRED
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);

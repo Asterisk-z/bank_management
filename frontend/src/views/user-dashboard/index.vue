@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="grid grid-cols-12 gap-5 mb-5">
-            <div class="2xl:col-span-8 lg:col-span-8 col-span-8">
+            <div class="2xl:col-span-8 lg:col-span-12 md:col-span-12 col-span-12">
                 <Card bodyClass="p-4">
-                    <div class="grid md:grid-cols-2 grid-cols-2 gap-4 mb-5">
+                    <div class="grid lg:grid-cols-2 md:grid-cols-1 grid-cols-1 gap-4 mb-5">
                         <div v-for="(item, i) in statistics1" :key="i">
                             <Card :bodyClass="`pt-4 pb-3 px-4 ${item.bg} rounded-lg h-[180px]` ">
                                 <div class="flex space-x-3 rtl:space-x-reverse">
@@ -11,16 +11,16 @@
                                         <div class="text-slate-600 dark:text-slate-300 text-[15px] font-medium ml-6 mb-3 mt-2">
                                             {{ item.title }}
                                         </div>
-                                        <div class="text-slate-900 dark:text-white text-[35px] font-medium ml-6 mb-3">
-                                            {{ "$"+item.count }}
+                                        <div class="text-slate-900 dark:text-white text-[25px] font-medium ml-6 mb-3">
+                                            {{ item.sign+ " " +item.count }}
                                         </div>
                                         <div class="flex text-yellow-600 dark:text-yellow-600 text-[16px] font-medium  ml-6 mb-3">
                                             <!-- <Icon :icon="item.iconr"/>  -->
-                                            <span class="text-[12px] ml-2">{{ item.stat }}</span>
+                                            <!-- <span class="text-[12px] ml-2">{{ item.stat }}</span> -->
                                         </div>
                                     </div>
                                     <div class="flex-none">
-                                            <Chart :type="item.chartType" :option="item.chart.chartOptions" :series="item.chart.series" :height="item.chartHeight" :width="item.chartWeight"/>
+                                        <Chart :type="item.chartType" :option="item.chart.chartOptions" :series="item.chart.series" :height="item.chartHeight" :width="item.chartWeight"/>
                                     </div>
                                 </div>
                             </Card>
@@ -95,7 +95,7 @@
                 
 
             </div>
-            <div class="2xl:col-span-4 lg:col-span-4 col-span-4 ">
+            <div class="2xl:col-span-4 lg:col-span-12 md:col-span-12 col-span-12 ">
                 <div class=" flex justify-center items-center">
                     <div class="space-y-5">
 
@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         
-                        <div class="w-100 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl">
+                        <div class="w-[450px] h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl">
                 
                             <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
                 
@@ -164,7 +164,7 @@
                     </div>
                 </div>
                 
-                <div class="xl:col-span-12 col-span-12 mt-10">
+                <div class="xl:col-span-12 col-span-12 mt-10 ">
                     <Card title="Activities" noborder bodyClass="bg-transparent p-6">
                         <ReminderTable class="-mx-2 -mb-6" :table_data="information.recent_notification"/>
                     </Card>
@@ -214,6 +214,7 @@ export default {
                     icon: "heroicons:users",
                     iconr: "",
                     stat: '',
+                    sign: '$',
                     chart: {
 
                         series: [44, 55],
@@ -249,8 +250,8 @@ export default {
 
                     },
                     chartType: 'radialBar',
-                    chartHeight: '180',
-                    chartWeight: '124',
+                    chartHeight: '150',
+                    chartWeight: '114',
                 },
                 {
                     title: "AUD Balance",
@@ -258,6 +259,7 @@ export default {
                     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
                     text: "text-info-500",
                     icon: "heroicons:users",
+                    sign: 'A$',
                     iconr: "",
                     stat: '',
                     chart: {
@@ -331,8 +333,8 @@ export default {
                         },
                     },
                     chartType: 'bar',
-                    chartHeight: '120',
-                    chartWeight: '124',
+                    chartHeight: '110',
+                    chartWeight: '114',
                 },
                 {
                     title: "USD Balance",
@@ -342,6 +344,7 @@ export default {
                     icon: "heroicons:users",
                     iconr: "",
                     stat: '',
+                    sign: '$',
                     chart: {
                         series: [
                             {
@@ -413,8 +416,8 @@ export default {
                         },
                     },
                     chartType: 'bar',
-                    chartHeight: '120',
-                    chartWeight: '124',
+                    chartHeight: '110',
+                    chartWeight: '114',
                 },
                 {
                     title: "EUR Balance",
@@ -423,6 +426,7 @@ export default {
                     text: "text-info-500",
                     icon: "heroicons:users",
                     iconr: "",
+                    sign: '€',
                     stat: '',
                     chart: {
                         series: [
@@ -495,8 +499,8 @@ export default {
                         },
                     },
                     chartType: 'bar',
-                    chartHeight: '120',
-                    chartWeight: '124',
+                    chartHeight: '110',
+                    chartWeight: '114',
                 },
             ],
             chartOne: {

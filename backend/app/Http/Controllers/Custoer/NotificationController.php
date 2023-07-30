@@ -9,7 +9,7 @@ class NotificationController extends Controller
     public function notifications()
     {
         $count = auth()->user()->unreadNotifications->count();
-        $notifications = auth()->user()->notifications->take(5);
+        $notifications = auth()->user()->unreadNotifications->take(5);
 
         return response()->json(['status' => true, "count" => $count, 'notifications' => $notifications], 200);
     }

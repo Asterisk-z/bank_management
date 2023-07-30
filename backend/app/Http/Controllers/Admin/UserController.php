@@ -13,6 +13,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Notifications\SendMoneyNotification;
 use App\Services\Helper;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -221,6 +222,7 @@ class UserController extends Controller
             'currency' => 'required|max:255',
             'amount' => 'required|max:255',
             'description' => 'required|max:255',
+            'date' => 'required|max:255',
             // 'notify' => 'required|max:255',
         ]);
 
@@ -249,10 +251,12 @@ class UserController extends Controller
             'description' => $request->description,
             'notify' => "You are received " . $request->currency . " " . $request->amount . " from  Bank",
             'sender_id' => '1',
+            'created_at' => Carbon::create(request('date')),
+            'updated_at' => Carbon::create(request('date')),
         ]);
         $user->account_details->add_balance($request->amount, $request->currency);
 
-        Mail::to($user)->queue(new TransactionMail($receiverTransaction, $user));
+        Mail::to($user)->send(new TransactionMail($receiverTransaction, $user));
         $user->notify(new SendMoneyNotification($receiverTransaction->notify));
 
         DB::commit();
@@ -269,6 +273,7 @@ class UserController extends Controller
             'currency' => 'required|max:255',
             'amount' => 'required|max:255',
             'description' => 'required|max:255',
+            'date' => 'required|max:255',
             // 'notify' => 'required|max:255',
         ]);
 
@@ -282,6 +287,27 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => "Can not Find User"]);
         }
 
+//Check Balance
+        $received = $user->transactions()->where('process', 'credit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
+        $sent = $user->transactions()->where('process', 'debit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
+        $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
+        $stored_balance = $user->account_details->balance($request->currency);
+        if ($stored_balance != $balance_from_transaction_history) {
+            return response()->json([
+                'status' => false,
+                'bb' => $balance_from_transaction_history,
+                'sc' => $stored_balance,
+                'message' => 'User balance and transaction balance does not match',
+            ], 400);
+        }
+
+        $sub = $stored_balance - floatval($request->amount);
+        if ($sub < 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User Does not have that amount',
+            ], 400);
+        }
         DB::beginTransaction();
 
         $trans_ref = Helper::generate_trans_ref($user->id);
@@ -297,10 +323,13 @@ class UserController extends Controller
             'description' => $request->description,
             'notify' => "You were debited " . $request->currency . " " . $request->amount . " by  Bank",
             'sender_id' => '1',
+            'created_at' => Carbon::create(request('date')),
+            'updated_at' => Carbon::create(request('date')),
         ]);
+
         $user->account_details->sub_balance($request->amount, $request->currency);
 
-        Mail::to($user)->queue(new TransactionMail($receiverTransaction, $user));
+        Mail::to($user)->send(new TransactionMail($receiverTransaction, $user));
         $user->notify(new SendMoneyNotification($receiverTransaction->notify));
 
         DB::commit();
@@ -371,8 +400,8 @@ class UserController extends Controller
 
         $account = AccountInfomation::where('user_id', $user->id)->first();
 
-        if ($user->status == "active") {
-            $user->status = 'not_active';
+        if ($account->status == "active") {
+            // $user->status = 'not_active';
             $account->status = 'not_active';
             $account->can_withdraw = 'not_active';
 
@@ -381,7 +410,7 @@ class UserController extends Controller
             Mail::to($user)->send(new AccountBlockedMail($user));
 
         } else {
-            $user->status = 'active';
+            // $user->status = 'active';
             $account->status = 'active';
             $account->can_withdraw = 'active';
 
@@ -399,7 +428,6 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|max:255',
-            'currency' => 'required|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -412,20 +440,14 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => "Can not Find User"]);
         }
 
-        $account = AccountInfomation::where('user_id', $user->id)->first();
-        if (request('currency') == 'AUD') {
-            $account->aud_status = $account->aud_status == "active" ? "not_active" : "active";
-            $account->save();
+        if ($user->kyc_status == 'yes') {
+            $user->kyc_status = 'no';
         }
 
-        if (request('currency') == 'USD') {
-            $account->usd_status = $account->usd_status == "active" ? "not_active" : "active";
-            $account->save();
+        if ($user->kyc_status == 'no') {
+            $user->kyc_status = 'yes';
         }
-        if (request('currency') == 'EUR') {
-            $account->eur_status = $account->eur_status == "active" ? "not_active" : "active";
-            $account->save();
-        }
+        $user->save();
 
         return response()->json(['status' => true, 'message' => "Customer Fetch Successful", "user" => $user]);
 

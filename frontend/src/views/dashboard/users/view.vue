@@ -17,7 +17,7 @@
                   <img v-if="this.$store.authStore.user.user.profile_picture"
                     :src="app_url + '/uploads/profile_photo/' + this.$store.authStore.user.user.profile_picture" alt=""
                     class="w-full h-full object-cover rounded-full" />
-                  <img v-else src="@/assets/images/users/user-1.jpg" alt="" class="w-full h-full object-cover rounded-full" />
+                  <img v-else src="@/assets/images/users/default.jpg" alt="" class="w-full h-full object-cover rounded-full" />
 
                     <!-- <router-link
                         to="/app/profile-setting"
@@ -287,6 +287,8 @@
                               <div class="text-base text-slate-600 dark:text-slate-50">
                                 {{ user ?  user?.kyc_status == "yes" ? "Done" : "Not Done" : "" }}
                               </div>
+                              <button class="btn btn-danger btn-sm float-left" v-if="user?.kyc_status == 'yes'" @click="toggleKYC()">Mark As Not Done</button>
+                              <button class="btn btn-primary btn-sm float-left" v-if="user?.kyc_status == 'no'"  @click="toggleKYC()">Mark As Done</button>
                             </div>
                           </li>
                           <li class="flex space-x-3 rtl:space-x-reverse mb-10">
@@ -360,8 +362,8 @@
                           </li>
                       <!-- end single list -->
                     </ul>
-                            <button class="btn btn-primary float-left" v-if="user?.status == 'not_active'" @click="toggleAccount">Unblock Account</button>
-                            <button class="btn btn-danger float-right"  v-if="user?.status == 'active'" @click="toggleAccount">Block Account</button>
+                            <button class="btn btn-primary float-left" v-if="user?.account_details?.status == 'not_active'" @click="toggleAccount">Unblock Account</button>
+                            <button class="btn btn-danger float-right"  v-if="user?.account_details?.status == 'active'" @click="toggleAccount">Block Account</button>
                             </Card>
                         </TabPanel>
                         <TabPanel>
@@ -481,7 +483,7 @@ export default {
             }).then(function (response) {
 
                 if (response.data?.status) {
-                    toast.success("User Found", {
+                    toast.success("User Updated Successfully", {
                         timeout: 4000,
                     });
                     $this.user = response.data.user
@@ -510,7 +512,35 @@ export default {
             }).then(function (response) {
 
                 if (response.data?.status) {
-                    toast.success("User Found", {
+                    toast.success("User Updated Successfully", {
+                        timeout: 4000,
+                    });
+                    $this.user = response.data.user
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        },
+        toggleKYC() {
+            const $this = this
+
+            const toast = useToast();
+            const fromData = new FormData();
+            fromData.append("user_id", $this.$route.params.user_id);
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/toggle_kyc`, fromData, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+                if (response.data?.status) {
+                    toast.success("User Updated Successful", {
                         timeout: 4000,
                     });
                     $this.user = response.data.user
@@ -539,7 +569,7 @@ export default {
             }).then(function (response) {
 
                 if (response.data?.status) {
-                    toast.success("User Found", {
+                    toast.success("User Updated Successfully", {
                         timeout: 4000,
                     });
                     $this.user = response.data.user 

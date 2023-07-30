@@ -1,9 +1,9 @@
-import user1 from "@/assets/images/users/user-1.jpg"
-import user2 from "@/assets/images/users/user-2.jpg"
-import user3 from "@/assets/images/users/user-3.jpg"
-import user4 from "@/assets/images/users/user-4.jpg"
-import user5 from "@/assets/images/users/user-5.jpg"
-import user6 from "@/assets/images/users/user-6.jpg"
+import user1 from "@/assets/images/users/default.jpg"
+import user2 from "@/assets/images/users/default.jpg"
+import user3 from "@/assets/images/users/default.jpg"
+import user4 from "@/assets/images/users/default.jpg"
+import user5 from "@/assets/images/users/default.jpg"
+import user6 from "@/assets/images/users/default.jpg"
 export const basiTableData = [
   {
     id: 1,

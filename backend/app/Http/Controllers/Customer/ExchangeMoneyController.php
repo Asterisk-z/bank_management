@@ -38,8 +38,8 @@ class ExchangeMoneyController extends Controller
         $newAmount = (floatval(request('amount')) / $currency->rate) * $currencytwo->rate;
 
         //Check Balance
-        $received = $auth_user->transactions()->where('process', 'credit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
-        $sent = $auth_user->transactions()->where('process', 'debit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
+        $received = $auth_user->transactions()->where('process', 'credit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
+        $sent = $auth_user->transactions()->where('process', 'debit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
         $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
         $stored_balance = $auth_user->account_details->balance($request->currency);
         if ($stored_balance != $balance_from_transaction_history) {
@@ -87,7 +87,7 @@ class ExchangeMoneyController extends Controller
             'use' => 'transaction',
         ]);
 
-        Mail::to(auth()->user())->queue(new OTPMail($otp, auth()->user()));
+        Mail::to(auth()->user())->send(new OTPMail($otp, auth()->user()));
         $auth_user->notify(new ExchangeMoneyNotification($transaction->notify));
 
         DB::commit();

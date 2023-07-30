@@ -13,7 +13,7 @@
               <img v-if="this.$store.authStore.user.user.profile_picture"
                 :src="app_url + '/uploads/profile_photo/' + this.$store.authStore.user.user.profile_picture" alt=""
                 class="w-full h-full object-cover rounded-full" />
-              <img v-else src="@/assets/images/users/user-1.jpg" alt="" class="w-full h-full object-cover rounded-full" />
+              <img v-else src="@/assets/images/users/default.jpg" alt="" class="w-full h-full object-cover rounded-full" />
 
               <div>
                 <div v-bind="getRootProps()">

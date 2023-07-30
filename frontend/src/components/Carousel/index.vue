@@ -16,8 +16,8 @@
       >
       <div class="max-w-[320px] pt-20 ltr:pl-20 rtl:pr-20" v-if="logo">
         <router-link to="/">
-          <img :src="logoWhite" alt="" class="mb-10" v-if="!this.$store.themeSettingsStore.isDark" />
-          <img :src="logoWhite" alt="" class="mb-10" v-else />
+          <img :src="logoWhite" alt="" class="mb-10 w-[150px]" v-if="!this.$store.themeSettingsStore.isDark" />
+          <img :src="logoWhite" alt="" class="mb-10 w-[150px]" v-else />
         </router-link>
       </div>
         <div class="pt-20 container text-center px-4 slider-content h-full w-full min-h-[300px] rounded-md flex flex-col items-center justify-center text-white" >

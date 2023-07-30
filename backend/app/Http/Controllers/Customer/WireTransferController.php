@@ -34,9 +34,17 @@ class WireTransferController extends Controller
         }
         $bank = Bank::find($request->selectedBank);
 
+        if (!$auth_user->account_details->can_make_withdrawal()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Your account has been restricted and cannot process transactions at the moment. Please contact our support team for further assistance.',
+            ], 400);
+
+        }
+
         //Check Balance
-        $received = $auth_user->transactions()->where('process', 'credit')->where('status', 'approved')->where('currency', $bank->bank_currency)->sum('amount');
-        $sent = $auth_user->transactions()->where('process', 'debit')->where('status', 'approved')->where('currency', $bank->bank_currency)->sum('amount');
+        $received = $auth_user->transactions()->where('process', 'credit')->whereIn('status', ['approved', 'pending'])->where('currency', $bank->bank_currency)->sum('amount');
+        $sent = $auth_user->transactions()->where('process', 'debit')->whereIn('status', ['approved', 'pending'])->where('currency', $bank->bank_currency)->sum('amount');
         $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
         $stored_balance = $auth_user->account_details->balance($bank->bank_currency);
         if ($stored_balance != $balance_from_transaction_history) {
@@ -96,7 +104,7 @@ class WireTransferController extends Controller
         ]);
         //EMAIL_REQUIRED
 
-        Mail::to(auth()->user())->queue(new OTPMail($otp, auth()->user()));
+        Mail::to(auth()->user())->send(new OTPMail($otp, auth()->user()));
         $auth_user->notify(new WireTransferNotification($transaction->notify));
 
         DB::commit();

@@ -47,7 +47,7 @@
                 btnClass="btn-dark btn-sm "
               />
             </template>
-            <TransactionsTable class="-mx-6 -mb-6" />
+            <!-- <TransactionsTable class="-mx-6 -mb-6" /> -->
           </Card>
         </div>
         
@@ -60,7 +60,7 @@
                 btnClass="btn-dark btn-sm "
               />
             </template>
-            <ActivityTable class="-mx-6 -mb-6" />
+            <!-- <ActivityTable class="-mx-6 -mb-6" /> -->
           </Card>
         </div>
 
@@ -91,84 +91,84 @@ export default {
       statistics: [
         {
           title: "Active User",
-          count: "3,564",
+          count: "0",
           bg: "bg-[#E5F9FF] dark:bg-slate-900	",
           text: "text-info-500",
           icon: "heroicons:users",
         },
         {
           title: "Pending KYC",
-          count: "564",
+          count: "0",
           bg: "bg-[#E5F9FF] dark:bg-slate-900	",
           text: "text-info-500",
           icon: "heroicons:cube",
         },
         {
           title: "Pending Tickets",
-          count: "564",
+          count: "0",
           bg: "bg-[#E5F9FF] dark:bg-slate-900	",
           text: "text-info-500",
           icon: "heroicons:cube",
         },
         {
           title: "Deposit Requests",
-          count: "564",
+          count: "0",
           bg: "bg-[#E5F9FF] dark:bg-slate-900	",
           text: "text-info-500",
           icon: "heroicons:cube",
         },
         {
           title: "Withdraw Requests",
-          count: "564",
+          count: "0",
           bg: "bg-[#FFEDE6] dark:bg-slate-900	",
           text: "text-warning-500",
           icon: "heroicons:arrow-trending-up-solid",
         },
         {
           title: "Loan Requests",
-          count: "564",
+          count: "0",
           bg: "bg-[#FFEDE6] dark:bg-slate-900	",
           text: "text-warning-500",
           icon: "heroicons:arrow-trending-up-solid",
         },
         {
           title: "FDR Requests",
-          count: "564",
+          count: "0",
           bg: "bg-[#FFEDE6] dark:bg-slate-900	",
           text: "text-warning-500",
           icon: "heroicons:arrow-trending-up-solid",
         },
         {
           title: "Wire Transfer Requests",
-          count: "564",
+          count: "0",
           bg: "bg-[#FFEDE6] dark:bg-slate-900	",
           text: "text-warning-500",
           icon: "heroicons:arrow-trending-up-solid",
         },
         {
           title: "Total Deposit",
-          count: "564",
+          count: "0",
           bg: "bg-[#EAE6FF] dark:bg-slate-900	",
           text: "text-[#5743BE]",
           icon: "ph:currency-dollar-bold",
         },
         {
           title: "Total Withdrawal",
-          count: "564",
+          count: "0",
           bg: "bg-[#EAE6FF] dark:bg-slate-900	",
           text: "text-[#5743BE]",
           icon: "ph:currency-dollar-bold",
         },
         {
           title: "Total Loan",
-          count: "564",
+          count: "0",
           bg: "bg-[#EAE6FF] dark:bg-slate-900	",
           text: "text-[#5743BE]",
           icon: "ph:currency-dollar-bold",
         },
         {
           title: "Total Exchange",
-          count: "564",
+          count: "0",
           bg: "bg-[#EAE6FF] dark:bg-slate-900	",
           text: "text-[#5743BE]",
           icon: "ph:currency-dollar-bold",

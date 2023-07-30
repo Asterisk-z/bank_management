@@ -93,8 +93,8 @@ import ProgressBar from "@/components/ProgressBar";
 import customer1 from "@/assets/images/all-img/cus-1.png"
 import customer2 from "@/assets/images/all-img/cus-2.png"
 import customer3 from "@/assets/images/all-img/cus-3.png"
-import customer4 from "@/assets/images/users/user-1.jpg"
-import customer5 from "@/assets/images/users/user-2.jpg"
+import customer4 from "@/assets/images/users/default.jpg"
+import customer5 from "@/assets/images/users/default.jpg"
 
 export default {
   components: {

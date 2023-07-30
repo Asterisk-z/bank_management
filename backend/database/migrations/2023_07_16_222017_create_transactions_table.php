@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('fee', 15, 2);
             $table->enum('process', ['debit', 'credit']);
             $table->enum('method', ['manual', 'online', 'gift_card', 'payoneer', 'paypal', 'blockchain', 'check']);
-            $table->enum('type', ['deposit', 'wire_transfer', 'exchange', 'send_money', 'fixed_deposit']);
+            $table->enum('type', ['deposit', 'wire_transfer', 'exchange', 'send_money', 'fixed_deposit', 'withdraw']);
             $table->enum('status', ['pending', 'awaiting_otp', 'approved', 'declined', 'canceled'])->default('pending');
             $table->string('transaction_ref');
             $table->string('btc_value')->nullable();
@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('receiver_id')->nullable();
             $table->string('sender_id')->nullable();
             $table->string('deposit_ref')->nullable();
+            $table->string('withdraw_ref')->nullable();
             $table->string('loan_id')->nullable();
             $table->string('x_currency')->nullable();
             $table->string('x_amount')->nullable();

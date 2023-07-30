@@ -23,8 +23,8 @@
             <form @submit.prevent="onSubmit" class="space-y-4">
               <Textinput label="Email" type="email" placeholder="Type your email" name="email" v-model="email" :error="emailError" classInput="h-[48px]" :modelValue="fromEmail"  />
               
-              <Textinput label="Password" type="password" placeholder="8+ characters, 1 capital letter " name="password" v-model="password" :error="passwordError" hasicon classInput="h-[48px]" />
-              <Textinput label="Confirm Password" type="password" placeholder="8+ characters, 1 capital letter " name="cpassword" v-model="cPassword" :error="cPasswordError" hasicon classInput="h-[48px]" />
+              <Textinput label="Password" type="password" placeholder="8+ characters " name="password" v-model="password" :error="passwordError" hasicon classInput="h-[48px]" />
+              <Textinput label="Confirm Password" type="password" placeholder="8+ characters " name="cpassword" v-model="cPassword" :error="cPasswordError" hasicon classInput="h-[48px]" />
 
           <button type="submit" class="btn btn-dark block w-full text-center">
             Change Password

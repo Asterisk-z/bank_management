@@ -106,7 +106,7 @@ class OtpController extends Controller
             $user->account_details->add_balance($transaction->amount, $transaction->currency);
             //EMAIL_REQUIRED to receive money
 
-            Mail::to($user)->queue(new TransactionMail($receiverTransaction, $user));
+            Mail::to($user)->send(new TransactionMail($receiverTransaction, $user));
             $user->notify(new SendMoneyNotification($receiverTransaction->notify));
 
             $otp->status = 'used';
@@ -119,7 +119,7 @@ class OtpController extends Controller
             $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
             //EMAIL_REQUIRED to receive money
 
-            Mail::to($auth_user)->queue(new TransactionMail($transaction, $auth_user));
+            Mail::to($auth_user)->send(new TransactionMail($transaction, $auth_user));
             $auth_user->notify(new SendMoneyNotification($transaction->notify));
 
             DB::commit();
@@ -158,7 +158,7 @@ class OtpController extends Controller
 
             $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
 
-            Mail::to($auth_user)->queue(new TransactionMail($new_transaction, $auth_user));
+            Mail::to($auth_user)->send(new TransactionMail($new_transaction, $auth_user));
 
             $auth_user->notify(new ExchangeMoneyNotification($new_transaction->notify));
 
@@ -183,7 +183,7 @@ class OtpController extends Controller
 
             $auth_user->account_details->sub_balance($transaction->amount, $transaction->currency);
             //EMAIL_REQUIRED to Sent money
-            Mail::to($auth_user)->queue(new TransactionMail($transaction, $auth_user));
+            Mail::to($auth_user)->send(new TransactionMail($transaction, $auth_user));
             $auth_user->notify(new WireTransferNotification($transaction->notify));
 
             DB::commit();

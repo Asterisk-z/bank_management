@@ -30,9 +30,17 @@ class SendMoneyController extends Controller
                 'errors' => $v->errors(),
             ], 422);
         }
+
+        if (!$auth_user->account_details->can_make_withdrawal()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Your account has been restricted and cannot process transactions at the moment. Please contact our support team for further assistance.',
+            ], 400);
+
+        }
         //Check Balance
-        $received = $auth_user->transactions()->where('process', 'credit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
-        $sent = $auth_user->transactions()->where('process', 'debit')->where('status', 'approved')->where('currency', request('currency'))->sum('amount');
+        $received = $auth_user->transactions()->where('process', 'credit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
+        $sent = $auth_user->transactions()->where('process', 'debit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
         $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
         $stored_balance = $auth_user->account_details->balance(request('currency'));
         if ($stored_balance != $balance_from_transaction_history) {
@@ -92,7 +100,7 @@ class SendMoneyController extends Controller
             'use' => 'transaction',
         ]);
 
-        Mail::to(auth()->user())->queue(new OTPMail($otp, auth()->user()));
+        Mail::to(auth()->user())->send(new OTPMail($otp, auth()->user()));
         auth()->user()->notify(new SendMoneyNotification($transaction->notify));
 
         DB::commit();

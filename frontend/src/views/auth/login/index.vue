@@ -1,7 +1,7 @@
 <template>
     <div class="loginwrapper">
       <div class="lg-inner-column">
-        <div class="left-column p-5">
+        <div class="left-column p-5 bg-slate-100 dark:bg-slate-900">
           <Carousel
             :carousels="carousels"
             :autoplay="{
@@ -11,12 +11,12 @@
           />
         </div>
         <div class="right-column relative">
-          <div  class="inner-content h-full flex flex-col bg-white dark:bg-slate-800">
+          <div  class="inner-content h-full flex flex-col bg-slate-100 dark:bg-slate-900">
             <div class="auth-box h-full flex flex-col justify-center">
               <div class="mobile-logo text-center mb-6 lg:hidden block max-w-[220px] ml-auto mr-auto">
                 <router-link to="/">
-                  <img :src="logo" alt="" class="mx-auto" v-if="!this.$store.themeSettingsStore.isDark"/>
-                  <img :src="logoWhite" alt="" class="mx-auto" v-else />
+                  <img :src="logo" alt="" class="mx-auto w-[150px]" v-if="!this.$store.themeSettingsStore.isDark"/>
+                  <img :src="logoWhite" alt="" class="mx-auto w-[150px]" v-else />
                 </router-link>
               </div>
               <div class="text-center 2xl:mb-10 mb-4">
@@ -50,7 +50,6 @@ import Carousel from "@/components/Carousel";
 import sideImg1 from "@/assets/images/auth/slideShow2.png";
 import sideImg2 from "@/assets/images/auth/slideShow1.png";
 import sideImg3 from "@/assets/images/auth/beach.jpg";
-import sideImg4 from "@/assets/images/auth/siblings.jpg";
 import logoWhite from "@/assets/images/logo/Logo_White.png"
 import logo from "@/assets/images/logo/Logo_Black.png"
 
@@ -68,9 +67,6 @@ export default {
         },
         {
           img: sideImg3,
-        },
-        {
-          img: sideImg4,
         },
       ],
     }

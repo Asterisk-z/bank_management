@@ -87,9 +87,9 @@ import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
 import Icon from "@/components/Icon";
 import Card from "@/components/Card";
-import userImg2 from "@/assets/images/users/user-2.jpg";
-import userImg3 from "@/assets/images/users/user-3.jpg";
-import userImg4 from "@/assets/images/users/user-4.jpg";
+import userImg2 from "@/assets/images/users/default.jpg";
+import userImg3 from "@/assets/images/users/default.jpg";
+import userImg4 from "@/assets/images/users/default.jpg";
 // Import Swiper styles
 export default {
   components: {

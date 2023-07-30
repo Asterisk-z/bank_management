@@ -12,8 +12,8 @@
 
 
 
-    <Textinput label="Password" type="password" placeholder="8+ characters, 1 capital letter " name="password" v-model="password" :error="passwordError" hasicon classInput="h-[48px]" />
-    <Textinput label="Confirm Password" type="password" placeholder="8+ characters, 1 capital letter " name="cpassword" v-model="cPassword" :error="cPasswordError" hasicon classInput="h-[48px]" />
+    <Textinput label="Password" type="password" placeholder="8+ characters " name="password" v-model="password" :error="passwordError" hasicon classInput="h-[48px]" />
+    <Textinput label="Confirm Password" type="password" placeholder="8+ characters " name="cpassword" v-model="cPassword" :error="cPasswordError" hasicon classInput="h-[48px]" />
 
     <label class="cursor-pointer flex items-start">
       <input  type="checkbox"  class="hidden"  @change="() => (checkbox = !checkbox)"/>
@@ -23,7 +23,7 @@
       <span class="text-slate-500 dark:text-slate-400 text-sm leading-6">Accept our Terms and Conditions</span>
     </label>
 
-    <button type="submit" class="btn btn-dark block w-full text-center">
+    <button type="submit" class="btn btn-primary block w-full text-center">
       Create an account
     </button>
   </form>

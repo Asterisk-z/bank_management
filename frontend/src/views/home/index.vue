@@ -279,12 +279,12 @@ import window from "@/mixins/window";
 
 // image import
 import widget1 from "@/assets/images/all-img/widget-bg-1.png"
-import activity1 from "@/assets/images/users/user-1.jpg"
-import activity2 from "@/assets/images/users/user-2.jpg"
-import activity3 from "@/assets/images/users/user-3.jpg"
-import activity4 from "@/assets/images/users/user-4.jpg"
-import activity5 from "@/assets/images/users/user-5.jpg"
-import activity6 from "@/assets/images/users/user-6.jpg"
+import activity1 from "@/assets/images/users/default.jpg"
+import activity2 from "@/assets/images/users/default.jpg"
+import activity3 from "@/assets/images/users/default.jpg"
+import activity4 from "@/assets/images/users/default.jpg"
+import activity5 from "@/assets/images/users/default.jpg"
+import activity6 from "@/assets/images/users/default.jpg"
 
 export default {
   mixins: [window],

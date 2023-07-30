@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\DepositController as AdminDepositController;
 use App\Http\Controllers\Admin\PaymentRequestController as AdminPaymentRequestController;
 use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WireTransferController as AdminWireTransferController;
+use App\Http\Controllers\Admin\WithdrawController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\Custoer\NotificationController;
@@ -85,8 +88,27 @@ Route::prefix('v1')->group(function () {
         Route::post('transfer_requests_canceled', [AdminPaymentRequestController::class, 'transfer_requests_canceled'])->name('transfer_requests_canceled');
         Route::post('cancel_request', [AdminPaymentRequestController::class, 'cancel_request'])->name('cancel_request');
 
+        Route::post('list_wire_transfer', [AdminWireTransferController::class, 'list_wire_transfer'])->name('list_wire_transfer');
+        Route::post('list_pending_wire_transfer', [AdminWireTransferController::class, 'list_pending_wire_transfer'])->name('list_pending_wire_transfer');
+        Route::post('list_approved_wire_transfer', [AdminWireTransferController::class, 'list_approved_wire_transfer'])->name('list_approved_wire_transfer');
+        Route::post('list_rejected_wire_transfer', [AdminWireTransferController::class, 'list_rejected_wire_transfer'])->name('list_rejected_wire_transfer');
+        Route::post('cancel_wire_transfer', [AdminWireTransferController::class, 'cancel_wire_transfer'])->name('cancel_wire_transfer');
+        Route::post('approve_wire_transfer', [AdminWireTransferController::class, 'approve_wire_transfer'])->name('approve_wire_transfer');
 
+        Route::post('create_deposit', [AdminDepositController::class, 'create_deposit'])->name('create_deposit');
+        Route::post('list_user', [AdminDepositController::class, 'list_user'])->name('list_user');
+        Route::post('list_deposit', [AdminDepositController::class, 'list_deposit'])->name('list_deposit');
+        Route::post('list_deposit_transaction', [AdminDepositController::class, 'list_deposit_transaction'])->name('list_deposit_transaction');
+        Route::post('list_deposit_transaction_approved', [AdminDepositController::class, 'list_deposit_transaction_approved'])->name('list_deposit_transaction_approved');
+        Route::post('list_deposit_transaction_pending', [AdminDepositController::class, 'list_deposit_transaction_pending'])->name('list_deposit_transaction_pending');
+        Route::post('list_deposit_transaction_declined', [AdminDepositController::class, 'list_deposit_transaction_declined'])->name('list_deposit_transaction_declined');
+        Route::post('list_deposit_pending', [AdminDepositController::class, 'list_deposit_pending'])->name('list_deposit_pending');
+        Route::post('list_deposit_approved', [AdminDepositController::class, 'list_deposit_approved'])->name('list_deposit_approved');
+        Route::post('list_deposit_canceled', [AdminDepositController::class, 'list_deposit_canceled'])->name('list_deposit_canceled');
+        Route::post('approved_deposit', [AdminDepositController::class, 'approved_deposit'])->name('approved_deposit');
+        Route::post('cancel_deposit', [AdminDepositController::class, 'cancel_deposit'])->name('cancel_deposit');
 
+        Route::post('list_withdraw_request', [WithdrawController::class, 'list_withdraw_request'])->name('list_withdraw_request');
 
     });
 

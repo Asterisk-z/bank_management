@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('rate');
+            $table->string('sign')->default('$');
             $table->enum('base', ['yes', 'no']);
             $table->enum('status', ['active', 'not_active']);
             $table->timestamps();

@@ -7,7 +7,7 @@
             class="h-[150px] w-[150px] mx-auto rounded-full ring-4 ring-slate-100 relative"
           >
             <img
-              src="@/assets/images/users/user-1.jpg"
+              src="@/assets/images/users/default.jpg"
               alt=""
               class="w-full h-full object-cover rounded-full"
             />

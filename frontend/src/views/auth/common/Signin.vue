@@ -12,7 +12,7 @@
     <Textinput
       label="Password"
       type="password"
-      placeholder="8+ characters, 1 capitat letter "
+      placeholder="Password"
       name="password"
       v-model="password"
       :error="passwordError"
@@ -53,7 +53,7 @@
       >
     </div>
 
-    <button type="submit" class="btn btn-dark block w-full text-center">
+    <button type="submit" class="btn btn-primary block w-full text-center">
       Sign in
     </button>
   </form>
@@ -89,10 +89,10 @@ export default {
     const auth = useAuthStore(); 
 
     const formValues = {
-      email: "admin@royal.com",
-      password: "1qa2ws3ed4rf",
-      // email: "",
-      // password: "",
+      // email: "admin@royal.com",
+      // password: "1qa2ws3ed4rf",
+      email: "",
+      password: "",
     };
 
     const { handleSubmit } = useForm({

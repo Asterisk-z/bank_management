@@ -21,655 +21,655 @@ export const AdminMenuItem = [
   },
   {
     title: "Transfer Requests",
-    icon: "heroicons:document",
+    icon: "mdi:bank-transfer",
     link: "transfer-requests",
   },
   {
     title: "Wire Transfers",
-    icon: "heroicons:document",
+    icon: "ic:outline-request-page",
     link: "wire-transfer requests",
   },
   {
     title: "Deposits",
-    icon: "heroicons-outline:document",
+    icon: "vaadin:money-deposit",
     link: "#",
     child: [
       {
         childtitle: "Make Deposits",
-        childlink: "new-deposit",
+        childlink: "admin-new-deposit",
       },
       {
         childtitle: "Deposit Requests",
-        childlink: "deposit-request",
+        childlink: "admin-deposit-request",
       },
       {
         childtitle: "Deposit History",
-        childlink: "deposit-history",
+        childlink: "admin-deposit-history",
       },
     ],
   },
-  {
-    title: "Withdraw",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "Make Withdraw",
-        childlink: "new-withdraw",
-      },
-      {
-        childtitle: "Withdraw Requests",
-        childlink: "withdraw-requests",
-      },
-      {
-        childtitle: "Withdraw History",
-        childlink: "withdraw-history",
-      },
-    ],
-  },
-  {
-    title: "Transactions",
-    icon: "heroicons:document",
-    link: "transactions",
-  },
-  {
-    title: "Loan Management",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "Loans",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Loan Calculator",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "New Loan",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Loan Product",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Loan Repayment",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    title: "Fixed Deposits",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "New Fixed Deposit Request",
-        childlink: "projects",
-      },
-      {
-        childtitle: "All Fixed Deposit",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "FDR Package",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    title: "Gift Card",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "Gift Cards",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Used Gift Card",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    title: "Support TIckets",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "Active Ticket",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Pending Tickets",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Closed Ticket",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    isHeadr: true,
-    title: "System Setting",
-  },
+  // {
+  //   title: "Withdraw",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Make Withdraw",
+  //       childlink: "new-withdraw",
+  //     },
+  //     {
+  //       childtitle: "Withdraw Requests",
+  //       childlink: "withdraw-requests",
+  //     },
+  //     {
+  //       childtitle: "Withdraw History",
+  //       childlink: "withdraw-history",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Transactions",
+  //   icon: "heroicons:document",
+  //   link: "transactions",
+  // },
+  // {
+  //   title: "Loan Management",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Loans",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Loan Calculator",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "New Loan",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Loan Product",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Loan Repayment",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Fixed Deposits",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "New Fixed Deposit Request",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "All Fixed Deposit",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "FDR Package",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Gift Card",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Gift Cards",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Used Gift Card",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Support TIckets",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Active Ticket",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Pending Tickets",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Closed Ticket",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   isHeadr: true,
+  //   title: "System Setting",
+  // },
 
-  {
-    title: "Branches",
-    icon: "heroicons-outline:clipboard-check",
-    link: "todo",
-  },
-  {
-    title: "Banks",
-    icon: "heroicons-outline:clipboard-check",
-    link: "todo",
-  },
-  {
-    title: "Reports",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "Transaction Report",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Loan Reports",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "FDR Reports",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Bank Reports",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    title: "Admin",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "All Admin",
-        childlink: "projects",
-      },
-      {
-        childtitle: "User Role",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Access Control",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Bank Reports",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    title: "Currency List",
-    icon: "heroicons-outline:clipboard-check",
-    link: "todo",
-  },
-  {
-    title: "Transaction Settings",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "Deposit Gateways",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Deposit Method",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Withdraw Method",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Transaction Fee",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    title: "Website Management",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "Services",
-        childlink: "projects",
-      },
-      {
-        childtitle: "FAQ",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Testimonial",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Teams",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Page",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Menu Management",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "Team Option",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    title: "Administration",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "General Setting",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Email Template",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "SMS Template",
-        childlink: "project-details",
-      },
-      {
-        childtitle: "BackUp",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    title: "Languages",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "All Language",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Add Lanuage",
-        childlink: "project-details",
-      },
-    ],
-  },
+  // {
+  //   title: "Branches",
+  //   icon: "heroicons-outline:clipboard-check",
+  //   link: "todo",
+  // },
+  // {
+  //   title: "Banks",
+  //   icon: "heroicons-outline:clipboard-check",
+  //   link: "todo",
+  // },
+  // {
+  //   title: "Reports",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Transaction Report",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Loan Reports",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "FDR Reports",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Bank Reports",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Admin",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "All Admin",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "User Role",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Access Control",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Bank Reports",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Currency List",
+  //   icon: "heroicons-outline:clipboard-check",
+  //   link: "todo",
+  // },
+  // {
+  //   title: "Transaction Settings",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Deposit Gateways",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Deposit Method",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Withdraw Method",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Transaction Fee",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Website Management",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Services",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "FAQ",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Testimonial",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Teams",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Page",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Menu Management",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "Team Option",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Administration",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "General Setting",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Email Template",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "SMS Template",
+  //       childlink: "project-details",
+  //     },
+  //     {
+  //       childtitle: "BackUp",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Languages",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "All Language",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Add Lanuage",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
 
 
-  {
-    isHeadr: true,
-    title: "apps",
-  },
-  {
-    title: "Chat",
-    icon: "heroicons-outline:chat",
-    link: "chat",
-  },
+  // {
+  //   isHeadr: true,
+  //   title: "apps",
+  // },
+  // {
+  //   title: "Chat",
+  //   icon: "heroicons-outline:chat",
+  //   link: "chat",
+  // },
 
-  {
-    title: "Email",
-    icon: "heroicons-outline:mail",
-    link: "email",
-  },
+  // {
+  //   title: "Email",
+  //   icon: "heroicons-outline:mail",
+  //   link: "email",
+  // },
 
-  {
-    title: "Kanban",
-    icon: "heroicons-outline:view-boards",
-    link: "kanban",
-  },
-  {
-    title: "Calender",
-    icon: "heroicons-outline:calendar",
-    link: "calender",
-  },
+  // {
+  //   title: "Kanban",
+  //   icon: "heroicons-outline:view-boards",
+  //   link: "kanban",
+  // },
+  // {
+  //   title: "Calender",
+  //   icon: "heroicons-outline:calendar",
+  //   link: "calender",
+  // },
 
-  {
-    title: "Todo",
-    icon: "heroicons-outline:clipboard-check",
-    link: "todo",
-  },
+  // {
+  //   title: "Todo",
+  //   icon: "heroicons-outline:clipboard-check",
+  //   link: "todo",
+  // },
 
-  {
-    title: "Projects",
-    icon: "heroicons-outline:document",
-    link: "#",
-    child: [
-      {
-        childtitle: "Projects",
-        childlink: "projects",
-      },
-      {
-        childtitle: "Project Details",
-        childlink: "project-details",
-      },
-    ],
-  },
-  {
-    isHeadr: true,
-    title: "Pages",
-  },
-  {
-    title: "Authentication",
-    icon: "heroicons-outline:lock-closed",
-    link: "#",
-    child: [
-      {
-        childtitle: "Signin One",
-        childlink: "/",
-      },
-      {
-        childtitle: "Signin Two",
-        childlink: "/login2",
-      },
-      {
-        childtitle: "Signin Three",
-        childlink: "/login3",
-      },
-      {
-        childtitle: "Signup One",
-        childlink: "/register",
-      },
-      {
-        childtitle: "Signup Two",
-        childlink: "/register2",
-      },
-      {
-        childtitle: "Signup Three",
-        childlink: "/register3",
-      },
-      {
-        childtitle: "Forget Password One",
-        childlink: "/forgot-password",
-      },
-      {
-        childtitle: "Forget Password Two",
-        childlink: "/forgot-password2",
-      },
-      {
-        childtitle: "Forget Password Three",
-        childlink: "/forgot-password3",
-      },
-      {
-        childtitle: "Lock Screen One",
-        childlink: "/lock-screen",
-      },
-      {
-        childtitle: "Lock Screen Two",
-        childlink: "/lock-screen2",
-      },
-      {
-        childtitle: "Lock Screen Three",
-        childlink: "/lock-screen3",
-      },
-    ],
-  },
-  {
-    title: "Utility",
-    icon: "heroicons-outline:view-boards",
-    link: "#",
-    child: [
-      {
-        childtitle: "Invoice",
-        childlink: "invoice",
-      },
-      {
-        childtitle: "Pricing",
-        childlink: "pricing",
-      },
-      {
-        childtitle: "Testimonial",
-        childlink: "testimonial",
-      },
-      {
-        childtitle: "FAQ",
-        childlink: "faq",
-      },
-      {
-        childtitle: "Blog",
-        childlink: "blog",
-      },
+  // {
+  //   title: "Projects",
+  //   icon: "heroicons-outline:document",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Projects",
+  //       childlink: "projects",
+  //     },
+  //     {
+  //       childtitle: "Project Details",
+  //       childlink: "project-details",
+  //     },
+  //   ],
+  // },
+  // {
+  //   isHeadr: true,
+  //   title: "Pages",
+  // },
+  // {
+  //   title: "Authentication",
+  //   icon: "heroicons-outline:lock-closed",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Signin One",
+  //       childlink: "/",
+  //     },
+  //     {
+  //       childtitle: "Signin Two",
+  //       childlink: "/login2",
+  //     },
+  //     {
+  //       childtitle: "Signin Three",
+  //       childlink: "/login3",
+  //     },
+  //     {
+  //       childtitle: "Signup One",
+  //       childlink: "/register",
+  //     },
+  //     {
+  //       childtitle: "Signup Two",
+  //       childlink: "/register2",
+  //     },
+  //     {
+  //       childtitle: "Signup Three",
+  //       childlink: "/register3",
+  //     },
+  //     {
+  //       childtitle: "Forget Password One",
+  //       childlink: "/forgot-password",
+  //     },
+  //     {
+  //       childtitle: "Forget Password Two",
+  //       childlink: "/forgot-password2",
+  //     },
+  //     {
+  //       childtitle: "Forget Password Three",
+  //       childlink: "/forgot-password3",
+  //     },
+  //     {
+  //       childtitle: "Lock Screen One",
+  //       childlink: "/lock-screen",
+  //     },
+  //     {
+  //       childtitle: "Lock Screen Two",
+  //       childlink: "/lock-screen2",
+  //     },
+  //     {
+  //       childtitle: "Lock Screen Three",
+  //       childlink: "/lock-screen3",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Utility",
+  //   icon: "heroicons-outline:view-boards",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Invoice",
+  //       childlink: "invoice",
+  //     },
+  //     {
+  //       childtitle: "Pricing",
+  //       childlink: "pricing",
+  //     },
+  //     {
+  //       childtitle: "Testimonial",
+  //       childlink: "testimonial",
+  //     },
+  //     {
+  //       childtitle: "FAQ",
+  //       childlink: "faq",
+  //     },
+  //     {
+  //       childtitle: "Blog",
+  //       childlink: "blog",
+  //     },
 
-      {
-        childtitle: "Blank Page",
-        childlink: "blank-page",
-      },
-      {
-        childtitle: "Profile",
-        childlink: "profile",
-      },
-      {
-        childtitle: "Settings",
-        childlink: "settings",
-      },
-      {
-        childtitle: "404 page",
-        childlink: "/404",
-      },
-      {
-        childtitle: "Coming Soon",
-        childlink: "/coming-soon",
-      },
-      {
-        childtitle: "Under Maintanance page",
-        childlink: "/under-construction",
-      },
-    ],
-  },
+  //     {
+  //       childtitle: "Blank Page",
+  //       childlink: "blank-page",
+  //     },
+  //     {
+  //       childtitle: "Profile",
+  //       childlink: "profile",
+  //     },
+  //     {
+  //       childtitle: "Settings",
+  //       childlink: "settings",
+  //     },
+  //     {
+  //       childtitle: "404 page",
+  //       childlink: "/404",
+  //     },
+  //     {
+  //       childtitle: "Coming Soon",
+  //       childlink: "/coming-soon",
+  //     },
+  //     {
+  //       childtitle: "Under Maintanance page",
+  //       childlink: "/under-construction",
+  //     },
+  //   ],
+  // },
 
-  {
-    isHeadr: true,
-    title: "Elements",
-  },
-  {
-    title: "Widgets",
-    icon: "heroicons-outline:view-grid-add",
-    link: "#",
-    child: [
-      {
-        childtitle: "Basic",
-        childlink: "basic",
-      },
-      {
-        childtitle: "Statistic",
-        childlink: "statistic",
-      },
-    ],
-  },
-  {
-    title: "Components",
-    icon: "heroicons-outline:collection",
-    link: "#",
-    child: [
-      {
-        childtitle: "Typography",
-        childlink: "typography",
-      },
-      {
-        childtitle: "Colors",
-        childlink: "colors",
-      },
-      {
-        childtitle: "Alert",
-        childlink: "alert",
-      },
-      {
-        childtitle: "Button",
-        childlink: "button",
-      },
-      {
-        childtitle: "Card",
-        childlink: "/app/card",
-      },
-      {
-        childtitle: "Carousel",
-        childlink: "carousel",
-      },
-      {
-        childtitle: "Dropdown",
-        childlink: "dropdown",
-      },
-      {
-        childtitle: "Image",
-        childlink: "image",
-      },
-      {
-        childtitle: "Modal",
-        childlink: "modal",
-      },
-      {
-        childtitle: "Progress bar",
-        childlink: "progress-bar",
-      },
-      {
-        childtitle: "Placeholder",
-        childlink: "placeholder",
-      },
-      {
-        childtitle: "Tab & Accordion",
-        childlink: "tab-accordion",
-      },
-      {
-        childtitle: "Badge",
-        childlink: "badges",
-      },
-      {
-        childtitle: "Pagination",
-        childlink: "Pagination",
-      },
-      {
-        childtitle: "Video",
-        childlink: "video",
-      },
-      {
-        childtitle: "Tooltip & Popover",
-        childlink: "tooltip-popover",
-      },
-    ],
-  },
-  {
-    title: "Forms",
-    icon: "heroicons-outline:clipboard-list",
-    link: "#",
-    child: [
-      {
-        childtitle: "Input",
-        childlink: "input",
-      },
-      {
-        childtitle: "Input group",
-        childlink: "input-group",
-      },
-      {
-        childtitle: "Input layout",
-        childlink: "input-layout",
-      },
-      {
-        childtitle: "Form validation",
-        childlink: "form-validation",
-      },
-      {
-        childtitle: "Wizard",
-        childlink: "form-wizard",
-      },
-      {
-        childtitle: "Input mask",
-        childlink: "input-mask",
-      },
-      {
-        childtitle: "File input",
-        childlink: "file-input",
-      },
-      {
-        childtitle: "Form repeater",
-        childlink: "form-repeater",
-      },
-      {
-        childtitle: "Textarea",
-        childlink: "textarea",
-      },
-      {
-        childtitle: "Checkbox",
-        childlink: "checkbox",
-      },
-      {
-        childtitle: "Radio button",
-        childlink: "radio-button",
-      },
-      {
-        childtitle: "Switch",
-        childlink: "switch",
-      },
-      {
-        childtitle: "Select & Vue select",
-        childlink: "select",
-      },
-      {
-        childtitle: "Date time picker",
-        childlink: "date-time-picker",
-      },
-    ],
-  },
-  {
-    title: "Tables",
-    icon: "heroicons-outline:table",
-    link: "#",
-    child: [
-      {
-        childtitle: "Basic Table",
-        childlink: "table-basic",
-      },
-      {
-        childtitle: "Advanced table",
-        childlink: "table-advanced",
-      },
-    ],
-  },
-  {
-    title: "Chart",
-    icon: "heroicons-outline:chart-bar",
-    link: "#",
-    child: [
-      {
-        childtitle: "Apex chart",
-        childlink: "appex-chart",
-      },
-      {
-        childtitle: "Chart js",
-        childlink: "chartjs",
-      },
-    ],
-  },
-  {
-    title: "Map",
-    icon: "heroicons-outline:map",
-    link: "map",
-  },
+  // {
+  //   isHeadr: true,
+  //   title: "Elements",
+  // },
+  // {
+  //   title: "Widgets",
+  //   icon: "heroicons-outline:view-grid-add",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Basic",
+  //       childlink: "basic",
+  //     },
+  //     {
+  //       childtitle: "Statistic",
+  //       childlink: "statistic",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Components",
+  //   icon: "heroicons-outline:collection",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Typography",
+  //       childlink: "typography",
+  //     },
+  //     {
+  //       childtitle: "Colors",
+  //       childlink: "colors",
+  //     },
+  //     {
+  //       childtitle: "Alert",
+  //       childlink: "alert",
+  //     },
+  //     {
+  //       childtitle: "Button",
+  //       childlink: "button",
+  //     },
+  //     {
+  //       childtitle: "Card",
+  //       childlink: "/app/card",
+  //     },
+  //     {
+  //       childtitle: "Carousel",
+  //       childlink: "carousel",
+  //     },
+  //     {
+  //       childtitle: "Dropdown",
+  //       childlink: "dropdown",
+  //     },
+  //     {
+  //       childtitle: "Image",
+  //       childlink: "image",
+  //     },
+  //     {
+  //       childtitle: "Modal",
+  //       childlink: "modal",
+  //     },
+  //     {
+  //       childtitle: "Progress bar",
+  //       childlink: "progress-bar",
+  //     },
+  //     {
+  //       childtitle: "Placeholder",
+  //       childlink: "placeholder",
+  //     },
+  //     {
+  //       childtitle: "Tab & Accordion",
+  //       childlink: "tab-accordion",
+  //     },
+  //     {
+  //       childtitle: "Badge",
+  //       childlink: "badges",
+  //     },
+  //     {
+  //       childtitle: "Pagination",
+  //       childlink: "Pagination",
+  //     },
+  //     {
+  //       childtitle: "Video",
+  //       childlink: "video",
+  //     },
+  //     {
+  //       childtitle: "Tooltip & Popover",
+  //       childlink: "tooltip-popover",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Forms",
+  //   icon: "heroicons-outline:clipboard-list",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Input",
+  //       childlink: "input",
+  //     },
+  //     {
+  //       childtitle: "Input group",
+  //       childlink: "input-group",
+  //     },
+  //     {
+  //       childtitle: "Input layout",
+  //       childlink: "input-layout",
+  //     },
+  //     {
+  //       childtitle: "Form validation",
+  //       childlink: "form-validation",
+  //     },
+  //     {
+  //       childtitle: "Wizard",
+  //       childlink: "form-wizard",
+  //     },
+  //     {
+  //       childtitle: "Input mask",
+  //       childlink: "input-mask",
+  //     },
+  //     {
+  //       childtitle: "File input",
+  //       childlink: "file-input",
+  //     },
+  //     {
+  //       childtitle: "Form repeater",
+  //       childlink: "form-repeater",
+  //     },
+  //     {
+  //       childtitle: "Textarea",
+  //       childlink: "textarea",
+  //     },
+  //     {
+  //       childtitle: "Checkbox",
+  //       childlink: "checkbox",
+  //     },
+  //     {
+  //       childtitle: "Radio button",
+  //       childlink: "radio-button",
+  //     },
+  //     {
+  //       childtitle: "Switch",
+  //       childlink: "switch",
+  //     },
+  //     {
+  //       childtitle: "Select & Vue select",
+  //       childlink: "select",
+  //     },
+  //     {
+  //       childtitle: "Date time picker",
+  //       childlink: "date-time-picker",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Tables",
+  //   icon: "heroicons-outline:table",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Basic Table",
+  //       childlink: "table-basic",
+  //     },
+  //     {
+  //       childtitle: "Advanced table",
+  //       childlink: "table-advanced",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Chart",
+  //   icon: "heroicons-outline:chart-bar",
+  //   link: "#",
+  //   child: [
+  //     {
+  //       childtitle: "Apex chart",
+  //       childlink: "appex-chart",
+  //     },
+  //     {
+  //       childtitle: "Chart js",
+  //       childlink: "chartjs",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Map",
+  //   icon: "heroicons-outline:map",
+  //   link: "map",
+  // },
 
-  {
-    title: "Icons",
-    icon: "heroicons-outline:emoji-happy",
-    link: "icons",
-  },
+  // {
+  //   title: "Icons",
+  //   icon: "heroicons-outline:emoji-happy",
+  //   link: "icons",
+  // },
 ];
 
 export const UserMenuItem = [

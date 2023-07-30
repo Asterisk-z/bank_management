@@ -36,6 +36,8 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
+            $table->string('login_otp')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
             $table->enum('kyc_status', ['yes', 'no'])->default('no');
             $table->rememberToken();
             $table->timestamps();

@@ -8,7 +8,7 @@
             <div class="flex-none">
               <div class="h-10 w-10 rounded-full" @click="toggleuserSetting">
                 <img
-                  src="@/assets/images/users/user-1.jpg"
+                  src="@/assets/images/users/default.jpg"
                   alt=""
                   class="w-full h-full object-cover rounded-full"
                 />
@@ -80,7 +80,7 @@
               class="h-16 w-16 rounded-full border border-slate-400 p-[2px] shadow-md mx-auto mb-3 relative"
             >
               <img
-                src="@/assets/images/users/user-1.jpg"
+                src="@/assets/images/users/default.jpg"
                 alt=""
                 class="block w-full h-full rounded-full object-contain"
               />

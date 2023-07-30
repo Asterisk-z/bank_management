@@ -112,7 +112,7 @@ import Button from "@/components/Button";
 import SplitDropdown from '@/components/Dropdown/SplitDropdown';
 import axios from "axios";
 import { useToast } from "vue-toastification";
-import user3 from "@/assets/images/users/user-3.jpg"
+import user3 from "@/assets/images/users/default.jpg"
 
 export default {
     components: {

@@ -50,7 +50,6 @@ import Carousel from "@/components/Carousel";
 import sideImg1 from "@/assets/images/auth/slideShow2.png";
 import sideImg2 from "@/assets/images/auth/slideShow1.png";
 import sideImg3 from "@/assets/images/auth/beach.jpg";
-import sideImg4 from "@/assets/images/auth/siblings.jpg";
 
 export default {
   data() {
@@ -66,9 +65,6 @@ export default {
         },
         {
           img: sideImg3,
-        },
-        {
-          img: sideImg4,
         },
       ],
     }
