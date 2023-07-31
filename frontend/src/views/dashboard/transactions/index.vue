@@ -1,99 +1,117 @@
 <template>
     <div>
-        <Breadcrumb />
-
         <Card noborder>
             <div class="md:flex pb-6 items-center">
-                <h6 class="flex-1 md:mb-0 mb-3">Transactions</h6>
+                <h6 class="flex-1 md:mb-0 mb-3">All Transactions</h6>
                 <div class="md:flex md:space-x-3 items-center flex-none rtl:space-x-reverse"
                     :class="window.width < 768 ? 'space-x-rb' : ''">
                     <InputGroup v-model="searchTerm" placeholder="Search" type="text" prependIcon="heroicons-outline:search"
                         merged />
-                    <SelectStatus />
+                    <Select label="" :options="values" v-model="selected" style="width: 200px" classInput="h-[36px]"
+                        @change="updateValue" />
                 </div>
             </div>
             <div class="-mx-6">
-                <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="advancedTable" :sort-options="{
-                        enabled: false,
-                    }" :pagination-options="{
-                        enabled: true,
-                        perPage: perpage,
-                    }" :search-options="{
-                        enabled: true,
-                        externalQuery: searchTerm,
-                    }" :select-options="{
-                        enabled: true,
-                        selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-                        selectioninfoClass: 'table-input-checkbox',
-                        selectionText: 'rows selected',
-                        clearSelectionText: 'clear',
-                        disableSelectinfo: true, // disable the select info-500 panel on top
-                        selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-                    }">
-                    <template v-slot:table-row="props">
-                        <span v-if="props.column.field == 'customer'" class="flex items-center">
-                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
-                                <img :src="props.row.customer.image" :alt="props.row.customer.name"
-                                    class="object-cover w-full h-full rounded-full" />
+                <template v-if="transactions">
+                    <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="transactions"
+                        :sort-options="{
+                            enabled: false,
+                        }" :pagination-options="{
+                                enabled: true,
+                                perPage: perpage,
+                            }" :search-options="{
+                                enabled: true,
+                                externalQuery: searchTerm,
+                            }" >
+                        <template v-slot:table-row="props">
+                            <!-- <span v-if="props.column.field == 'benefactor'" class="flex flex-col items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
+                                    props.row.name }}</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
+                                    props.row.email }}</span>
+                            </span> -->
+                            <span v-if="props.column.field == 'user'" class="flex flex-col items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
+                                    props.row.name }}</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
+                                    props.row.email }}</span>
                             </span>
-                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
-                                props.row.customer.name }}</span>
-                        </span>
-                        <span v-if="props.column.field == 'date'" class="text-slate-500 dark:text-slate-400">
-                            {{ props.row.date }}
-                        </span>
-                        <span v-if="props.column.field == 'status'" class="block w-full">
-                            <span
-                                class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
-                                :class="`${props.row.status === 'paid'
-                                    ? 'text-success-500 bg-success-500'
-                                    : ''
-                                    } 
-                                                                            ${props.row.status === 'due'
-                                        ? 'text-warning-500 bg-warning-500'
-                                        : ''
-                                    }
-                                                                            ${props.row.status === 'cancled'
-                                        ? 'text-danger-500 bg-danger-500'
-                                        : ''
-                                    }
-            
-             `">
-                                {{ props.row.status }}
+
+                            <span v-if="props.column.field == 'amount'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.amount).toLocaleString("en-US") }}
                             </span>
-                        </span>
-                        <span v-if="props.column.field == 'action'">
-                            <Dropdown classMenuItems=" w-[140px]">
-                                <span class="text-xl">
-                                    <Icon icon="heroicons-outline:dots-vertical" />
+                            <span v-if="props.column.field == 'process'" class="block w-full">
+                                <span
+                                    class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                    :class="`${props.row.process === 'credit'
+                                        ? 'text-success-500 bg-success-500'
+                                        : ''
+                                        }   ${props.row.process === 'debit'
+                                            ? 'text-danger-500 bg-danger-500'
+                                            : ''
+                                        } `">
+                                    {{ props.row.process }}
                                 </span>
-                                <template v-slot:menus>
-                                    <MenuItem v-for="(item, i) in actions" :key="i">
-                                    <div @click="item.doit"
-                                        :class="` ${item.name === 'delete'
-                                            ? 'bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white'
-                                            : 'hover:bg-slate-900 hover:text-white'
-                                            }  w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
-                                        <span class="text-base">
-                                            <Icon :icon="item.icon" />
-                                        </span>
-                                        <span>{{ item.name }}</span>
-                                    </div>
-                                    </MenuItem>
-                                </template>
-                            </Dropdown>
-                        </span>
-                    </template>
-                    <template #pagination-bottom="props">
-                        <div class="py-4 px-3">
-                            <Pagination :total="50" :current="current" :per-page="perpage" :pageRange="pageRange"
-                                @page-changed="current = $event" :pageChanged="props.pageChanged"
-                                :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
-                                >
-                            </Pagination>
-                        </div>
-                    </template>
-                </vue-good-table>
+                            </span>
+                            <span v-if="props.column.field == 'status'" class="block w-full">
+                                <span
+                                    class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                    :class="`${props.row.status === 'approved'
+                                        ? 'text-success-500 bg-success-500'
+                                        : ''
+                                        } 
+                                                                                                                                                                                                                                ${props.row.status === 'pending'
+                                            ? 'text-warning-500 bg-warning-500'
+                                            : ''
+                                        }
+                                                                                                                                                                                                                                ${props.row.status === 'declined'
+                                            ? 'text-danger-500 bg-danger-500'
+                                            : ''
+                                        } `">
+                                    {{ props.row.status }}
+                                </span>
+                            </span>
+                            <span v-if="props.column.field == 'action'">
+
+                                <Dropdown classMenuItems=" w-[140px]" v-if="props.row.status != 'approved'">
+                                    <span class="text-xl">
+                                        <Icon icon="heroicons-outline:dots-vertical" />
+                                    </span>
+                                    <template v-slot:menus>
+                                        <MenuItem v-if="props.row.status != 'approved'">
+                                        <div @click="approve_request(props.row.id)"
+                                            :class="`'hover:bg-slate-900  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
+                                            <span class="text-base">
+                                                <Icon :icon="'heroicons-outline:check'" />
+                                            </span>
+                                            <span>Approve</span>
+                                        </div>
+                                        </MenuItem>
+                                        <MenuItem v-if="props.row.status == 'pending'">
+                                        <div @click="cancel_request(props.row.id)"
+                                            :class="`'bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
+                                            <span class="text-base">
+                                                <Icon :icon="'heroicons-outline:trash'" />
+                                            </span>
+                                            <span>Reject</span>
+                                        </div>
+                                        </MenuItem>
+                                    </template>
+                                </Dropdown>
+                            </span>
+                        </template>
+                        <template #pagination-bottom="props">
+                            <div class="py-4 px-3">
+                                <Pagination :total="transactions.length" :current="current" :per-page="perpage"
+                                    :pageRange="pageRange" @page-changed="current = $event" :pageChanged="props.pageChanged"
+                                    :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
+                                    >
+                                </Pagination>
+                            </div>
+                        </template>
+                    </vue-good-table>
+                </template>
+
             </div>
         </Card>
     </div>
@@ -107,8 +125,11 @@ import Icon from "@/components/Icon";
 import InputGroup from "@/components/InputGroup";
 import Pagination from "@/components/Pagination";
 import { MenuItem } from "@headlessui/vue";
-import { advancedTable } from "@/constant/basic-tablle-data";
 import window from "@/mixins/window";
+import axios from 'axios';
+import { useToast } from "vue-toastification";
+import Select from "@/components/Select";
+
 export default {
     mixins: [window],
     components: {
@@ -118,26 +139,52 @@ export default {
         Dropdown,
         Icon,
         Card,
+        Select,
         MenuItem,
         Button
     },
 
     data() {
         return {
-            advancedTable,
+            selected: "all",
+            values: [
+                {
+                    value: "all",
+                    label: "All",
+                },
+                {
+                    value: "approved",
+                    label: "Approved",
+                },
+                {
+                    value: "pending",
+                    label: "Pending",
+                },
+                {
+                    value: "declined",
+                    label: "Declined",
+                },
+            ],
             current: 1,
             perpage: 10,
             pageRange: 5,
             searchTerm: "",
+            transactions: "",
             actions: [
                 {
-                    name: "view",
-                    icon: "heroicons-outline:eye",
-                    doit: () => {
-                        // this.$router.push("/app/invoice-add");
-                        console.log('detail')
+                    name: "approve",
+                    icon: "heroicons-outline:check",
+                    doit: (id) => {
+                        this.approve_request(id)
                     },
-                }
+                },
+                {
+                    name: "reject",
+                    icon: "heroicons-outline:trash",
+                    doit: (id) => {
+                        this.cancel_request(id)
+                    },
+                },
             ],
             options: [
                 {
@@ -155,59 +202,240 @@ export default {
             ],
             columns: [
                 {
-                    label: "Id",
-                    field: "id",
+                    label: "Transaction Ref",
+                    field: "transaction_ref",
+                },
+                {
+                    label: "Process",
+                    field: "process",
                 },
                 {
                     label: "User",
-                    field: "customer",
-                },
-                {
-                    label: "AC Number",
-                    field: "date",
+                    field: "user",
                 },
 
-                {
-                    label: "Date",
-                    field: "quantity",
-                },
-                
-                {
-                    label: "Currency",
-                    field: "amount",
-                },
-                {
-                    label: "Amount",
-                    field: "amount",
-                },
-
-                {
-                    label: "DR/CR",
-                    field: "status",
-                },
                 {
                     label: "Type",
-                    field: "status",
+                    field: "type",
                 },
                 {
                     label: "Method",
-                    field: "status",
+                    field: "method",
                 },
+
                 {
                     label: "Amount",
-                    field: "status",
+                    field: "amount",
                 },
                 {
                     label: "Status",
                     field: "status",
                 },
                 {
-                    label: "Action",
-                    field: "action",
+                    label: "Description",
+                    field: "description",
                 },
+                // {
+                //     label: "Action",
+                //     field: "action",
+                // },
             ],
         };
     },
+    mounted() {
+        this.fetch_all()
+    },
+    methods: {
+        updateValue() {
+            if (this.selected == 'all') {
+                this.fetch_all()
+            }
+            if (this.selected == 'approved') {
+                this.fetch_approved()
+            }
+            if (this.selected == 'pending') {
+                this.fetch_pending()
+            }
+            if (this.selected == 'declined') {
+                this.fetch_declined()
+            }
+        },
+        create_loan() {
+            this.$router.push({ name: "admin-loan-create" })
+        },
+        approve_request(pay_id) {
+            let $this = this
+            const toast = useToast();
+            const formData = new FormData();
+            formData.append('id', pay_id)
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/approved_deposit`, formData, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+
+                    toast.success("Deposit Approved Successfully", {
+                        timeout: 4000,
+                    });
+                    $this.$router.push({ name: 'admin-deposit-request' })
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        },
+        cancel_request(pay_id) {
+            let $this = this
+            const toast = useToast();
+            const formData = new FormData();
+            formData.append('id', pay_id)
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/cancel_deposit`, formData, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+
+                    toast.success("Deposit Declined Successfully", {
+                        timeout: 4000,
+                    });
+                    $this.$router.push({ name: 'admin-deposit-request' })
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        },
+        fetch_all() {
+            const $this = this
+
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_transaction`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    // toast.success("User Found", {
+                    //     timeout: 4000,
+                    // });
+                    $this.transactions = response.data.transactions
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        },
+        fetch_approved() {
+            const $this = this
+
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_transaction_approved`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    $this.transactions = response.data.transactions
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        },
+        fetch_pending() {
+            const $this = this
+
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_transaction_pending`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    // toast.success("User Found", {
+                    //     timeout: 4000,
+                    // });
+                    $this.transactions = response.data.transactions
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        },
+        fetch_declined() {
+            const $this = this
+
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_transaction_declined`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    // toast.success("User Found", {
+                    //     timeout: 4000,
+                    // });
+                    $this.transactions = response.data.transactions
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        }
+
+    }
 };
 </script>
 <style lang="scss"></style>

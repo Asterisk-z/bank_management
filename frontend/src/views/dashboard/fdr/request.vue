@@ -2,18 +2,24 @@
     <div>
         <Card noborder>
             <div class="md:flex pb-6 items-center">
-                <h6 class="flex-1 md:mb-0 mb-3">Withdraw Transactions</h6>
+                <h6 class="flex-1 md:mb-0 mb-3">Fixed Deposit Plan</h6>
                 <div class="md:flex md:space-x-3 items-center flex-none rtl:space-x-reverse"
                     :class="window.width < 768 ? 'space-x-rb' : ''">
                     <InputGroup v-model="searchTerm" placeholder="Search" type="text" prependIcon="heroicons-outline:search"
                         merged />
                     <Select label="" :options="values" v-model="selected" style="width: 200px" classInput="h-[36px]"
                         @change="updateValue" />
+                     <Button
+            icon="heroicons-outline:plus-sm"
+            text="Add Plan"
+            btnClass=" btn-dark font-normal btn-sm "
+            iconClass="text-lg" @click="create_plan"
+          />
                 </div>
             </div>
             <div class="-mx-6">
-                <template v-if="transactions">
-                    <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="transactions"
+                <template v-if="plans">
+                    <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="plans"
                         :sort-options="{
                             enabled: false,
                         }" :pagination-options="{
@@ -22,22 +28,8 @@
 }" :search-options="{
     enabled: true,
     externalQuery: searchTerm,
-}" :select-options="{
-    enabled: true,
-    selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-    selectioninfoClass: 'table-input-checkbox',
-    selectionText: 'rows selected',
-    clearSelectionText: 'clear',
-    disableSelectinfo: true, // disable the select info-500 panel on top
-    selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
 }">
                         <template v-slot:table-row="props">
-                            <!-- <span v-if="props.column.field == 'benefactor'" class="flex flex-col items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
-                                    props.row.name }}</span>
-                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
-                                    props.row.email }}</span>
-                            </span> -->
                             <span v-if="props.column.field == 'user'" class="flex flex-col items-center">
                                 <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
                                     props.row.name }}</span>
@@ -45,21 +37,32 @@
                                     props.row.email }}</span>
                             </span>
 
-                            <span v-if="props.column.field == 'amount'" class="font-medium">
-                                {{ props.row.currency + " " + parseFloat(props.row.amount).toLocaleString("en-US") }}
+                            <span v-if="props.column.field == 'duration'" class="font-medium">
+                                {{ props.row.duration + " " +props.row.duration_type
+                                }}
+                            </span>
+                            <span v-if="props.column.field == 'minimum_amount'" class="font-medium">
+                                {{ " USD " + parseFloat(props.row.minimum_amount).toLocaleString("en-US") }}
+                            </span>
+                            <span v-if="props.column.field == 'maximum_amount'" class="font-medium">
+                                {{ " USD " + parseFloat(props.row.maximum_amount).toLocaleString("en-US") }}
+                            </span>
+
+                            <span v-if="props.column.field == 'mature_date'">
+                                <template v-if="props.row.mature_date">
+                                    {{ format_date(props.row.mature_date) }}
+                                </template>
+                            </span>
+                            <span v-if="props.column.field == 'interest_rate'">
+                                {{ props.row.interest_rate + " %" }}
                             </span>
                             <span v-if="props.column.field == 'status'" class="block w-full">
                                 <span
                                     class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
-                                    :class="`${props.row.status === 'approved'
+                                    :class="`${props.row.status === 'active'
                                         ? 'text-success-500 bg-success-500'
                                         : ''
-                                        } 
-                                                                                                                                                                                            ${props.row.status === 'pending'
-                                            ? 'text-warning-500 bg-warning-500'
-                                            : ''
-                                        }
-                                                                                                                                                                                            ${props.row.status === 'declined'
+                                        }${props.row.status === 'not_active'
                                             ? 'text-danger-500 bg-danger-500'
                                             : ''
                                         } `">
@@ -68,27 +71,36 @@
                             </span>
                             <span v-if="props.column.field == 'action'">
 
-                                <Dropdown classMenuItems=" w-[140px]" v-if="props.row.status != 'approved'">
+                                <Dropdown classMenuItems=" w-[140px]">
                                     <span class="text-xl">
                                         <Icon icon="heroicons-outline:dots-vertical" />
                                     </span>
                                     <template v-slot:menus>
-                                        <MenuItem v-if="props.row.status != 'approved'">
+                                        <MenuItem>
+                                        <div @click="edit_plan(props.row.id)"
+                                            :class="`'hover:bg-slate-900  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
+                                            <span class="text-base">
+                                                <Icon :icon="'heroicons-outline:pencil'" />
+                                            </span>
+                                            <span>Edit</span>
+                                        </div>
+                                        </MenuItem>
+                                        <MenuItem v-if="props.row.status != 'active'">
                                         <div @click="approve_request(props.row.id)"
                                             :class="`'hover:bg-slate-900  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
                                             <span class="text-base">
                                                 <Icon :icon="'heroicons-outline:check'" />
                                             </span>
-                                            <span>Approve</span>
+                                            <span>Activate</span>
                                         </div>
                                         </MenuItem>
-                                        <MenuItem v-if="props.row.status == 'pending'">
+                                        <MenuItem v-if="props.row.status != 'not_active'">
                                         <div @click="cancel_request(props.row.id)"
                                             :class="`'bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
                                             <span class="text-base">
                                                 <Icon :icon="'heroicons-outline:trash'" />
                                             </span>
-                                            <span>Reject</span>
+                                            <span>Deactivate</span>
                                         </div>
                                         </MenuItem>
                                     </template>
@@ -97,7 +109,7 @@
                         </template>
                         <template #pagination-bottom="props">
                             <div class="py-4 px-3">
-                                <Pagination :total="transactions.length" :current="current" :per-page="perpage"
+                                <Pagination :total="plans.length" :current="current" :per-page="perpage"
                                     :pageRange="pageRange" @page-changed="current = $event" :pageChanged="props.pageChanged"
                                     :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
                                     >
@@ -124,6 +136,7 @@ import window from "@/mixins/window";
 import axios from 'axios';
 import { useToast } from "vue-toastification";
 import Select from "@/components/Select";
+import moment from 'moment';
 
 export default {
     mixins: [window],
@@ -136,7 +149,7 @@ export default {
         Card,
         Select,
         MenuItem,
-        Button
+    Button,
     },
 
     data() {
@@ -164,17 +177,17 @@ export default {
             perpage: 10,
             pageRange: 5,
             searchTerm: "",
-            transactions: "",
+            plans: "",
             actions: [
                 {
-                    name: "approve",
+                    name: "Activate",
                     icon: "heroicons-outline:check",
                     doit: (id) => {
                         this.approve_request(id)
                     },
                 },
                 {
-                    name: "reject",
+                    name: "Deactivate",
                     icon: "heroicons-outline:trash",
                     doit: (id) => {
                         this.cancel_request(id)
@@ -197,34 +210,38 @@ export default {
             ],
             columns: [
                 {
-                    label: "Transaction Ref",
-                    field: "transaction_ref",
+                    label: "Name",
+                    field: "name",
                 },
                 {
-                    label: "Withdraw Ref",
-                    field: "withdraw_ref",
+                    label: "Minimun Amount",
+                    field: "minimum_amount",
                 },
                 {
-                    label: "User",
-                    field: "user",
+                    label: "Maximum Amount",
+                    field: "maximum_amount",
                 },
 
                 {
-                    label: "Amount",
-                    field: "amount",
+                    label: "Duration",
+                    field: "duration",
+                },
+                {
+                    label: "Interest Rate",
+                    field: "interest_rate",
                 },
                 {
                     label: "Status",
                     field: "status",
                 },
-                {
-                    label: "Description",
-                    field: "description",
-                },
                 // {
-                //     label: "Action",
-                //     field: "action",
+                //     label: "Description",
+                //     field: "description",
                 // },
+                {
+                    label: "Action",
+                    field: "action",
+                },
             ],
         };
     },
@@ -232,6 +249,9 @@ export default {
         this.fetch_all()
     },
     methods: {
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
         updateValue() {
             if (this.selected == 'all') {
                 this.fetch_all()
@@ -242,12 +262,12 @@ export default {
             if (this.selected == 'pending') {
                 this.fetch_pending()
             }
-            if (this.selected == 'declined') {
-                this.fetch_declined()
-            }
         },
-        create_loan() {
-            this.$router.push({ name: "admin-loan-create" })
+        create_plan() {
+            this.$router.push({ name: "admin-fixed-deposit-create" })
+        },
+        edit_plan(id) {
+            this.$router.push({ name: "admin-fixed-deposit-edit", params : {plan_id : id} })
         },
         approve_request(pay_id) {
             let $this = this
@@ -255,7 +275,7 @@ export default {
             const formData = new FormData();
             formData.append('id', pay_id)
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/approved_deposit`, formData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/plan_activate`, formData, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -266,7 +286,7 @@ export default {
                     toast.success("Deposit Approved Successfully", {
                         timeout: 4000,
                     });
-                    $this.$router.push({ name: 'admin-deposit-request' })
+                    $this.$router.push({ name: 'admin-fixed-deposit-request-package' })
 
                 } else {
                     let message = response.data?.message[0];
@@ -286,7 +306,7 @@ export default {
             const formData = new FormData();
             formData.append('id', pay_id)
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/cancel_deposit`, formData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/plan_deactivate`, formData, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -297,7 +317,7 @@ export default {
                     toast.success("Deposit Declined Successfully", {
                         timeout: 4000,
                     });
-                    $this.$router.push({ name: 'admin-deposit-request' })
+                    $this.$router.push({ name: 'admin-fixed-deposit-request-package' })
 
                 } else {
                     let message = response.data?.message[0];
@@ -316,7 +336,7 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_withdraw_request_transaction`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_all_plans`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -326,7 +346,7 @@ export default {
                     // toast.success("User Found", {
                     //     timeout: 4000,
                     // });
-                    $this.transactions = response.data.transactions
+                    $this.plans = response.data.plans
                 } else {
                     let message = response.data?.message[0];
                     toast.error(message, {
@@ -344,14 +364,14 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_withdraw_request_transaction_approved`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_active_plans`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
             }).then(function (response) {
 
                 if (response.data?.status) {
-                    $this.transactions = response.data.transactions
+                    $this.plans = response.data.plans
                 } else {
                     let message = response.data?.message[0];
                     toast.error(message, {
@@ -369,7 +389,7 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_withdraw_request_transaction_pending`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_not_active_plans`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -379,7 +399,7 @@ export default {
                     // toast.success("User Found", {
                     //     timeout: 4000,
                     // });
-                    $this.transactions = response.data.transactions
+                    $this.plans = response.data.plans
                 } else {
                     let message = response.data?.message[0];
                     toast.error(message, {
@@ -392,34 +412,6 @@ export default {
                 }
             });
         },
-        fetch_declined() {
-            const $this = this
-
-            const toast = useToast();
-
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_withdraw_request_transaction_declined`, {}, {
-                headers: {
-                    "Authorization": "Bearer " + this.$store.authStore.user.token
-                }
-            }).then(function (response) {
-
-                if (response.data?.status) {
-                    // toast.success("User Found", {
-                    //     timeout: 4000,
-                    // });
-                    $this.transactions = response.data.transactions
-                } else {
-                    let message = response.data?.message[0];
-                    toast.error(message, {
-                        timeout: 4000,
-                    });
-                }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
-                    $this.$router.push({ name: 'Login' })
-                }
-            });
-        }
 
     }
 };

@@ -323,10 +323,10 @@
               </Card>
             </TabPanel>
             <TabPanel>
-              <AddMoney />
+              <UpdatePassword />
             </TabPanel>
             <TabPanel>
-              <AddMoney />
+              <RequestCard />
             </TabPanel>
           </TabPanels>
         </div>
@@ -377,9 +377,9 @@ export default {
         // {
         //   title: "Request Card",
         // },
-        // {
-        //   title: "Change Password",
-        // },
+        {
+          title: "Change Password",
+        },
       ]
     }
 

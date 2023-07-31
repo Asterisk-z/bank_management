@@ -64,9 +64,64 @@ class UserController extends Controller
         $card_number = Helper::generate_card_number();
         $user->account_details()->create(['account_number' => $account_number, 'first_card_number' => $card_number]);
 
+        Mail::send('emails.userPassword', ['code' => $user->temp_password, 'firstName' => $user->name], function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('Royal Bank Onboarding');
+        });
+
         // $user->notify((new AdminNewCustomerNotification)->delay(now()->addMinutes(2)));
 
         return response()->json(['status' => true, 'message' => "user created successfully", "user" => $user]);
+
+    }
+
+    public function update_user(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|email|unique:users|max:255',
+            'branch_id' => 'required',
+            // 'password' => 'required|min:6',
+            'country_code' => 'required|min:2|max:6',
+            'phone_number' => 'required|min:10',
+            'profile_picture' => 'nullable|image',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->all()]);
+        }
+
+        $user = User::where('id', request('user_id'))->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'errors' => "User Not Found",
+            ], 422);
+
+        }
+
+        $profile_picture = "";
+        if ($request->hasfile('profile_picture')) {
+            $file = $request->file('profile_picture');
+            $profile_picture = time() . $file->getClientOriginalName();
+            $file->move(public_path() . "/uploads/profile/", $profile_picture);
+            $user->profile_picture = $profile_picture;
+        }
+
+        $user->last_name = $request->last_name;
+        $user->first_name = $request->first_name;
+        $user->name = $request->first_name . " " . $request->last_name;
+        $user->country_code = $request->country_code;
+        $user->phone = $request->phone_number;
+        $user->email = $request->email;
+        $user->branch_id = $request->branch_id;
+
+        $user->save();
+
+        return response()->json(['status' => true, 'message' => "User Updated successfully", "user" => $user]);
 
     }
 
@@ -483,6 +538,75 @@ class UserController extends Controller
         }
         if (request('currency') == 'EUR') {
             $account->eur_status = $account->eur_status == "active" ? "not_active" : "active";
+            $account->save();
+        }
+
+        return response()->json(['status' => true, 'message' => "Customer Fetch Successful", "user" => $user]);
+
+    }
+
+    public function toggle_card(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|max:255',
+            'type' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->all()]);
+        }
+
+        $user = User::where('id', request('user_id'))->with('account_details')->first();
+
+        if (!$user) {
+            return response()->json(['status' => false, 'message' => "Can not Find User"]);
+        }
+
+        $account = AccountInfomation::where('user_id', $user->id)->first();
+
+        if (request('type') == 'first') {
+            $account->first_card_status = $account->first_card_status == "active" ? "not_active" : "active";
+            $account->save();
+        }
+
+        if (request('type') == 'second') {
+            $account->second_card_status = $account->second_card_status == "active" ? "not_active" : "active";
+            $account->save();
+        }
+
+        return response()->json(['status' => true, 'message' => "Customer Fetch Successful", "user" => $user]);
+
+    }
+
+    public function update_card_limit(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|max:255',
+            'card' => 'required|max:255',
+            'limit' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()->all()]);
+        }
+
+        $user = User::where('id', request('user_id'))->with('account_details')->first();
+
+        if (!$user) {
+            return response()->json(['status' => false, 'message' => "Can not Find User"]);
+        }
+
+        $account = AccountInfomation::where('user_id', $user->id)->first();
+
+        if (request('card') == 'first') {
+            $account->first_card_balance = request('limit');
+            $account->save();
+        }
+
+        if (request('card') == 'second') {
+            $account->second_card_balance = request('limit');
             $account->save();
         }
 

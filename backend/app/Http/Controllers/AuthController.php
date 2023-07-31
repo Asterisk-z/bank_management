@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\Helper;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -57,21 +58,60 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        $user = User::where('email', request('email'))->first();
-        // $token = auth()->loginUsingId($user->id);
-        // return response()->json(['status' => false, 'error' => 'login_error', 'data' => $user], 401);
+        if ($token = $this->guard()->attempt($credentials)) {
+
+            if (Helper::require_login_otp()) {
+
+                $user = User::where('email', request('email'))->first();
+                $otp = Helper::generate_login_otp();
+                $user->login_otp = $otp;
+                $user->otp_expires_at = now()->addMinutes(10);
+                $user->save();
+
+                Mail::send('emails.loginOtp', ['code' => $user->login_otp, 'firstName' => $user->name], function ($message) use ($user) {
+                    $message->to($user->email);
+                    $message->subject('Login OTP');
+                });
+                session(['login_email' => $user->email]);
+
+                return response()->json(['status' => true, 'goto_otp' => true, 'email' => $user->email], 200);
+            }
+            session()->forget('login_email');
+            session()->flush();
+
+            return response()->json(['status' => true, "token" => $token, 'user' => auth()->user()], 200)->header('Authorization', $token);
+        }
+        return response()->json(['status' => false, 'error' => 'login_error'], 401);
+    }
+
+    /**
+     * Login user and return a token
+     */
+    public function login_otp(Request $request)
+    {
+        // Check Email from request and email from session
+        $user = User::where('email', request('email'))->where('login_otp', request('code'))->first();
+        if (!$user) {
+            return response()->json(['status' => false, 'error' => 'Wrong OTP'], 401);
+        }
+
+        if (!Carbon::create($user->otp_expires_at)->greaterThan(now())) {
+            return response()->json(['status' => false, 'error' => 'OTP Expired'], 401);
+        }
 
         if ($token = auth()->tokenById($user->id)) {
-            // if ($token = $this->guard()->attempt($user)) {
 
-            // return response()->json(['status' => true, "token" => $token, 'user' => auth()->user()], 200)->header('Authorization', $token);
+            session()->forget('login_email');
+
+            session()->flush();
+
             return response()->json(['status' => true, "token" => $token, 'user' => $user], 200)->header('Authorization', $token);
         }
         return response()->json(['status' => false, 'error' => 'login_error'], 401);
     }
-    /**
-     * Logout User
-     */
+/**
+ * Logout User
+ */
     public function logout()
     {
         $this->guard()->logout();
@@ -80,9 +120,9 @@ class AuthController extends Controller
             'msg' => 'Logged out Successfully.',
         ], 200);
     }
-    /**
-     * Get authenticated user
-     */
+/**
+ * Get authenticated user
+ */
     public function user(Request $request)
     {
         $user = User::find(Auth::user()->id);
@@ -91,9 +131,9 @@ class AuthController extends Controller
             'data' => $user,
         ]);
     }
-    /**
-     * Refresh JWT token
-     */
+/**
+ * Refresh JWT token
+ */
     public function refresh()
     {
         if ($token = $this->guard()->refresh()) {
@@ -103,10 +143,10 @@ class AuthController extends Controller
         }
         return response()->json(['error' => 'refresh_token_error'], 401);
     }
-    /**
-     * Return auth guard
-     */
-    private function guard()
+/**
+ * Return auth guard
+ */
+    public function guard()
     {
         return Auth::guard();
     }
@@ -154,7 +194,8 @@ class AuthController extends Controller
                 'status' => false,
                 'errors' => $v->errors(),
             ], 422);
-        };
+        }
+        ;
 
         $token = DB::table('password_resets')->where('token', $request->token)->first();
 

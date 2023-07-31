@@ -8,6 +8,11 @@ const routes = [
     component: () => import("@/views/auth/login/index.vue"),
   },
   {
+    path: "/login-otp",
+    name: "login-otp",
+    component: () => import("@/views/auth/login/otp.vue"),
+  },
+  {
     path: "/register",
     name: "reg",
     component: () => import("@/views/auth/register"),
@@ -316,6 +321,15 @@ const routes = [
         },
       },
       {
+        path: "user/:user_id/edit",
+        name: "user-edit",
+        component: () => import("@/views/dashboard/users/edit.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
         path: "user/:user_id",
         name: "user",
         component: () => import("@/views/dashboard/users/view.vue"),
@@ -369,6 +383,88 @@ const routes = [
           middleware: [admin],
         },
       },
+      {
+        path: "admin-new-withdraw",
+        name: "admin-new-withdraw",
+        component: () => import("@/views/dashboard/withdraw/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-withdraw-history",
+        name: "admin-withdraw-history",
+        component: () => import("@/views/dashboard/withdraw/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-withdraw-requests",
+        name: "admin-withdraw-requests",
+        component: () => import("@/views/dashboard/withdraw/request.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-transactions",
+        name: "admin-transactions",
+        component: () => import("@/views/dashboard/transactions/index.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      
+      {
+        path: "admin-fixed-deposit-request",
+        name: "admin-fixed-deposit-request",
+        component: () => import("@/views/dashboard/fdr/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-all-fixed-deposit-request",
+        name: "admin-all-fixed-deposit-request",
+        component: () => import("@/views/dashboard/fdr/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-fixed-deposit-request-package",
+        name: "admin-fixed-deposit-request-package",
+        component: () => import("@/views/dashboard/fdr/request.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-fixed-deposit-create",
+        name: "admin-fixed-deposit-create",
+        component: () => import("@/views/dashboard/fdr/plancreate.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-fixed-deposit-edit/:plan_id",
+        name: "admin-fixed-deposit-edit",
+        component: () => import("@/views/dashboard/fdr/planedit.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
 
 
 
@@ -378,42 +474,6 @@ const routes = [
         path: "admin-loan-create",
         name: "admin-loan-create",
         component: () => import("@/views/dashboard/loans/create.vue"),
-        meta: {
-          hide: true,
-          middleware: [admin],
-        },
-      },
-      {
-        path: "new-withdraw",
-        name: "new-withdraw",
-        component: () => import("@/views/dashboard/withdraw/create.vue"),
-        meta: {
-          hide: true,
-          middleware: [admin],
-        },
-      },
-      {
-        path: "withdraw-history",
-        name: "withdraw-history",
-        component: () => import("@/views/dashboard/withdraw/history.vue"),
-        meta: {
-          hide: true,
-          middleware: [admin],
-        },
-      },
-      {
-        path: "withdraw-requests",
-        name: "withdraw-requests",
-        component: () => import("@/views/dashboard/withdraw/request.vue"),
-        meta: {
-          hide: true,
-          middleware: [admin],
-        },
-      },
-      {
-        path: "transactions",
-        name: "transactions",
-        component: () => import("@/views/dashboard/transactions/index.vue"),
         meta: {
           hide: true,
           middleware: [admin],

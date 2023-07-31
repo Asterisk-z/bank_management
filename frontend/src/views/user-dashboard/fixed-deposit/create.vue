@@ -72,14 +72,14 @@
                 <Card title="Loan History ">
                     <!-- <h5 class="text-xs font-medium">Send Money History</h5> -->
                     <ul class="space-y-3 mt-6 divide-y dark:divide-slate-700 divide-slate-100">
-                        <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
+                        <!-- <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
                             <span>{{ "You sent olang@royal.com 10 USD" }} </span>
                             <span>{{ "1st of May" }}</span>
                         </li>
                         <li class="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 pt-3">
                             <span>{{ "olang@royal.com credit you 10 USD" }} </span>
                             <span>{{ "1st of May" }}</span>
-                        </li>
+                        </li> -->
                     </ul>
                 </Card>
             </div>

@@ -48,30 +48,30 @@ export const AdminMenuItem = [
       },
     ],
   },
-  // {
-  //   title: "Withdraw",
-  //   icon: "heroicons-outline:document",
-  //   link: "#",
-  //   child: [
-  //     {
-  //       childtitle: "Make Withdraw",
-  //       childlink: "new-withdraw",
-  //     },
-  //     {
-  //       childtitle: "Withdraw Requests",
-  //       childlink: "withdraw-requests",
-  //     },
-  //     {
-  //       childtitle: "Withdraw History",
-  //       childlink: "withdraw-history",
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "Transactions",
-  //   icon: "heroicons:document",
-  //   link: "transactions",
-  // },
+  {
+    title: "Withdraw",
+    icon: "vaadin:money-withdraw",
+    link: "#",
+    child: [
+      {
+        childtitle: "Make Withdraw",
+        childlink: "admin-new-withdraw",
+      },
+      {
+        childtitle: "Withdraw Requests",
+        childlink: "admin-withdraw-requests",
+      },
+      {
+        childtitle: "Withdraw History",
+        childlink: "admin-withdraw-history",
+      },
+    ],
+  },
+  {
+    title: "Transactions",
+    icon: "heroicons:document",
+    link: "admin-transactions",
+  },
   // {
   //   title: "Loan Management",
   //   icon: "heroicons-outline:document",
@@ -99,40 +99,55 @@ export const AdminMenuItem = [
   //     },
   //   ],
   // },
-  // {
-  //   title: "Fixed Deposits",
-  //   icon: "heroicons-outline:document",
-  //   link: "#",
-  //   child: [
-  //     {
-  //       childtitle: "New Fixed Deposit Request",
-  //       childlink: "projects",
-  //     },
-  //     {
-  //       childtitle: "All Fixed Deposit",
-  //       childlink: "project-details",
-  //     },
-  //     {
-  //       childtitle: "FDR Package",
-  //       childlink: "project-details",
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "Gift Card",
-  //   icon: "heroicons-outline:document",
-  //   link: "#",
-  //   child: [
-  //     {
-  //       childtitle: "Gift Cards",
-  //       childlink: "projects",
-  //     },
-  //     {
-  //       childtitle: "Used Gift Card",
-  //       childlink: "project-details",
-  //     },
-  //   ],
-  // },
+  {
+    title: "Fixed Deposits",
+    icon: "heroicons-outline:document",
+    link: "#",
+    child: [
+      {
+        childtitle: "New Fixed Deposit Request",
+        childlink: "admin-fixed-deposit-request",
+      },
+      {
+        childtitle: "All Fixed Deposit",
+        childlink: "admin-all-fixed-deposit-request",
+      },
+      {
+        childtitle: "FDR Package",
+        childlink: "admin-fixed-deposit-request-package",
+      },
+    ],
+  },
+  {
+    title: "Gift Card",
+    icon: "heroicons-outline:document",
+    link: "#",
+    child: [
+      {
+        childtitle: "Gift Cards",
+        childlink: "admin-gift-card",
+      },
+      {
+        childtitle: "All Gift Card",
+        childlink: "admin-all-gift-card",
+      },
+    ],
+  },
+  {
+    title: "Currency",
+    icon: "heroicons-outline:document",
+    link: "#",
+    child: [
+      {
+        childtitle: "New Currency",
+        childlink: "admin-new-currency",
+      },
+      {
+        childtitle: "All Currency",
+        childlink: "admin-all-currency",
+      },
+    ],
+  },
   // {
   //   title: "Support TIckets",
   //   icon: "heroicons-outline:document",

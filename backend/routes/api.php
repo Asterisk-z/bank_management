@@ -1,14 +1,18 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DepositController as AdminDepositController;
+use App\Http\Controllers\Admin\FDRController;
 use App\Http\Controllers\Admin\PaymentRequestController as AdminPaymentRequestController;
 use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
+use App\Http\Controllers\Admin\TransactionsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WireTransferController as AdminWireTransferController;
 use App\Http\Controllers\Admin\WithdrawController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\Custoer\NotificationController;
+use App\Http\Controllers\Customer\AccountController;
 use App\Http\Controllers\Customer\DashBoardController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\ExchangeMoneyController;
@@ -46,6 +50,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('login', [AuthController::class, 'login']);
 
+        Route::post('login_otp', [AuthController::class, 'login_otp']);
+
         Route::post('refresh', [AuthController::class, 'refresh']);
 
         Route::post('forgot_password', [AuthController::class, 'forgot_password']);
@@ -64,6 +70,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::prefix('admin')->namespace('Admin')->middleware('auth:api')->group(function () {
+        Route::post('update_user', [UserController::class, 'update_user'])->name('update_user');
         Route::post('create_user', [UserController::class, 'create_user'])->name('create_user');
         Route::post('all_user', [UserController::class, 'all_user'])->name('all_user');
         Route::post('user', [UserController::class, 'single_user'])->name('single_user');
@@ -77,7 +84,9 @@ Route::prefix('v1')->group(function () {
         Route::post('toggle_currency', [UserController::class, 'toggle_currency'])->name('toggle_currency');
         Route::post('toggle_account', [UserController::class, 'toggle_account'])->name('toggle_account');
         Route::post('toggle_kyc', [UserController::class, 'toggle_kyc'])->name('toggle_kyc');
+        Route::post('toggle_card', [UserController::class, 'toggle_card'])->name('toggle_card');
         Route::post('toggle_action', [UserController::class, 'toggle_action'])->name('toggle_action');
+        Route::post('update_card_limit', [UserController::class, 'update_card_limit'])->name('update_card_limit');
 
         Route::post('make_active', [AdminSupportTicketController::class, 'make_active'])->name('make_active');
         Route::post('close_ticket', [AdminSupportTicketController::class, 'close_ticket'])->name('close_ticket');
@@ -108,7 +117,45 @@ Route::prefix('v1')->group(function () {
         Route::post('approved_deposit', [AdminDepositController::class, 'approved_deposit'])->name('approved_deposit');
         Route::post('cancel_deposit', [AdminDepositController::class, 'cancel_deposit'])->name('cancel_deposit');
 
+        Route::post('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::post('dashboard_notification', [AdminDashboardController::class, 'notification'])->name('dashboardn');
+        Route::post('dashboard_transaction', [AdminDashboardController::class, 'transaction'])->name('dashboardt');
+
         Route::post('list_withdraw_request', [WithdrawController::class, 'list_withdraw_request'])->name('list_withdraw_request');
+        Route::post('create_withdraw', [WithdrawController::class, 'create_withdraw'])->name('create_withdraw');
+        Route::post('approve_withdraw_request', [WithdrawController::class, 'approve_withdraw_request'])->name('approve_withdraw_request');
+        Route::post('reject_withdraw_request', [WithdrawController::class, 'reject_withdraw_request'])->name('reject_withdraw_request');
+
+        Route::post('list_withdraw_request_transaction', [WithdrawController::class, 'list_withdraw_request_transaction'])->name('list_withdraw_request_transaction');
+        Route::post('list_withdraw_request_transaction_approved', [WithdrawController::class, 'list_withdraw_request_transaction_approved'])->name('list_withdraw_request_transaction_approved');
+        Route::post('list_withdraw_request_transaction_pending', [WithdrawController::class, 'list_withdraw_request_transaction_pending'])->name('list_withdraw_request_transaction_pending');
+        Route::post('list_withdraw_request_transaction_declined', [WithdrawController::class, 'list_withdraw_request_transaction_declined'])->name('list_withdraw_request_transaction_declined');
+        Route::post('list_withdraw_request_approved', [WithdrawController::class, 'list_withdraw_request_approved'])->name('list_withdraw_request_approved');
+        Route::post('list_withdraw_request_pending', [WithdrawController::class, 'list_withdraw_request_pending'])->name('list_withdraw_request_pending');
+        Route::post('list_withdraw_request_declined', [WithdrawController::class, 'list_withdraw_request_declined'])->name('list_withdraw_request_declined');
+
+        Route::post('list_transaction', [TransactionsController::class, 'list_transaction'])->name('list_transaction');
+        Route::post('list_transaction_approved', [TransactionsController::class, 'list_transaction_approved'])->name('list_transaction_approved');
+        Route::post('list_transaction_pending', [TransactionsController::class, 'list_transaction_pending'])->name('list_transaction_pending');
+        Route::post('list_transaction_declined', [TransactionsController::class, 'list_transaction_declined'])->name('list_transaction_declined');
+
+        Route::post('list_plans', [FDRController::class, 'list_plans'])->name('list_plans');
+        Route::post('plan', [FDRController::class, 'plan'])->name('plan');
+        Route::post('list_all_plans', [FDRController::class, 'list_all_plans'])->name('list_all_plans');
+        Route::post('list_active_plans', [FDRController::class, 'list_active_plans'])->name('list_active_plans');
+        Route::post('list_not_active_plans', [FDRController::class, 'list_not_active_plans'])->name('list_not_active_plans');
+        Route::post('plan_activate', [FDRController::class, 'plan_activate'])->name('plan_activate');
+        Route::post('plan_deactivate', [FDRController::class, 'plan_deactivate'])->name('plan_deactivate');
+
+        Route::post('create_fdr', [FDRController::class, 'create_fdr'])->name('create_fdr');
+        Route::post('create_fd_plan', [FDRController::class, 'create_fd_plan'])->name('create_fd_plan');
+        Route::post('update_fd_plan', [FDRController::class, 'update_fd_plan'])->name('update_fd_plan');
+        Route::post('list_fixed_deposit', [FDRController::class, 'list_fixed_deposit'])->name('list_fixed_deposit');
+        Route::post('list_fixed_deposit_approve', [FDRController::class, 'list_fixed_deposit_approve'])->name('list_fixed_deposit_approve');
+        Route::post('list_fixed_deposit_pending', [FDRController::class, 'list_fixed_deposit_pending'])->name('list_fixed_deposit_pending');
+        Route::post('list_fixed_deposit_declined', [FDRController::class, 'list_fixed_deposit_declined'])->name('list_fixed_deposit_declined');
+        Route::post('fixed_deposit_approve', [FDRController::class, 'fixed_deposit_approve'])->name('fixed_deposit_approve');
+        Route::post('fixed_deposit_reject', [FDRController::class, 'fixed_deposit_reject'])->name('fixed_deposit_reject');
 
     });
 
@@ -160,6 +207,9 @@ Route::prefix('v1')->group(function () {
         Route::post('upload_profile', [ProfileController::class, 'upload_profile'])->name('upload_profile');
         Route::post('notifications', [NotificationController::class, 'notifications'])->name('notifications');
         Route::post('all_notifications', [NotificationController::class, 'all_notifications'])->name('all_notifications');
+
+        Route::post('update_password', [AccountController::class, 'update_password'])->name('update_password');
+        Route::post('email_update', [AccountController::class, 'email_update'])->name('email_update');
 
     });
 

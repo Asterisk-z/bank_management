@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentMethodSeeder::class);
         $this->call(LoanProducts::class);
         $this->call(FixedDepositPlanSeeder::class);
+        $this->call(SettingSeeder::class);
 
     }
 }

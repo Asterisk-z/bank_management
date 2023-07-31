@@ -1,78 +1,78 @@
 <template>
     <div>
-        <vue-good-table :columns="columns" styleClass=" vgt-table  lesspadding2   v-middle" :rows="transactions"
-            :pagination-options="{
-                enabled: true,
-                perPage: perpage,
-            }" :sort-options="{
+        <template v-if="transactions">
+            <vue-good-table :columns="columns" styleClass=" vgt-table  lesspadding2   v-middle" :rows="transactions"
+                :pagination-options="{
+                    enabled: false,
+                    perPage: perpage,
+                }" :sort-options="{
     enabled: false,
 }">
-            <template v-slot:table-row="props">
-                <div v-if="props.column.field == 'user'" class="flex items-center">
-                    <div class="flex-none">
-                        <div class="w-8 h-8 rounded-[100%] ltr:mr-2 rtl:ml-2">
-                            <img :src="props.row.user.image" alt="" class="w-full h-full rounded-[100%] object-cover" />
+                <template v-slot:table-row="props">
+                    <div v-if="props.column.field == 'user'" class="flex items-center">
+                        <div class="flex-none">
+                            <div class="w-8 h-8 rounded-[100%] ltr:mr-2 rtl:ml-2">
+                                <img :src="props.row.user.image" alt="" class="w-full h-full rounded-[100%] object-cover" />
+                            </div>
+                        </div>
+                        <div class="flex-1 text-start">
+                            <h4 class="text-sm font-medium text-slate-600">
+                                {{ props.row.user.name }}
+                            </h4>
                         </div>
                     </div>
-                    <div class="flex-1 text-start">
-                        <h4 class="text-sm font-medium text-slate-600">
-                            {{ props.row.user.name }}
-                        </h4>
-                    </div>
-                </div>
-                <span v-if="props.column.field == 'status'" class="block w-full">
-                    <span class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
-                        :class="`${props.row.status === 'paid'
-                                ? 'text-success-500 bg-success-500'
-                                : ''
-                            } 
-                                        ${props.row.status === 'due'
-                                ? 'text-warning-500 bg-warning-500'
-                                : ''
-                            }
-                                        ${props.row.status === 'pending'
-                                ? 'text-danger-500 bg-danger-500'
-                                : ''
-                            }
-                                        ${props.row.status === 'cancled'
-                                ? 'text-danger-500 bg-danger-500'
-                                : ''
-                            }
-                                        ${props.row.status === 'shipped'
-                                ? 'text-primary-500 bg-primary-500'
-                                : ''
-    }
+                            <span v-if="props.column.field == 'amount'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.amount).toLocaleString("en-US") }}
+                            </span>
 
-                                         `">
-                        {{ props.row.status }}
-                    </span>
-                </span>
-            </template>
-            <template #pagination-bottom="props">
-                <div class="py-4 px-3 flex justify-center">
-                    <Pagination :total="24" :current="current" :per-page="perpage" :pageRange="pageRange"
-                        @page-changed="current = $event" :pageChanged="props.pageChanged"
-                        :perPageChanged="props.perPageChanged" :options="options">
-                        >
-                    </Pagination>
-                </div>
-            </template>
-        </vue-good-table>
+                            <span v-if="props.column.field == 'status'" class="block w-full">
+                                <span
+                                    class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
+                                    :class="`${props.row.status === 'approved'
+                                        ? 'text-success-500 bg-success-500'
+                                        : ''
+                                        } 
+                                                                                                                    ${props.row.status === 'pending' || props.row.status === 'awaiting_otp'
+                                            ? 'text-warning-500 bg-warning-500'
+                                            : ''
+                                        }
+                                                                                                                    ${props.row.status === 'declined'
+                                            ? 'text-danger-500 bg-danger-500'
+                                            : ''
+                                        }  `">
+                                    {{ props.row.status }}
+                                </span>
+                            </span>
+                </template>
+                <template #pagination-bottom="props">
+                    <div class="py-4 px-3 flex justify-center">
+                        <Pagination :total="transactions.length" :current="current" :per-page="perpage" :pageRange="pageRange"
+                            @page-changed="current = $event" :pageChanged="props.pageChanged"
+                            :perPageChanged="props.perPageChanged" :options="options">
+                            >
+                        </Pagination>
+                    </div>
+                </template>
+            </vue-good-table>
+        </template>
+        
     </div>
 </template>
 <script>
 import Pagination from "@/components/Pagination";
-
-import { transactions } from "@/constant/basic-tablle-data";
+import axios from 'axios';
+import { useToast } from "vue-toastification";
 
 export default {
     components: {
+    
         Pagination,
     },
 
     data() {
         return {
-            transactions,
+            transactions: "",
+            information: "",
             current: 1,
             perpage: 10,
             pageRange: 5,
@@ -107,18 +107,18 @@ export default {
             ],
             columns: [
                 {
-                    label: "User",
-                    field: "user",
+                    label: "Transaction Ref",
+                    field: "transaction_ref",
                 },
 
                 {
-                    label: "Transaction",
-                    field: "transaction",
+                    label: "Type",
+                    field: "type",
                 },
 
                 {
-                    label: "price",
-                    field: "price",
+                    label: "Amount",
+                    field: "amount",
                 },
                 {
                     label: "Status",
@@ -127,6 +127,44 @@ export default {
             ],
         };
     },
+    mounted() {
+        this.dashboard();
+    },
+    methods: {
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
+        dashboard() {
+
+            let $this = this
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/dashboard_transaction`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    $this.information = response.data?.data;
+
+                    $this.transactions = $this.information.transactions;
+
+
+                } else {
+                    // let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (error) {
+                console.log(error)
+                toast.error("Error  ", {
+                    timeout: 5000,
+                });
+            });
+        }
+    }
 };
 </script>
 <style lang="scss"></style>

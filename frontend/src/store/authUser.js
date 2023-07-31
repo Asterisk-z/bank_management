@@ -9,7 +9,8 @@ const router = useRouter();
 export const useAuthStore = defineStore('auth',{
     state: () => ({
         user: JSON.parse(sessionStorage.getItem('RoyalBankUserr')),
-        returnUrl: null
+        returnUrl: null,
+        email: JSON.parse(sessionStorage.getItem('login_email')),
     }),
     actions: {
         async login(username, password) {
@@ -23,10 +24,58 @@ export const useAuthStore = defineStore('auth',{
                                         email: username,
                                         password: password
             }).then(function (response) {
-                sessionStorage.setItem('RoyalBankUserr', JSON.stringify(response.data));
+                if (response.data.status) {
+                    
+                    if (response.data?.goto_otp) { 
+                        sessionStorage.setItem('login_email', JSON.stringify(response.data.email));
+                        window.location.replace(import.meta.env.VITE_APP_URL + "login-otp")
+                        return;
+                    }
+
+                    if (response.data.user.status == 'active') {
+                        
+                        sessionStorage.setItem('RoyalBankUserr', JSON.stringify(response.data));
+                        toast.success(" Login successfully", {
+                            timeout: 2000,
+                        });
+                        if (response.data.user.user_type == 'admin') {
+                            window.location.replace(import.meta.env.VITE_APP_URL+"app/dashboard")
+                        }
+                        if (response.data.user.user_type == 'customer') {
+                            window.location.replace(import.meta.env.VITE_APP_URL+"app/user-dashboard")
+                        }
+                            
+                    }
+                    
+                    
+                }else {
+                    toast.error("Login Failed", {
+                        timeout: 2000,
+                    });
+                }
+            }).catch(function (error) {
+                toast.error("User not found", {
+                    timeout: 2000,
+                });
+            });
+
+        },
+        async login_otp(code) {
+            this.user = null;
+            let $this = this
+            sessionStorage.removeItem('RoyalBankUserr');
+             toast.info("Logging in", {
+                timeout: 2000,
+             });
+            
+            await axios.post(`${import.meta.env.VITE_APP_API_URL}/auth/login_otp`,  {
+                                        email: $this.email,
+                                        code: code
+            }).then(function (response) {
                 
                 if (response.data.user.status == 'active') {
-                    // router.push("/app/dashboard");
+                    sessionStorage.removeItem('login_email');
+                    sessionStorage.setItem('RoyalBankUserr', JSON.stringify(response.data));
                     toast.success(" Login successfully", {
                         timeout: 2000,
                     });
@@ -37,15 +86,14 @@ export const useAuthStore = defineStore('auth',{
                          window.location.replace(import.meta.env.VITE_APP_URL+"app/user-dashboard")
                     }
                    
-                    // window.history.replaceState({}, "", "/app/dashboard")
-                    
                 } else {
                     toast.error("User not found", {
                         timeout: 2000,
                     });
                 }
             }).catch(function (error) {
-                toast.error("User not found", {
+                console.log(error.response?.data?.error)
+                toast.error(error.response?.data?.error, {
                     timeout: 2000,
                 });
             });

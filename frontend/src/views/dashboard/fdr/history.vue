@@ -2,7 +2,7 @@
     <div>
         <Card noborder>
             <div class="md:flex pb-6 items-center">
-                <h6 class="flex-1 md:mb-0 mb-3">Withdraw Transactions</h6>
+                <h6 class="flex-1 md:mb-0 mb-3">Fixed Deposit Requests</h6>
                 <div class="md:flex md:space-x-3 items-center flex-none rtl:space-x-reverse"
                     :class="window.width < 768 ? 'space-x-rb' : ''">
                     <InputGroup v-model="searchTerm" placeholder="Search" type="text" prependIcon="heroicons-outline:search"
@@ -12,32 +12,18 @@
                 </div>
             </div>
             <div class="-mx-6">
-                <template v-if="transactions">
-                    <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="transactions"
+                <template v-if="fixed_deposits">
+                    <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="fixed_deposits"
                         :sort-options="{
                             enabled: false,
                         }" :pagination-options="{
-    enabled: true,
-    perPage: perpage,
-}" :search-options="{
-    enabled: true,
-    externalQuery: searchTerm,
-}" :select-options="{
-    enabled: true,
-    selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-    selectioninfoClass: 'table-input-checkbox',
-    selectionText: 'rows selected',
-    clearSelectionText: 'clear',
-    disableSelectinfo: true, // disable the select info-500 panel on top
-    selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-}">
+                            enabled: true,
+                            perPage: perpage,
+                        }" :search-options="{
+                            enabled: true,
+                            externalQuery: searchTerm,
+                        }" >
                         <template v-slot:table-row="props">
-                            <!-- <span v-if="props.column.field == 'benefactor'" class="flex flex-col items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
-                                    props.row.name }}</span>
-                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
-                                    props.row.email }}</span>
-                            </span> -->
                             <span v-if="props.column.field == 'user'" class="flex flex-col items-center">
                                 <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
                                     props.row.name }}</span>
@@ -45,8 +31,20 @@
                                     props.row.email }}</span>
                             </span>
 
-                            <span v-if="props.column.field == 'amount'" class="font-medium">
-                                {{ props.row.currency + " " + parseFloat(props.row.amount).toLocaleString("en-US") }}
+                            <span v-if="props.column.field == 'deposit_amount'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.deposit_amount).toLocaleString("en-US") }}
+                            </span>
+                            <span v-if="props.column.field == 'return_amount'" class="font-medium">
+                                {{ props.row.currency + " " + parseFloat(props.row.return_amount).toLocaleString("en-US") }}
+                            </span>
+
+                            <span v-if="props.column.field == 'mature_date'">
+                                <template v-if="props.row.mature_date">
+                                    {{ format_date(props.row.mature_date) }}
+                                </template>
+                            </span>
+                            <span v-if="props.column.field == 'plan'">
+                                {{ props.row.plan.name }}
                             </span>
                             <span v-if="props.column.field == 'status'" class="block w-full">
                                 <span
@@ -97,7 +95,7 @@
                         </template>
                         <template #pagination-bottom="props">
                             <div class="py-4 px-3">
-                                <Pagination :total="transactions.length" :current="current" :per-page="perpage"
+                                <Pagination :total="fixed_deposits.length" :current="current" :per-page="perpage"
                                     :pageRange="pageRange" @page-changed="current = $event" :pageChanged="props.pageChanged"
                                     :perPageChanged="props.perPageChanged" enableSearch enableSelect :options="options">
                                     >
@@ -124,6 +122,7 @@ import window from "@/mixins/window";
 import axios from 'axios';
 import { useToast } from "vue-toastification";
 import Select from "@/components/Select";
+import moment from 'moment';
 
 export default {
     mixins: [window],
@@ -164,7 +163,7 @@ export default {
             perpage: 10,
             pageRange: 5,
             searchTerm: "",
-            transactions: "",
+            fixed_deposits: "",
             actions: [
                 {
                     name: "approve",
@@ -197,12 +196,12 @@ export default {
             ],
             columns: [
                 {
-                    label: "Transaction Ref",
-                    field: "transaction_ref",
+                    label: "Plan",
+                    field: "plan",
                 },
                 {
-                    label: "Withdraw Ref",
-                    field: "withdraw_ref",
+                    label: "Fixed Ref",
+                    field: "ref",
                 },
                 {
                     label: "User",
@@ -210,21 +209,29 @@ export default {
                 },
 
                 {
-                    label: "Amount",
-                    field: "amount",
+                    label: "Deposit Amount",
+                    field: "deposit_amount",
+                },
+                {
+                    label: "Return Amount",
+                    field: "return_amount",
                 },
                 {
                     label: "Status",
                     field: "status",
                 },
                 {
-                    label: "Description",
-                    field: "description",
+                    label: "Mature Date",
+                    field: "mature_date",
                 },
                 // {
-                //     label: "Action",
-                //     field: "action",
+                //     label: "Description",
+                //     field: "description",
                 // },
+                {
+                    label: "Action",
+                    field: "action",
+                },
             ],
         };
     },
@@ -232,6 +239,9 @@ export default {
         this.fetch_all()
     },
     methods: {
+        format_date(value) {
+            return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
         updateValue() {
             if (this.selected == 'all') {
                 this.fetch_all()
@@ -255,7 +265,7 @@ export default {
             const formData = new FormData();
             formData.append('id', pay_id)
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/approved_deposit`, formData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/fixed_deposit_approve`, formData, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -266,7 +276,7 @@ export default {
                     toast.success("Deposit Approved Successfully", {
                         timeout: 4000,
                     });
-                    $this.$router.push({ name: 'admin-deposit-request' })
+                    $this.$router.push({ name: 'admin-all-fixed-deposit-request' })
 
                 } else {
                     let message = response.data?.message[0];
@@ -286,7 +296,7 @@ export default {
             const formData = new FormData();
             formData.append('id', pay_id)
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/cancel_deposit`, formData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/fixed_deposit_reject`, formData, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -297,7 +307,7 @@ export default {
                     toast.success("Deposit Declined Successfully", {
                         timeout: 4000,
                     });
-                    $this.$router.push({ name: 'admin-deposit-request' })
+                    $this.$router.push({ name: 'admin-all-fixed-deposit-request' })
 
                 } else {
                     let message = response.data?.message[0];
@@ -316,7 +326,7 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_withdraw_request_transaction`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_fixed_deposit`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -326,7 +336,7 @@ export default {
                     // toast.success("User Found", {
                     //     timeout: 4000,
                     // });
-                    $this.transactions = response.data.transactions
+                    $this.fixed_deposits = response.data.fixed_deposits
                 } else {
                     let message = response.data?.message[0];
                     toast.error(message, {
@@ -344,14 +354,14 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_withdraw_request_transaction_approved`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_fixed_deposit_approve`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
             }).then(function (response) {
 
                 if (response.data?.status) {
-                    $this.transactions = response.data.transactions
+                    $this.fixed_deposits = response.data.fixed_deposits
                 } else {
                     let message = response.data?.message[0];
                     toast.error(message, {
@@ -369,7 +379,7 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_withdraw_request_transaction_pending`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_fixed_deposit_pending`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -379,7 +389,7 @@ export default {
                     // toast.success("User Found", {
                     //     timeout: 4000,
                     // });
-                    $this.transactions = response.data.transactions
+                    $this.fixed_deposits = response.data.fixed_deposits
                 } else {
                     let message = response.data?.message[0];
                     toast.error(message, {
@@ -397,7 +407,7 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_withdraw_request_transaction_declined`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_fixed_deposit_declined`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -407,7 +417,7 @@ export default {
                     // toast.success("User Found", {
                     //     timeout: 4000,
                     // });
-                    $this.transactions = response.data.transactions
+                    $this.fixed_deposits = response.data.fixed_deposits
                 } else {
                     let message = response.data?.message[0];
                     toast.error(message, {

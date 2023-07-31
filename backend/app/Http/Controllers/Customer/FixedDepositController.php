@@ -54,18 +54,6 @@ class FixedDepositController extends Controller
             ], 422);
         }
 
-        //Check Balance
-        $received = $auth_user->transactions()->where('process', 'credit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
-        $sent = $auth_user->transactions()->where('process', 'debit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
-        $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
-        $stored_balance = $auth_user->account_details->balance($request->currency);
-        if ($stored_balance != $balance_from_transaction_history) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Your balance and transaction balance does not match',
-            ], 400);
-        }
-
         $attachment = "";
         if ($request->hasfile('attachment')) {
             $file = $request->file('attachment');
@@ -76,17 +64,18 @@ class FixedDepositController extends Controller
         DB::beginTransaction();
 
         $trans_ref = Helper::generate_trans_ref(auth()->user()->id);
-        $debit = auth()->user()->transactions()->create([
-            'currency' => $request['currency'],
-            'amount' => $request['amount'],
-            'fee' => 0,
-            'process' => 'debit',
-            'method' => 'online',
-            'type' => 'fixed_deposit',
-            'status' => 'pending',
-            'transaction_ref' => $trans_ref,
-            'description' => $request['description'],
-        ]);
+        // $debit = auth()->user()->transactions()->create([
+        //     'currency' => $request['currency'],
+        //     'amount' => $request['amount'],
+        //     'fee' => 0,
+        //     'process' => 'debit',
+        //     'method' => 'online',
+        //     'type' => 'fixed_deposit',
+        //     'status' => 'pending',
+        //     'transaction_ref' => $trans_ref,
+        //     'description' => $request['description'],
+        // ]);
+        // auth()->user()->account_details->sub_balance($request['currency'], $request['amount']);
 
         $trans_ref = Helper::generate_trans_ref(auth()->user()->id);
 
@@ -101,7 +90,6 @@ class FixedDepositController extends Controller
         $fixeddeposit->attachment = $attachment;
         $fixeddeposit->remarks = $request->remarks;
         $fixeddeposit->created_user_id = auth()->user()->id;
-        $fixeddeposit->transaction_id = $debit->id;
 
         $fixeddeposit->save();
 

@@ -301,6 +301,131 @@
                               <div
                                 class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
                               >
+                                First Card Status
+                              </div>
+                              <div class="text-base text-slate-600 dark:text-slate-50">
+                                {{ user ?  user?.account_details?.first_card_status == "active" ? "Active" : "Not Active" : "" }}
+                              </div>
+                              <button class="btn btn-danger btn-sm float-left" v-if="user?.account_details?.first_card_status == 'active'" @click="toggleCard('first')">Block</button>
+                              <button class="btn btn-primary btn-sm float-left" v-if="user?.account_details?.first_card_status == 'not_active'"  @click="toggleCard('first')">Activate</button>
+                            </div>
+                          </li>
+                            <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                              <div
+                                class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                              >
+                                <Icon icon="heroicons:map" />
+                              </div>
+                              <div class="flex-1">
+                                <div
+                                  class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                                >
+                                  First Card Limit
+                                </div>
+                                <div class="text-base text-slate-600 dark:text-slate-50">
+                                  {{ user ? user?.account_details?.first_card_balance : "" }}
+                                </div>
+                                    <Modal v-if="user?.account_details?.first_card_status == 'active'"
+                                        title="Edit First Card Limit"
+                                        label="Edit Limit"
+                                        labelClass="btn btn-success btn-sm float-left"
+                                        ref="modal2"
+                                        centered
+                                        >
+                                        <h4 class="font-medium text-lg mb-3 text-slate-900">
+                                            
+                                        </h4>
+                                        <div class="text-base text-slate-600 dark:text-slate-300">
+                                          
+                                          <Textinput label="Limit" type="number" placeholder="Limit" name="limit" v-model="firstLimit" :error="firstLimitError"  classInput="h-[48px]" />
+                                          
+                                        </div>
+                                        <template v-slot:footer>
+                                            <Button
+                                            text="Close"
+                                            btnClass="btn-dark "
+                                            @click="$refs.modal2.closeModal()" 
+                                            />
+                                            <button type="submit" class="btn btn-dark float-right text-center" @click="update_first_limit">
+                                                {{ "Update" }}
+                                            </button>
+                                        </template>
+                                    </Modal>
+                              </div>
+                            </li>
+                            <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                              <div
+                                class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                              >
+                                <Icon icon="heroicons:map" />
+                              </div>
+                              <div class="flex-1">
+                                <div
+                                  class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                                >
+                                  Second Card Status
+                                </div>
+                                <div class="text-base text-slate-600 dark:text-slate-50">
+                                  {{ user ? user?.account_details?.second_card_status == "active" ? "Active" : "Not Active" : "" }}
+                                </div>
+                              <button class="btn btn-danger btn-sm float-left" v-if="user?.account_details?.second_card_status == 'active'" @click="toggleCard('second')">Block</button>
+                              <button class="btn btn-primary btn-sm float-left" v-if="user?.account_details?.second_card_status == 'not_active'"  @click="toggleCard('second')">Activate</button>
+                              </div>
+                            </li>
+                            <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                              <div
+                                class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                              >
+                                <Icon icon="heroicons:map" />
+                              </div>
+                              <div class="flex-1">
+                                <div
+                                  class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                                >
+                                  Second Card Limit
+                                </div>
+                                <div class="text-base text-slate-600 dark:text-slate-50">
+                                    {{ user ? user?.account_details?.second_card_balance : "" }}
+                                </div>
+                                
+                                    <Modal v-if="user?.account_details?.second_card_status == 'active'"
+                                        title="Edit Second Card Limit"
+                                        label="Edit Limit"
+                                        labelClass="btn btn-success btn-sm float-left"
+                                        ref="modal3"
+                                        centered
+                                        >
+                                        <h4 class="font-medium text-lg mb-3 text-slate-900">
+                                            
+                                        </h4>
+                                        <div class="text-base text-slate-600 dark:text-slate-300">
+                                          
+                                          <Textinput label="Limit" type="number" placeholder="Limit" name="limit" v-model="secondLimit" :error="secondLimitError"  classInput="h-[48px]" />
+                                          
+                                        </div>
+                                        <template v-slot:footer>
+                                            <Button
+                                            text="Close"
+                                            btnClass="btn-dark "
+                                            @click="$refs.modal3.closeModal()" 
+                                            />
+                                            <button type="submit" class="btn btn-dark float-right text-center" @click="update_second_limit">
+                                                {{ "Update" }}
+                                            </button>
+                                        </template>
+                                    </Modal>
+                              </div>
+                            </li>
+                          <li class="flex space-x-3 rtl:space-x-reverse mb-10">
+                            <div
+                              class="flex-none text-2xl text-slate-600 dark:text-slate-300"
+                            >
+                              <Icon icon="heroicons:map" />
+                            </div>
+                            <div class="flex-1">
+                              <div
+                                class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
+                              >
                                 Can Withdraw Money
                               </div>
                               <div class="text-base text-slate-600 dark:text-slate-50">
@@ -411,17 +536,23 @@ import SupportTicket from "@/views/dashboard/users/tabs/support-ticket";
 import axios from 'axios';
 import { useToast } from "vue-toastification";
 import moment from 'moment';
+import Modal from '@/components/Modal/Modal';
+import Textinput from "@/components/Textinput";
+import Button from "@/components/Button";
 
 export default {
   components: {
     Breadcrumb,
     TabGroup,
+        Textinput,
     TabList,
     Tab,
     TabPanels,
     TabPanel,
     Card,
+        Button,
     Icon,
+        Modal,
     Transaction,
     AddMoney,
     DeductMoney,
@@ -459,13 +590,89 @@ export default {
                     title: "Send Email",
                 },
             ],
-            user: ""
+            user: "",
+            firstLimit: "",
+            firstLimitError: "",
+            secondLimit: "",
+            secondLimitError: "",
     }
     },
     mounted() {
         this.fetchuser()
     },
     methods: {
+      update_first_limit() {
+          const $this = this
+          if (!$this.firstLimit) {
+            $this.firstLimitError = "Limit can not be empty";
+            return;
+            } 
+
+        const toast = useToast();
+        const fromData = new FormData();
+        fromData.append("user_id", $this.$route.params.user_id);
+        fromData.append("card", 'first');
+        fromData.append("limit", this.firstLimit);
+        axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/update_card_limit`, fromData, {
+          headers: {
+            "Authorization": "Bearer " + this.$store.authStore.user.token
+          }
+        }).then(function (response) {
+          if (response.data?.status) {
+            toast.success("User Updated Successful", {
+              timeout: 4000,
+            });
+            $this.user = response.data.user
+            
+          window.location.reload()
+          } else {
+            let message = response.data?.message[0];
+            toast.error(message, {
+              timeout: 4000,
+            });
+          }
+        }).catch(function (result) {
+          if (result.response?.data?.error == 'Unauthorized') {
+            $this.$router.push({ name: 'Login' })
+          }
+        });
+      },
+      update_second_limit() {
+          const $this = this
+          if (!$this.secondLimit) {
+            $this.secondLimitError = "Limit can not be empty";
+            return;
+            } 
+
+        const toast = useToast();
+        const fromData = new FormData();
+        fromData.append("user_id", $this.$route.params.user_id);
+        fromData.append("card", 'second');
+        fromData.append("limit", this.secondLimit);
+        axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/update_card_limit`, fromData, {
+          headers: {
+            "Authorization": "Bearer " + this.$store.authStore.user.token
+          }
+        }).then(function (response) {
+          if (response.data?.status) {
+            toast.success("User Updated Successful", {
+              timeout: 4000,
+            });
+            $this.user = response.data.user
+            
+          window.location.reload()
+          } else {
+            let message = response.data?.message[0];
+            toast.error(message, {
+              timeout: 4000,
+            });
+          }
+        }).catch(function (result) {
+          if (result.response?.data?.error == 'Unauthorized') {
+            $this.$router.push({ name: 'Login' })
+          }
+        });
+      },
         format_date(value) {
             return moment(value).format("Do-MMM-YYYY hh:mm A");
         },
@@ -544,6 +751,36 @@ export default {
                         timeout: 4000,
                     });
                     $this.user = response.data.user
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        }, 
+        toggleCard(type) {
+            const $this = this
+
+            const toast = useToast();
+            const fromData = new FormData();
+            fromData.append("user_id", $this.$route.params.user_id);
+            fromData.append("type", type);
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/toggle_card`, fromData, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+                if (response.data?.status) {
+                    toast.success("User Updated Successful", {
+                        timeout: 4000,
+                    });
+                  $this.user = response.data.user
+                    window.location.reload()
                 } else {
                     let message = response.data?.message[0];
                     toast.error(message, {

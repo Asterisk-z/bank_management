@@ -41,16 +41,44 @@ class WithdrawController extends Controller
                 'status' => false,
                 'errors' => "User Not Found",
             ], 422);
+        }
+
+        if (!$user->account_details->can_make_withdrawal()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User account has been restricted and cannot process transactions at the moment. Please contact our support team for further assistance.',
+            ], 400);
+
+        }
+
+        $received = $user->transactions()->where('process', 'credit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
+        $sent = $user->transactions()->where('process', 'debit')->whereIn('status', ['approved', 'pending'])->where('currency', request('currency'))->sum('amount');
+        $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
+        $stored_balance = $user->account_details->balance(request('currency'));
+        if ($stored_balance != $balance_from_transaction_history) {
+            return response()->json([
+                'status' => false,
+                'stored_balance' => $stored_balance,
+                'balance_from_transaction_history' => $balance_from_transaction_history,
+                'message' => 'User  balance and transaction balance does not match',
+            ], 400);
+        }
+
+        if ($stored_balance < $request->amount) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Insufficient Fund, Try making a deposit',
+            ], 400);
 
         }
 
         $withdraw_ref = Helper::generate_deposit_ref($user->id);
-        $user->deposit_requests()->create([
-            'method' => 'online',
+        $user->withdraw_requests()->create([
+            'withdraw_ref' => $withdraw_ref,
+            'method_id' => 1,
             'amount' => $request['amount'],
             'currency' => $request['currency'],
             'description' => $request['description'],
-            'deposit_ref' => $deposit_ref,
             'status' => 'approved',
         ]);
 
@@ -67,23 +95,67 @@ class WithdrawController extends Controller
             'transaction_ref' => $trans_ref,
             'description' => $request['description'],
             'withdraw_ref' => $withdraw_ref,
-            'notify' => "Admin made a deposit to your account",
+            'notify' => "Admin made a Withdrawal from your account",
         ]);
-        $user->account_details->add_balance($request['amount'], $request['currency']);
+        $user->account_details->sub_balance($request['amount'], $request['currency']);
 
         Mail::to($user)->send(new TransactionMail($transaction, $user));
 
-        return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
-
+        return response()->json(['status' => true, 'message' => "WIthdraw Requested successfully"]);
     }
     public function list_withdraw_request()
     {
-
-        $withdraw_requests = WithdrawRequest::select('withdraw_requests.*')
-            ->with('user')
+        $withdraw_requests = WithdrawRequest::select('withdraw_requests.*', 'users.name', 'users.email')
+            ->join('users', 'withdraw_requests.user_id', '=', 'users.id')
+        // ->with('user')
             ->with('method')
-            ->with('method.currency')
-            ->orderBy("withdraw_requests.id", "desc");
+            ->orderBy("withdraw_requests.id", "desc")->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Upload',
+            'withdraw_requests' => $withdraw_requests,
+        ], 200);
+
+    }
+    public function list_withdraw_request_approved()
+    {
+        $withdraw_requests = WithdrawRequest::select('withdraw_requests.*', 'users.name', 'users.email')->where('withdraw_requests.status', 'approved')
+            ->join('users', 'withdraw_requests.user_id', '=', 'users.id')
+        // ->with('user')
+            ->with('method')
+            ->orderBy("withdraw_requests.id", "desc")->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Upload',
+            'withdraw_requests' => $withdraw_requests,
+        ], 200);
+
+    }
+    public function list_withdraw_request_pending()
+    {
+        $withdraw_requests = WithdrawRequest::select('withdraw_requests.*', 'users.name', 'users.email')->where('withdraw_requests.status', 'pending')
+            ->join('users', 'withdraw_requests.user_id', '=', 'users.id')
+
+        // ->with('user')
+            ->with('method')
+            ->orderBy("withdraw_requests.id", "desc")->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Upload',
+            'withdraw_requests' => $withdraw_requests,
+        ], 200);
+
+    }
+    public function list_withdraw_request_declined()
+    {
+        $withdraw_requests = WithdrawRequest::select('withdraw_requests.*', 'users.name', 'users.email')->where('withdraw_requests.status', 'declined')
+            ->join('users', 'withdraw_requests.user_id', '=', 'users.id')
+        // ->with('user')
+            ->with('method')
+            ->orderBy("withdraw_requests.id", "desc")->get();
 
         return response()->json([
             'status' => true,
@@ -95,9 +167,59 @@ class WithdrawController extends Controller
     public function list_withdraw_request_transaction()
     {
 
-        $transactions = Transaction::select('transactions.*')
-            ->with('user')
-            ->where('type', 'withdraw')->orderBy("transactions.created_at", "desc");
+        $transactions = Transaction::where('type', 'withdraw')
+            ->join('users', 'transactions.user_id', '=', 'users.id')
+        // ->with('user')
+            ->select('transactions.*', 'users.name', 'users.email')
+            ->orderBy("transactions.created_at", "desc")->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Upload',
+            'transactions' => $transactions,
+        ], 200);
+
+    }
+    public function list_withdraw_request_transaction_approved()
+    {
+
+        $transactions = Transaction::where('transactions.type', 'withdraw')->where('transactions.status', 'approved')
+            ->join('users', 'transactions.user_id', '=', 'users.id')
+        // ->with('user')
+            ->select('transactions.*', 'users.name', 'users.email')
+            ->orderBy("transactions.created_at", "desc")->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Upload',
+            'transactions' => $transactions,
+        ], 200);
+
+    }
+    public function list_withdraw_request_transaction_pending()
+    {
+
+        $transactions = Transaction::where('transactions.type', 'withdraw')->where('transactions.status', 'pending')
+            ->join('users', 'transactions.user_id', '=', 'users.id')
+        // ->with('user')
+            ->select('transactions.*', 'users.name', 'users.email')
+            ->orderBy("transactions.created_at", "desc")->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Upload',
+            'transactions' => $transactions,
+        ], 200);
+
+    }
+    public function list_withdraw_request_transaction_declined()
+    {
+
+        $transactions = Transaction::where('transactions.type', 'withdraw')->whereIn('transactions.status', ['declined', 'canceled'])
+            ->join('users', 'transactions.user_id', '=', 'users.id')
+        // ->with('user')
+            ->select('transactions.*', 'users.name', 'users.email')
+            ->orderBy("transactions.created_at", "desc")->get();
 
         return response()->json([
             'status' => true,

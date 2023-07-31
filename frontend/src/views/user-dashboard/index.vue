@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         
-                        <div class="w-[450px] h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl">
+                        <div class="w-[450px] h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.first_card_status == 'not_active' }">
                 
                             <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
                 

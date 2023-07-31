@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\AccountInfomation;
 use App\Models\OtpCode;
+use App\Models\Setting;
 use App\Models\SupportTicket;
 use App\Models\User;
 
@@ -75,5 +76,27 @@ class Helper
             self::generate_otp();
         }
         return $code;
+    }
+    public static function generate_login_otp()
+    {
+        $code = substr(str_shuffle(str_repeat('01234567890987654321', 6)), 0, 6);
+        $check_one = User::where('login_otp', $code)->first();
+
+        if ($check_one) {
+            self::generate_login_otp();
+        }
+        return $code;
+
+    }
+    public static function require_login_otp()
+    {
+        $setting = Setting::where('name', 'login_otp')->first();
+        if (!$setting) {
+            return false;
+        }
+        if ($setting->value == 'active') {
+            return true;
+        }
+        return false;
     }
 }

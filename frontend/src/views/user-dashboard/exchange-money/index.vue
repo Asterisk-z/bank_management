@@ -158,7 +158,7 @@ export default {
                 to = 0.640000
             }
 
-            this.newAmount = (parseFloat(amount) / from) * to
+            this.newAmount = ((parseFloat(amount) / from) * to).toFixed(2)
             // console.log(this.newAmount)
             // let $this = this
             // const toast = useToast();

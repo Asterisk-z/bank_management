@@ -5,7 +5,7 @@
         <div class="grid grid-cols-12 gap-5">
             <div class="lg:col-span-8 col-span-12">
                 <!-- {{ users }} -->
-                <Card title="Withdraw Money">
+                <Card title="Create Fixed Deposit Request">
 
                     <form @submit.prevent="onSubmit" class="space-y-4" enctype="multipart/form-data">
 
@@ -23,31 +23,41 @@
                                 <span v-if="selecteUserError" class="mt-2 text-danger-500 block text-sm">{{ selecteUserError
                                 }}</span>
                             </div>
+                            
+                            <div class="fromGroup relative" :class="`${selectedPlanError ? 'has-error' : ''}  `">
+                                <label :class="`inline-block input-label `">{{ 'Plan' }}</label>
+                                <select name="swift" class="input-control block w-full focus:outline-none h-[48px]"
+                                    v-model="selectedPlan">
+                                    <option value="">Select A Plan</option>
+                                    <option v-for="plan in plans" :value="plan.id" v-bind:key="plan.id">{{ plan.name  }}
+                                    </option>
+                                </select>
 
-                            <InputGroup type="text" label="Amount" placeholder="Amount" v-model="amount"
-                                :error="amountError" classInput="h-[48px]">
-                                <template v-slot:prepend>
+                                <span v-if="selectedPlanError" class="mt-2 text-danger-500 block text-sm">{{ selectedPlanError
+                                }}</span>
+                            </div>
 
-                                    <div class="fromGroup relative"
-                                        :class="`${selectedCurrencyError ? 'has-error' : ''}  `">
-                                        <select name="swift" class="input-control block w-full focus:outline-none h-[48px]"
-                                            v-model="selectedCurrency">
-                                            <option value="">Select A Currency</option>
-                                            <option v-for="currency in currencies" :value="currency.value"
-                                                v-bind:key="currency.value">{{ currency.label }}
-                                            </option>
-                                        </select>
-                                        <span v-if="selectedCurrencyError" class="mt-2 text-danger-500 block text-sm">{{
-                                            selectedCurrencyError }}</span>
-                                    </div>
-                                </template>
-                            </InputGroup>
                         </div>
                         <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
-                         <FromGroup label="Date " name="d2">
-                            <flat-pickr  v-model="date" :error="dateError" class="form-control h-[48px]" placeholder="Date"
-                                :config="{ enableTime: false, dateFormat: 'Y-m-d' }" />
-                        </FromGroup>
+                        
+                                <InputGroup type="text" label="Amount" placeholder="Amount" v-model="amount"
+                                    :error="amountError" classInput="h-[48px]">
+                                    <template v-slot:prepend>
+
+                                        <div class="fromGroup relative"
+                                            :class="`${selectedCurrencyError ? 'has-error' : ''}  `">
+                                            <select name="swift" class="input-control block w-full focus:outline-none h-[48px]"
+                                                v-model="selectedCurrency">
+                                                <option value="">Select A Currency</option>
+                                                <option v-for="currency in currencies" :value="currency.value"
+                                                    v-bind:key="currency.value">{{ currency.label }}
+                                                </option>
+                                            </select>
+                                            <span v-if="selectedCurrencyError" class="mt-2 text-danger-500 block text-sm">{{
+                                                selectedCurrencyError }}</span>
+                                        </div>
+                                    </template>
+                                </InputGroup>
                             <Textarea label="Description" name="pn4" placeholder="Description..." v-model="description"
                                 :error="descriptionError" />
                         </div>
@@ -118,15 +128,15 @@ export default {
                 },
             ],
             users: [],
+            plans: [],
             selecteUser: "",
             selectedCurrency: "",
             selecteUserDetails: "",
-            swiftCode: "",
-            swiftCurrency: ""
         }
     },
     mounted() {
         this.get_users();
+        this.get_plans();
     },
     methods: {
         format_date(value) {
@@ -167,14 +177,50 @@ export default {
                 });
             });
         },
+        
+        get_plans() {
+
+            let $this = this
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_plans`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + $this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+
+                    $this.plans = response.data.plans;
+
+                    // toast.success("User List Updated Successfully", {
+                    //     timeout: 2000,
+                    // });
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (error) {
+
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+                toast.error(error.response.data.message, {
+                    timeout: 5000,
+                });
+            });
+        },
     },
     setup() {
         const schema = yup.object({
             amount: yup.number('Amount Can only be numbers').required("Amount is required"),
             description: yup.string().required("Description is required"),
             selecteUser: yup.string().required("Bank is required"),
+            selectedPlan: yup.string().required("Bank is required"),
             selectedCurrency: yup.string().required("Currency is required"),
-            date: yup.string().required("Date is required"),
         });
         const swal = inject("$swal");
         const toast = useToast();
@@ -186,8 +232,8 @@ export default {
         });
 
         const { value: amount, errorMessage: amountError } = useField("amount");
-        const { value: date, errorMessage: dateError } = useField("date");
         const { value: description, errorMessage: descriptionError } = useField("description");
+        const { value: selectedPlan, errorMessage: selectedPlanError } = useField("selectedPlan");
         const { value: selecteUser, errorMessage: selecteUserError } = useField("selecteUser");
         const { value: selectedCurrency, errorMessage: selectedCurrencyError } = useField("selectedCurrency");
 
@@ -199,12 +245,13 @@ export default {
 
             const fromData = new FormData();
             fromData.append("amount", values.amount);
+            fromData.append("plan", values.selectedPlan);
             fromData.append("date", values.date);
             fromData.append("description", values.description);
             fromData.append("user", values.selecteUser);
             fromData.append("currency", values.selectedCurrency);
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/create_withdraw`, fromData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/create_fdr`, fromData, {
                 headers: {
                     "Authorization": "Bearer " + auth.user.token
                 }
@@ -216,7 +263,7 @@ export default {
                         timeout: 2000,
                     });
 
-                    router.push({ name: 'admin-withdraw-history' });
+                    router.push({ name: 'admin-all-fixed-deposit-request' });
 
                 } else {
                     let message = response.data?.message[0];
@@ -233,18 +280,18 @@ export default {
         });
 
         return {
-            date,
-            dateError,
             amount,
             amountError,
             selecteUser,
             selecteUserError,
+            selectedPlan,
+            selectedPlanError,
             selectedCurrency,
             selectedCurrencyError,
             description,
             descriptionError,
             onSubmit,
-            buttonText: "Withdraw"
+            buttonText: "Deposit"
         };
     },
 }

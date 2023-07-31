@@ -106,7 +106,6 @@ export default {
 
     const onSubmit = handleSubmit((values) => {
        auth.login(values.email, values.password)
-
     });
 
     return {

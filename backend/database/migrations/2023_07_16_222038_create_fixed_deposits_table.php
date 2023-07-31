@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('return_amount');
             $table->string('attachment')->nullable();
             $table->string('remarks')->nullable();
-            $table->enum('status', ['active', 'pending', 'declined'])->default('pending');
+            $table->enum('status', ['approved', 'pending', 'declined'])->default('pending');
             $table->timestamp('approved_date')->nullable();
             $table->timestamp('mature_date')->nullable();
             $table->integer('transaction_id')->nullable();

@@ -47,7 +47,7 @@
                 btnClass="btn-dark btn-sm "
               />
             </template>
-            <!-- <TransactionsTable class="-mx-6 -mb-6" /> -->
+            <TransactionsTable class="-mx-6 -mb-6" />
           </Card>
         </div>
         
@@ -60,7 +60,7 @@
                 btnClass="btn-dark btn-sm "
               />
             </template>
-            <!-- <ActivityTable class="-mx-6 -mb-6" /> -->
+            <ActivityTable  class="-mx-6 -mb-6" />
           </Card>
         </div>
 
@@ -76,7 +76,8 @@ import Icon from "@/components/Icon";
 import window from "@/mixins/window";
 import TransactionsTable from "@/components/TableTransaction";
 import ActivityTable from "@/components/TableActivity";
-
+import axios from 'axios';
+import { useToast } from "vue-toastification";
 export default {
   mixins: [window],
   components: {
@@ -88,6 +89,7 @@ export default {
   },
   data() {
     return {
+      information: "",
       statistics: [
         {
           title: "Active User",
@@ -174,6 +176,59 @@ export default {
           icon: "ph:currency-dollar-bold",
         },
       ],
+      transactions:"",
+      notifications: ""
+    }
+  },
+  mounted() {
+    this.dashboard();
+  },
+  methods: {
+    format_date(value) {
+      return moment(value).format("Do-MMM-YYYY hh:mm A");
+    },
+    dashboard() {
+
+      let $this = this
+      const toast = useToast();
+
+      axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/dashboard`, {}, {
+        headers: {
+          "Authorization": "Bearer " + this.$store.authStore.user.token
+        }
+      }).then(function (response) {
+
+        if (response.data?.status) {
+          $this.information = response.data?.data;
+
+          $this.statistics[0].count = parseFloat($this.information.active_users).toLocaleString("en-US");
+          $this.statistics[1].count = parseFloat($this.information.pending_kyc).toLocaleString("en-US");
+          $this.statistics[2].count = parseFloat($this.information.pending_ticket).toLocaleString("en-US");
+          $this.statistics[3].count = parseFloat($this.information.deposit_request).toLocaleString("en-US");
+          $this.statistics[4].count = parseFloat($this.information.pending_withdraw).toLocaleString("en-US");
+          $this.statistics[5].count = parseFloat($this.information.pending_loan).toLocaleString("en-US");
+          $this.statistics[6].count = parseFloat($this.information.total_fixed).toLocaleString("en-US");
+          $this.statistics[7].count = parseFloat($this.information.wire_amount).toLocaleString("en-US");
+          $this.statistics[8].count = parseFloat($this.information.deposit_amount).toLocaleString("en-US");
+          $this.statistics[9].count = parseFloat($this.information.withdraw_amount).toLocaleString("en-US");
+          $this.statistics[10].count = parseFloat($this.information.loan_amount).toLocaleString("en-US");
+          $this.statistics[11].count = parseFloat($this.information.exchange_amount).toLocaleString("en-US");
+          $this.transactions = $this.information.transactions;
+          $this.notifications = $this.information.notifications;
+
+
+        } else {
+          // let message = response.data?.message[0];
+          toast.error(message, {
+            timeout: 4000,
+          });
+        }
+      }).catch(function (error) {
+        console.log(error)
+        toast.error("Error  ", {
+          timeout: 5000,
+        });
+      });
     }
   }
 }
