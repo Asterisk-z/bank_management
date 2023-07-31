@@ -59,7 +59,6 @@ import { useDropzone } from "vue3-dropzone";
 import { useAuthStore } from '@/store/authUser';
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
-import { CountryCodeList } from "@/constant/country";
 import axios from 'axios';
 import Textarea from "@/components/Textarea";
 

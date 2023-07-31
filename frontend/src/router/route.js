@@ -465,6 +465,81 @@ const routes = [
           middleware: [admin],
         },
       },
+      {
+        path: "admin-gift-card",
+        name: "admin-gift-card",
+        component: () => import("@/views/dashboard/giftcard/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-all-gift-card",
+        name: "admin-all-gift-card",
+        component: () => import("@/views/dashboard/giftcard/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-new-currency",
+        name: "admin-new-currency",
+        component: () => import("@/views/dashboard/currency/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-edit-currency/:currency_id",
+        name: "admin-edit-currency",
+        component: () => import("@/views/dashboard/currency/edit.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-all-currency",
+        name: "admin-all-currency",
+        component: () => import("@/views/dashboard/currency/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+
+      {
+        path: "admin-create-ticket",
+        name: "admin-create-ticket",
+        component: () => import("@/views/dashboard/ticket/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-edit-ticket/:ticket_id",
+        name: "admin-edit-ticket",
+        component: () => import("@/views/dashboard/ticket/edit.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-all-tickets",
+        name: "admin-all-tickets",
+        component: () => import("@/views/dashboard/ticket/history.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+
+
 
 
 

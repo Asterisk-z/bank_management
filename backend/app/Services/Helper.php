@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\AccountInfomation;
+use App\Models\GiftCard;
 use App\Models\OtpCode;
 use App\Models\Setting;
 use App\Models\SupportTicket;
@@ -63,6 +64,18 @@ class Helper
 
         if ($check_one) {
             self::generate_ticket_ref();
+        }
+        return $code;
+
+    }
+    public static function generate_gift_card_code()
+    {
+        $code = substr(str_shuffle(str_repeat('01234567890QWERTYUIOPASDFGHJKLZXCVBNM', 6)), 0, 6);
+        $code = "GICD" . $code;
+        $check_one = GiftCard::where('code', $code)->first();
+
+        if ($check_one) {
+            self::generate_gift_card_code();
         }
         return $code;
 

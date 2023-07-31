@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DepositController as AdminDepositController;
 use App\Http\Controllers\Admin\FDRController;
+use App\Http\Controllers\Admin\GiftcardController;
 use App\Http\Controllers\Admin\PaymentRequestController as AdminPaymentRequestController;
 use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
 use App\Http\Controllers\Admin\TransactionsController;
@@ -88,6 +90,8 @@ Route::prefix('v1')->group(function () {
         Route::post('toggle_action', [UserController::class, 'toggle_action'])->name('toggle_action');
         Route::post('update_card_limit', [UserController::class, 'update_card_limit'])->name('update_card_limit');
 
+        Route::post('create_ticket', [AdminSupportTicketController::class, 'create_ticket'])->name('create_ticket');
+        Route::post('list_tickets', [AdminSupportTicketController::class, 'list_tickets'])->name('list_tickets');
         Route::post('make_active', [AdminSupportTicketController::class, 'make_active'])->name('make_active');
         Route::post('close_ticket', [AdminSupportTicketController::class, 'close_ticket'])->name('close_ticket');
 
@@ -156,6 +160,25 @@ Route::prefix('v1')->group(function () {
         Route::post('list_fixed_deposit_declined', [FDRController::class, 'list_fixed_deposit_declined'])->name('list_fixed_deposit_declined');
         Route::post('fixed_deposit_approve', [FDRController::class, 'fixed_deposit_approve'])->name('fixed_deposit_approve');
         Route::post('fixed_deposit_reject', [FDRController::class, 'fixed_deposit_reject'])->name('fixed_deposit_reject');
+
+        Route::post('create_gift_card', [GiftcardController::class, 'create_gift_card'])->name('create_gift_card');
+        Route::post('list_gift_card', [GiftcardController::class, 'list_gift_card'])->name('list_gift_card');
+        Route::post('list_used_gift_card', [GiftcardController::class, 'list_used_gift_card'])->name('list_used_gift_card');
+        Route::post('list_active_gift_card', [GiftcardController::class, 'list_active_gift_card'])->name('list_active_gift_card');
+        Route::post('list_canceled_gift_card', [GiftcardController::class, 'list_canceled_gift_card'])->name('list_canceled_gift_card');
+        Route::post('activate_giftcard', [GiftcardController::class, 'activate_giftcard'])->name('activate_giftcard');
+        Route::post('cancel_giftcard', [GiftcardController::class, 'cancel_giftcard'])->name('cancel_giftcard');
+
+        Route::post('create_currency', [CurrencyController::class, 'create_currency'])->name('create_currency');
+        Route::post('update_currency', [CurrencyController::class, 'update_currency'])->name('update_currency');
+        Route::post('list_currency', [CurrencyController::class, 'list_currency'])->name('list_currency');
+        Route::post('list_active_currency', [CurrencyController::class, 'list_active_currency'])->name('list_active_currency');
+        Route::post('list_not_active_currency', [CurrencyController::class, 'list_not_active_currency'])->name('list_not_active_currency');
+        Route::post('activate_currency', [CurrencyController::class, 'activate_currency'])->name('activate_currency');
+        Route::post('deactivate_currency', [CurrencyController::class, 'deactivate_currency'])->name('deactivate_currency');
+        Route::post('make_base_currency', [CurrencyController::class, 'make_base_currency'])->name('make_base_currency');
+        Route::post('single_currency', [CurrencyController::class, 'single_currency'])->name('single_currency');
+
 
     });
 

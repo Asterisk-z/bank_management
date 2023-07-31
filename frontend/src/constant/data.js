@@ -148,25 +148,21 @@ export const AdminMenuItem = [
       },
     ],
   },
-  // {
-  //   title: "Support TIckets",
-  //   icon: "heroicons-outline:document",
-  //   link: "#",
-  //   child: [
-  //     {
-  //       childtitle: "Active Ticket",
-  //       childlink: "projects",
-  //     },
-  //     {
-  //       childtitle: "Pending Tickets",
-  //       childlink: "project-details",
-  //     },
-  //     {
-  //       childtitle: "Closed Ticket",
-  //       childlink: "project-details",
-  //     },
-  //   ],
-  // },
+  {
+    title: "Support TIckets",
+    icon: "heroicons-outline:document",
+    link: "#",
+    child: [
+      {
+        childtitle: "Create Ticket",
+        childlink: "admin-create-ticket",
+      },
+      {
+        childtitle: "All Tickets",
+        childlink: "admin-all-tickets",
+      },
+    ],
+  },
   // {
   //   isHeadr: true,
   //   title: "System Setting",

@@ -9,6 +9,8 @@ class Currency extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function convert($to, $amount)
     {
 
