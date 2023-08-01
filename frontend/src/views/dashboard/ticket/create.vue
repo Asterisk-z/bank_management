@@ -40,7 +40,7 @@
                                     v-model="isActive">
                                     <option value="">Select </option>
                                     <option value="active">Open</option>
-                                    <option value="not_active">Pending</option>
+                                    <option value="pending">Pending</option>
                                 </select>
 
                                 <span v-if="isActiveError" class="mt-2 text-danger-500 block text-sm">{{ isActiveError

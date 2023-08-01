@@ -4,12 +4,14 @@ import { useRouter } from "vue-router";
 import axios from 'axios';
 const toast = useToast();
 const router = useRouter();
+import defaultImage from "@/assets/images/users/default.jpg";
 
 
 export const useAuthStore = defineStore('auth',{
     state: () => ({
         user: JSON.parse(sessionStorage.getItem('RoyalBankUserr')),
         returnUrl: null,
+        defaultImage: defaultImage,
         email: JSON.parse(sessionStorage.getItem('login_email')),
     }),
     actions: {

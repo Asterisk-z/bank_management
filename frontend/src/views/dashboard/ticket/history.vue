@@ -44,7 +44,10 @@
                                     :class="`${props.row.status === 'active'
                                         ? 'text-success-500 bg-success-500'
                                         : ''
-                                        }  ${props.row.status === 'not_active'
+                                        }  ${props.row.status === 'pending'
+                                            ? 'text-warning-500 bg-warning-500'
+                                            : ''
+                                        }${props.row.status === 'closed'
                                             ? 'text-danger-500 bg-danger-500'
                                             : ''
                                         } `">
@@ -64,14 +67,38 @@
                                     {{ props.row.base }}
                                 </span>
                             </span>
+                            <span v-if="props.column.field == 'attachment'" class="block w-full">
+                                 <Modal v-if="props.row.attachment"
+                                        title="View"
+                                        label="View"
+                                        labelClass="btn-sm btn-outline-dark"
+                                        ref="modal2"
+                                        centered
+                                        >
+                                        <h4 class="font-medium text-lg mb-3 text-slate-900">
+                                            
+                                        </h4>
+                                        <div class="text-base text-slate-600 dark:text-slate-300">
+                                        <img :src="app_url+'/uploads/support_ticket/'+ props.row.attachment"
+                                                                            class="object-cover w-full h-full" />
+                                        </div>
+                                        <template v-slot:footer>
+                                            <Button
+                                            text="Close"
+                                            btnClass="btn-dark "
+                                            @click="$refs.modal2.closeModal()" 
+                                            />
+                                        </template>
+                                    </Modal>
+                            </span>
                             <span v-if="props.column.field == 'action'">
 
-                                <Dropdown classMenuItems=" w-[140px]" v-if="props.row.base == 'no'">
+                                <Dropdown classMenuItems=" w-[170px]" >
                                     <span class="text-xl">
                                         <Icon icon="heroicons-outline:dots-vertical" />
                                     </span>
                                     <template v-slot:menus>
-                                        <MenuItem>
+                                        <MenuItem  v-if="props.row.status == 'pending'">
                                         <div @click="edit_loan(props.row.id)"
                                             :class="`'hover:bg-slate-900  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
                                             <span class="text-base">
@@ -80,16 +107,16 @@
                                             <span>Edit</span>
                                         </div>
                                         </MenuItem>
-                                        <MenuItem>
-                                        <div @click="make_base(props.row.id)"
+                                        <MenuItem  v-if="props.row.status != 'pending'">
+                                        <div @click="chat_user(props.row.id)"
                                             :class="`'hover:bg-slate-900  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
                                             <span class="text-base">
-                                                <Icon :icon="'heroicons-outline:check'" />
+                                                <Icon :icon="'heroicons-outline:chat'" />
                                             </span>
-                                            <span>Make Base</span>
+                                            <span>Chat</span>
                                         </div>
                                         </MenuItem>
-                                            <MenuItem v-if="props.row.status != 'active'">
+                                            <MenuItem v-if="props.row.status == 'pending'">
                                             <div @click="approve_request(props.row.id)"
                                                 :class="`'hover:bg-slate-900  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
                                                 <span class="text-base">
@@ -98,13 +125,13 @@
                                                 <span>Activate</span>
                                             </div>
                                             </MenuItem>
-                                        <MenuItem v-if="props.row.status == 'active' ">
+                                        <MenuItem v-if="props.row.status != 'closed' ">
                                         <div @click="cancel_request(props.row.id)"
                                             :class="`'bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
                                             <span class="text-base">
                                                 <Icon :icon="'heroicons-outline:trash'" />
                                             </span>
-                                            <span>Deactivate</span>
+                                            <span>Close Ticket</span>
                                         </div>
                                         </MenuItem>
                                     </template>
@@ -141,6 +168,7 @@ import axios from 'axios';
 import { useToast } from "vue-toastification";
 import Select from "@/components/Select";
 import moment from 'moment';
+import Modal from '@/components/Modal/Modal';
 
 export default {
     mixins: [window],
@@ -151,6 +179,7 @@ export default {
         Dropdown,
         Icon,
         Card,
+        Modal,
         Select,
         MenuItem,
         Button
@@ -158,6 +187,8 @@ export default {
 
     data() {
         return {
+            
+            app_url: import.meta.env.VITE_APP_API_BASEURL,
             selected: "all",
             values: [
                 {
@@ -170,7 +201,11 @@ export default {
                 },
                 {
                     value: "pending",
-                    label: "Not Active",
+                    label: "Pending",
+                },
+                {
+                    value: "closed",
+                    label: "Closed",
                 },
             ],
             current: 1,
@@ -253,51 +288,23 @@ export default {
             if (this.selected == 'pending') {
                 this.fetch_pending()
             }
-            if (this.selected == 'declined') {
+            if (this.selected == 'closed') {
                 this.fetch_declined()
             }
         },
         edit_loan(id) {
-            this.$router.push({ name: "admin-edit-currency" , params : {currency_id : id}})
+            this.$router.push({ name: "admin-edit-ticket", params: { ticket_id: id } })
         },
-        make_base(pay_id) {
-             let $this = this
-            const toast = useToast();
-            const formData = new FormData();
-            formData.append('id', pay_id)
-
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/make_base_currency`, formData, {
-                headers: {
-                    "Authorization": "Bearer " + this.$store.authStore.user.token
-                }
-            }).then(function (response) {
-
-                if (response.data?.status) {
-
-                    toast.success("Currency Approved Successfully", {
-                        timeout: 4000,
-                    });
-                    $this.$router.push({ name: 'admin-all-currency' })
-
-                } else {
-                    let message = response.data?.message[0];
-                    toast.error(message, {
-                        timeout: 4000,
-                    });
-                }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
-                    $this.$router.push({ name: 'Login' })
-                }
-            });
+        chat_user(id) {
+            this.$router.push({ name: "admin-chat-ticket", params: { ticket_id: id } })
         },
         approve_request(pay_id) {
             let $this = this
             const toast = useToast();
             const formData = new FormData();
-            formData.append('id', pay_id)
+            formData.append('ticket_id', pay_id)
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/activate_currency`, formData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/make_active`, formData, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -308,7 +315,7 @@ export default {
                     toast.success("Currency Approved Successfully", {
                         timeout: 4000,
                     });
-                    $this.$router.push({ name: 'admin-all-currency' })
+                    $this.updateValue()
 
                 } else {
                     let message = response.data?.message[0];
@@ -326,9 +333,9 @@ export default {
             let $this = this
             const toast = useToast();
             const formData = new FormData();
-            formData.append('id', pay_id)
+            formData.append('ticket_id', pay_id)
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/deactivate_currency`, formData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/close_ticket`, formData, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -339,7 +346,7 @@ export default {
                     toast.success("Currency Declined Successfully", {
                         timeout: 4000,
                     });
-                    $this.$router.push({ name: 'admin-all-currency' })
+                    $this.updateValue()
 
                 } else {
                     let message = response.data?.message[0];
@@ -386,7 +393,7 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_active_currency`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_tickets_active`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }
@@ -411,7 +418,35 @@ export default {
 
             const toast = useToast();
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_not_active_currency`, {}, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_tickets_pending`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+                    // toast.success("User Found", {
+                    //     timeout: 4000,
+                    // });
+                    $this.support_tickets = response.data.support_tickets
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (result) {
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+            });
+        },
+        fetch_declined() {
+            const $this = this
+
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_tickets_closed`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
                 }

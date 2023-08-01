@@ -110,7 +110,7 @@
                                             </div>
                                         </MenuItem>
                                          <MenuItem v-if="props.row.status == 'pending'" >
-                                            <div  @click="close_ticket(props.row.id)" class="bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse ">
+                                            <div  @click="close_ticket(props.row.ticket_ref)" class="bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse ">
                                                 <span class="text-base"><Icon :icon="'heroicons-outline:trash'" /></span>
                                                 <span>Close</span>
                                             </div>

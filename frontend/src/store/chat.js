@@ -11,12 +11,76 @@ export const useChatStore = defineStore('chat',{
         return {
             settingToggle: false,
             openinfo: true,
-            activechat: false,
+            activechat: true,
             searchContact: "",
             mobileChatSidebar: false,
             profileinfo: {},
-            messFeed: [],
-            user: {},
+            messFeed: [
+                        {
+                            img: user2Img,
+                            content: "Hey! How are you?",
+                            time: "10:00",
+                            sender: "them",
+                        },
+                        {
+                            img: user2Img,
+                            content: "Good, I will book the meeting room for you.",
+                            time: "10:02",
+
+                            sender: "them",
+                        },
+                        {
+                            content: "Hi, I am good, what about you?",
+                            img: user1Img,
+                            time: "10:01",
+                            sender: "me",
+                        },
+
+                        {
+                            content: "Thanks, It will be great.",
+                            img: user1Img,
+                            time: "10:03",
+                            sender: "me",
+                        },
+                        {
+                            img: user2Img,
+                            content: "Hey! How are you?",
+                            time: "10:00",
+                            sender: "them",
+                        },
+                        {
+                            img: user2Img,
+                            content: "Good, I will book the meeting room for you.",
+                            time: "10:02",
+
+                            sender: "them",
+                        },
+                        {
+                            content: "Hi, I am good, what about you?",
+                            img: user1Img,
+                            time: "10:01",
+                            sender: "me",
+                        },
+
+                        {
+                            content: "Thanks, It will be great.",
+                            img: user1Img,
+                            time: "10:03",
+                            sender: "me",
+                        },
+                    ],
+            user: {
+            
+                    id: 1,
+                    fullName: "Kathryn Murphy",
+                    role: "Frontend Developer",
+                    lastmessage: "Hey! there I'm available",
+                    lastmessageTime: "2:30 PM",
+                    unredmessage: Math.floor(Math.random() * 10),
+                    avatar: user2Img,
+                    status: "offline",
+                
+            },
             contacts: [
                 {
                     id: 1,
@@ -236,11 +300,11 @@ export const useChatStore = defineStore('chat',{
         },
         //open chat
         openChat(data) {
-            this.activechat = true;
-            this.mobileChatSidebar = false;
-            this.user = data;
+            // this.activechat = true;
+            // this.mobileChatSidebar = false;
+            // this.user = data;
             this.chats.map((item) => {
-                if (item.userId === data.id) {
+                if (item.userId === this.user.id) {
                     this.messFeed = item.messages;
                 }
             });

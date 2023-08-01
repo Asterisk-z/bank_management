@@ -530,6 +530,15 @@ const routes = [
         },
       },
       {
+        path: "admin-chat-ticket/:ticket_id",
+        name: "admin-chat-ticket",
+        component: () => import("@/views/dashboard/ticket/chat.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
         path: "admin-all-tickets",
         name: "admin-all-tickets",
         component: () => import("@/views/dashboard/ticket/history.vue"),

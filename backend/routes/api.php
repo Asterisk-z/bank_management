@@ -91,7 +91,16 @@ Route::prefix('v1')->group(function () {
         Route::post('update_card_limit', [UserController::class, 'update_card_limit'])->name('update_card_limit');
 
         Route::post('create_ticket', [AdminSupportTicketController::class, 'create_ticket'])->name('create_ticket');
+        Route::post('update_ticket', [AdminSupportTicketController::class, 'update_ticket'])->name('update_ticket');
         Route::post('list_tickets', [AdminSupportTicketController::class, 'list_tickets'])->name('list_tickets');
+        Route::post('single_chat_ticket_detail', [AdminSupportTicketController::class, 'single_chat_ticket_detail'])->name('single_chat_ticket_detail');
+        Route::post('list_tickets_active', [AdminSupportTicketController::class, 'list_tickets_active'])->name('list_tickets_active');
+        Route::post('list_tickets_pending', [AdminSupportTicketController::class, 'list_tickets_pending'])->name('list_tickets_pending');
+        Route::post('list_tickets_closed', [AdminSupportTicketController::class, 'list_tickets_closed'])->name('list_tickets_closed');
+        Route::post('single_chat_ticket', [AdminSupportTicketController::class, 'single_chat_ticket'])->name('single_chat_ticket');
+        Route::post('single_ticket', [AdminSupportTicketController::class, 'single_ticket'])->name('single_ticket');
+        Route::post('send_message', [AdminSupportTicketController::class, 'send_message'])->name('send_message');
+        Route::post('get_message', [AdminSupportTicketController::class, 'get_message'])->name('get_message');
         Route::post('make_active', [AdminSupportTicketController::class, 'make_active'])->name('make_active');
         Route::post('close_ticket', [AdminSupportTicketController::class, 'close_ticket'])->name('close_ticket');
 
@@ -179,7 +188,6 @@ Route::prefix('v1')->group(function () {
         Route::post('make_base_currency', [CurrencyController::class, 'make_base_currency'])->name('make_base_currency');
         Route::post('single_currency', [CurrencyController::class, 'single_currency'])->name('single_currency');
 
-
     });
 
     Route::prefix('customer')->namespace('Customer')->middleware('auth:api')->group(function () {
@@ -218,6 +226,9 @@ Route::prefix('v1')->group(function () {
         Route::post('list_tickets', [SupportTicketController::class, 'list_tickets'])->name('list_tickets');
         Route::post('close_ticket', [SupportTicketController::class, 'close_ticket'])->name('close_ticket');
         Route::post('find_ticket', [SupportTicketController::class, 'find_ticket'])->name('find_ticket');
+        Route::post('single_chat_ticket_detail', [SupportTicketController::class, 'single_chat_ticket_detail'])->name('single_chat_ticket_detail');
+        Route::post('get_message', [SupportTicketController::class, 'get_message'])->name('get_message');
+        Route::post('send_message', [SupportTicketController::class, 'send_message'])->name('send_message');
 
         Route::post('list_loan_products', [LoanController::class, 'list_loan_products'])->name('list_loan_products');
         Route::post('loan_request', [LoanController::class, 'loan_request'])->name('loan_request');

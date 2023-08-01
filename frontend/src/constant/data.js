@@ -163,6 +163,21 @@ export const AdminMenuItem = [
       },
     ],
   },
+  {
+    title: "Banks",
+    icon: "heroicons-outline:document",
+    link: "#",
+    child: [
+      {
+        childtitle: "Create Bank",
+        childlink: "admin-create-bank",
+      },
+      {
+        childtitle: "All Banks",
+        childlink: "admin-all-banks",
+      },
+    ],
+  },
   // {
   //   isHeadr: true,
   //   title: "System Setting",

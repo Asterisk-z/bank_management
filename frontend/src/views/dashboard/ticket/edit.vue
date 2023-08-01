@@ -5,51 +5,85 @@
         <div class="grid grid-cols-12 gap-5">
             <div class="lg:col-span-8 col-span-12">
                 <!-- {{ users }} -->
-                <Card title="Edit Currency">
+                <Card title="Edit Ticket">
 
                     <form @submit.prevent="onSubmit" class="space-y-4" enctype="multipart/form-data">
-                        
-                        <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
-                            
-                            <InputGroup type="text" label="Name" placeholder="Name" v-model="name"
-                                :error="nameError" classInput="h-[48px]">
-                            </InputGroup>
-                        </div>
-                        <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-5">
-                            
-                            <InputGroup type="number" label="Exchange Rate" placeholder="Exchange Rate" v-model="rate"
-                                :error="rateError" classInput="h-[48px]">
-                            </InputGroup>
-                            <InputGroup type="text" label="Sign" placeholder="Sign" v-model="sign"
-                                :error="signError" classInput="h-[48px]">
-                            </InputGroup>
 
-                            <div class="fromGroup relative" :class="`${isBaseError ? 'has-error' : ''}  `">
-                                <label :class="`inline-block input-label `">{{ 'Base Currency' }}</label>
+                        <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
+
+                            <div class="fromGroup relative" :class="`${selecteUserError ? 'has-error' : ''}  `">
+                                <label :class="`inline-block input-label `">{{ 'User' }}</label>
                                 <select name="swift" class="input-control block w-full focus:outline-none h-[48px]"
-                                    v-model="isBase">
-                                    <option value="">Select </option>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
+                                    v-model="selecteUser">
+                                    <option value="">Select A User</option>
+                                    <option v-for="user in users" :value="user.id" v-bind:key="user.id">{{ user.name + " | "
+                                        +
+                                        user.email }}
+                                    </option>
                                 </select>
 
-                                <span v-if="isBaseError" class="mt-2 text-danger-500 block text-sm">{{ isBaseError
+                                <span v-if="selecteUserError" class="mt-2 text-danger-500 block text-sm">{{ selecteUserError
                                 }}</span>
                             </div>
+                        </div>
+                        <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
+
+                            <InputGroup type="text" label="Subject" placeholder="Subject" v-model="subject"
+                                :error="subjectError" classInput="h-[48px]">
+                            </InputGroup>
+                        </div>
+
+                        <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-5">
+
                             <div class="fromGroup relative" :class="`${isActiveError ? 'has-error' : ''}  `">
                                 <label :class="`inline-block input-label `">{{ 'Status' }}</label>
                                 <select name="swift" class="input-control block w-full focus:outline-none h-[48px]"
                                     v-model="isActive">
                                     <option value="">Select </option>
-                                    <option value="active">Active</option>
-                                    <option value="not_active">Not Active</option>
+                                    <option value="active">Open</option>
+                                    <option value="pending">Pending</option>
                                 </select>
 
                                 <span v-if="isActiveError" class="mt-2 text-danger-500 block text-sm">{{ isActiveError
                                 }}</span>
                             </div>
 
+                            <Select label="Priority" :options="priorities" v-model="priority" :error="priorityError"
+                                classInput="h-[48px]" />
 
+
+                        </div>
+
+                        <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
+                            <Textarea label="Description" name="pn4" placeholder="Description..." v-model="description"
+                                :error="descriptionError" />
+                        </div>
+
+
+                        <div class="grid grid-cols-1 mt-5">
+                            <label :class="`inline-block input-label `"> Attachment</label>
+
+                            <div v-bind="getRootProps()"
+                                class="w-full text-center border-dashed border border-secondary-500 rounded-md py-[52px] flex flex-col justify-center items-center"
+                                :class="files.length === 0 ? 'cursor-pointer' : ' pointer-events-none'">
+                                <div v-if="files.length === 0">
+                                    <input v-bind="getInputProps()" class="hidden" />
+                                    <img src="@/assets/images/svg/upload.svg" alt="" class="mx-auto mb-4" />
+                                    <p v-if="isDragActive" class="text-sm text-slate-500 dark:text-slate-300 font-light">
+                                        Drop the files here ...
+                                    </p>
+                                    <p v-else class="text-sm text-slate-500 dark:text-slate-300 font-light">
+                                        Drop files here or click to upload.
+                                    </p>
+                                </div>
+                                <div class="flex space-x-4">
+                                    <div v-for="(file, i) in files" :key="i" class="mb-4 flex-none">
+                                        <div class="h-[300px] w-[300px] mx-auto mt-6 rounded-md" key="{i}">
+                                            <img :src="file.preview" class="object-cover h-full w-full block rounded-md" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary float-right text-center">
@@ -76,6 +110,7 @@ import Select from "@/components/Select";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 import { inject, ref } from "vue";
+import { useDropzone } from "vue3-dropzone";
 import { useAuthStore } from '@/store/authUser';
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
@@ -100,78 +135,119 @@ export default {
     data() {
         return {
             history: '',
-            currencies: [
-                {
-                    value: "USD",
-                    label: "USD",
-                    rate: 1.000000
-                },
-                {
-                    value: "AUD",
-                    label: "AUD",
-                    rate: 0.983700
-                },
-                {
-                    value: "EUR",
-                    label: "EUR",
-                    rate: 0.640000
-                },
-            ],
             users: [],
             plans: [],
             selecteUser: "",
             selectedCurrency: "",
             selecteUserDetails: "",
+            priorities: [
+                {
+                    label: 'Low',
+                    value: 'low'
+                }, {
+                    label: 'Medium',
+                    value: 'medium'
+                }, {
+                    label: 'High',
+                    value: 'high'
+                },
+            ]
         }
     },
     mounted() {
-
+        this.get_users();
     },
     methods: {
         format_date(value) {
             return moment(value).format("Do-MMM-YYYY hh:mm A");
         },
+        get_users() {
+
+            let $this = this
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/list_user`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + $this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+
+                if (response.data?.status) {
+
+                    $this.users = response.data.users;
+
+                    toast.success("User List Updated Successfully", {
+                        timeout: 2000,
+                    });
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (error) {
+
+                if (result.response?.data?.error == 'Unauthorized') {
+                    $this.$router.push({ name: 'Login' })
+                }
+                toast.error(error.response.data.message, {
+                    timeout: 5000,
+                });
+            });
+        },
     },
     setup() {
         const schema = yup.object({
-            name: yup.string().length(3).required("Name is required"),
-            rate: yup.number().required("Rate is required"),
-            sign: yup.string().max(2).required("Sign is required"),
-            isBase: yup.string().required("Base Status is required"),
-            isActive: yup.string().required("Currency Status is required"),
+            subject: yup.string().required("Subject is required"),
+            selecteUser: yup.string().required("User is required"),
+            isActive: yup.string().required("Status is required"),
+            description: yup.string().required("Description is required"),
+            priority: yup.string().required("Priority is required"),
         });
         const swal = inject("$swal");
         const toast = useToast();
         const router = useRouter();
         const auth = useAuthStore();
 
+        const files = ref([]);
+        function onDrop(acceptFiles) {
+            files.value = acceptFiles.map((file) =>
+                Object.assign(file, {
+                    preview: URL.createObjectURL(file),
+                })
+            );
+        }
+
         const { handleSubmit } = useForm({
             validationSchema: schema,
         });
 
-        const { value: name, errorMessage: nameError } = useField("name");
-        const { value: rate, errorMessage: rateError } = useField("rate");
-        const { value: sign, errorMessage: signError } = useField("sign");
-        const { value: isBase, errorMessage: isBaseError } = useField("isBase");
+        const { value: subject, errorMessage: subjectError } = useField("subject");
+        const { value: description, errorMessage: descriptionError } = useField("description");
+        const { value: priority, errorMessage: priorityError } = useField("priority");
+        const { value: selecteUser, errorMessage: selecteUserError } = useField("selecteUser");
         const { value: isActive, errorMessage: isActiveError } = useField("isActive");
 
+        const { getRootProps, getInputProps, ...rest } = useDropzone({ onDrop });
         const onSubmit = handleSubmit((values) => {
 
-            toast.info("Creating", {
+            toast.info("Updating", {
                 timeout: 5000,
             });
 
             let token = window.location.pathname.split('/')
             let id = token.pop();
             const fromData = new FormData();
+            fromData.append("file", files._rawValue[0]);
             fromData.append("id", id);
-            fromData.append("name", values.name);
-            fromData.append("rate", values.rate);
-            fromData.append("sign", values.sign);
-            fromData.append("base_status", values.isBase);
+            fromData.append("user", values.selecteUser);
+            fromData.append("subject", values.subject);
+            fromData.append("priority", values.priority);
+            fromData.append("description", values.description);
             fromData.append("status", values.isActive);
 
-            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/update_currency`, fromData, {
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/update_ticket`, fromData, {
                 headers: {
                     "Authorization": "Bearer " + auth.user.token
                 }
@@ -183,7 +259,7 @@ export default {
                         timeout: 2000,
                     });
 
-                    router.push({ name: 'admin-all-currency' });
+                    router.push({ name: 'admin-all-tickets' });
 
                 } else {
                     let message = response.data?.message[0];
@@ -198,12 +274,11 @@ export default {
             });
 
         });
-        
-        
-        
+
+
         let token = window.location.pathname.split('/')
         let id = token.pop();
-        let data = axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/single_currency`, {
+        let data = axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/single_chat_ticket`, {
             id: id,
         }, {
             headers: {
@@ -213,34 +288,38 @@ export default {
 
             if (response.data?.status) {
 
-                name.value = response.data.currency.name
-                rate.value = response.data.currency.rate
-                sign.value = response.data.currency.sign
-                isBase.value = response.data.currency.base
-                isActive.value = response.data.currency.status
+                selecteUser.value = response.data.ticket.user_id
+                subject.value = response.data.ticket.subject
+                priority.value = response.data.ticket.priority
+                description.value = response.data.ticket.description
+                isActive.value = response.data.ticket.status
 
             } else {
-                router.push({name : 'admin-all-currency'});
+                router.push({ name: 'admin-all-tickets' });
                 let message = response.data?.message[0];
                 toast.error(message, {
                     timeout: 4000,
                 });
             }
         }).catch(function (error) {
-            router.push({ name: 'admin-all-currency' });
+            router.push({ name: 'admin-all-tickets' });
         });
 
-        
-        
+
+
         return {
-            name,
-            nameError,
-            rate,
-            rateError,
-            sign,
-            signError,
-            isBase,
-            isBaseError,
+            getRootProps,
+            getInputProps,
+            ...rest,
+            files,
+            priority,
+            priorityError,
+            selecteUser,
+            selecteUserError,
+            description,
+            descriptionError,
+            subject,
+            subjectError,
             isActive,
             isActiveError,
             onSubmit,
