@@ -172,9 +172,6 @@ export default {
         }).then(function (response) {
 
             if (response.data?.status) {
-                // toast.success("User Found", {
-                //     timeout: 4000,
-                // });
                 $this.loans = response.data.loans
             } else {
                 let message = response.data?.message[0];
@@ -190,7 +187,7 @@ export default {
     },
     methods: {
         create_loan() {
-            this.$router.push({name : "admin-loan-create"})
+            // this.$router.push({name : "admin-loan-create"})
         }
     }
 };

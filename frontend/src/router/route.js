@@ -547,6 +547,60 @@ const routes = [
           middleware: [admin],
         },
       },
+      {
+        path: "admin-all-banks",
+        name: "admin-all-banks",
+        component: () => import("@/views/dashboard/banks/index.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-create-bank",
+        name: "admin-create-bank",
+        component: () => import("@/views/dashboard/banks/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-edit-bank/:bank_id",
+        name: "admin-edit-bank",
+        component: () => import("@/views/dashboard/banks/edit.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-loan-products",
+        name: "admin-loan-products",
+        component: () => import("@/views/dashboard/loans/lp_index.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-create-loan-product",
+        name: "admin-create-loan-product",
+        component: () => import("@/views/dashboard/loans/lp_create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-edit-loan-product/:loan_product_id",
+        name: "admin-edit-loan-product",
+        component: () => import("@/views/dashboard/loans/lp_edit.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
 
 
 

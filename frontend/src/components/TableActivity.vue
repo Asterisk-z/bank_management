@@ -24,6 +24,9 @@
                                 </div>
                             </div>
                             <div class="flex-1">
+                                <div class="text-secondary-500 dark:text-slate-400 text-xs lowercase">
+                                {{ props.row.email }}
+                                </div>
                                 <div
                                 :class="`${active
                                         ? 'text-slate-600 dark:text-slate-300'
@@ -32,9 +35,8 @@
                                 >
                                 {{ Object.values(JSON.parse(props.row.data))[0]  }}
                                 </div>
-                            
                                 <div class="text-secondary-500 dark:text-slate-400 text-xs">
-                                {{ format_date(props.row.created_at) }}
+                                {{ format_date(props.row.created_at) }} .
                                 </div>
                             </div>
                             </div>
@@ -132,7 +134,6 @@ export default {
                     $this.information = response.data?.data;
 
                     $this.notifications = $this.information.notifications;
-
 
                 } else {
                     // let message = response.data?.message[0];

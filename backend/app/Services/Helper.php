@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\AccountInfomation;
 use App\Models\GiftCard;
+use App\Models\Loan;
 use App\Models\OtpCode;
 use App\Models\Setting;
 use App\Models\SupportTicket;
@@ -64,6 +65,18 @@ class Helper
 
         if ($check_one) {
             self::generate_ticket_ref();
+        }
+        return $code;
+
+    }
+    public static function generate_loan_ref()
+    {
+        $code = substr(str_shuffle(str_repeat('01234567890987654321', 7)), 0, 7);
+        $code = "RBLN" . $code;
+        $check_one = Loan::where('loan_ref', $code)->first();
+
+        if ($check_one) {
+            self::generate_loan_ref();
         }
         return $code;
 

@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\BankController as AdminBankController;
 use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DepositController as AdminDepositController;
 use App\Http\Controllers\Admin\FDRController;
 use App\Http\Controllers\Admin\GiftcardController;
+use App\Http\Controllers\Admin\LoanController as AdminLoanController;
+use App\Http\Controllers\Admin\LoanProductController;
 use App\Http\Controllers\Admin\PaymentRequestController as AdminPaymentRequestController;
 use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
 use App\Http\Controllers\Admin\TransactionsController;
@@ -15,6 +18,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\Custoer\NotificationController;
 use App\Http\Controllers\Customer\AccountController;
+use App\Http\Controllers\Customer\CurrencyController as CustomerCurrencyController;
 use App\Http\Controllers\Customer\DashBoardController;
 use App\Http\Controllers\Customer\DepositController;
 use App\Http\Controllers\Customer\ExchangeMoneyController;
@@ -181,12 +185,45 @@ Route::prefix('v1')->group(function () {
         Route::post('create_currency', [CurrencyController::class, 'create_currency'])->name('create_currency');
         Route::post('update_currency', [CurrencyController::class, 'update_currency'])->name('update_currency');
         Route::post('list_currency', [CurrencyController::class, 'list_currency'])->name('list_currency');
+        Route::post('fetch_currencies', [CurrencyController::class, 'fetch_currencies'])->name('fetch_currencies');
         Route::post('list_active_currency', [CurrencyController::class, 'list_active_currency'])->name('list_active_currency');
         Route::post('list_not_active_currency', [CurrencyController::class, 'list_not_active_currency'])->name('list_not_active_currency');
         Route::post('activate_currency', [CurrencyController::class, 'activate_currency'])->name('activate_currency');
         Route::post('deactivate_currency', [CurrencyController::class, 'deactivate_currency'])->name('deactivate_currency');
         Route::post('make_base_currency', [CurrencyController::class, 'make_base_currency'])->name('make_base_currency');
         Route::post('single_currency', [CurrencyController::class, 'single_currency'])->name('single_currency');
+
+        Route::post('create_bank', [AdminBankController::class, 'create_bank'])->name('create_bank');
+        Route::post('update_bank', [AdminBankController::class, 'update_bank'])->name('update_bank');
+        Route::post('get_bank', [AdminBankController::class, 'get_bank'])->name('get_bank');
+        Route::post('list_banks', [AdminBankController::class, 'list_banks'])->name('list_banks');
+        Route::post('bank_activate', [AdminBankController::class, 'bank_activate'])->name('bank_activate');
+        Route::post('bank_deactivate', [AdminBankController::class, 'bank_deactivate'])->name('bank_deactivate');
+        Route::post('list_active_bank', [AdminBankController::class, 'list_active_bank'])->name('list_active_bank');
+        Route::post('list_not_active_bank', [AdminBankController::class, 'list_not_active_bank'])->name('list_not_active_bank');
+
+        Route::post('create_loan_product', [LoanProductController::class, 'create_loan_product'])->name('create_loan_product');
+        Route::post('update_loan_product', [LoanProductController::class, 'update_loan_product'])->name('update_loan_product');
+        Route::post('all_loan_product', [LoanProductController::class, 'all_loan_product'])->name('all_loan_product');
+        Route::post('get_loan_product', [LoanProductController::class, 'get_loan_product'])->name('get_loan_product');
+        Route::post('all_active_loan_product', [LoanProductController::class, 'all_active_loan_product'])->name('all_active_loan_product');
+        Route::post('all_not_active_loan_product', [LoanProductController::class, 'all_not_active_loan_product'])->name('all_not_active_loan_product');
+        Route::post('activate_loan_product', [LoanProductController::class, 'activate_loan_product'])->name('activate_loan_product');
+        Route::post('deactivate_loan_product', [LoanProductController::class, 'deactivate_loan_product'])->name('deactivate_loan_product');
+
+                
+        Route::post('create_loan', [AdminLoanController::class, 'create_loan'])->name('create_loan');
+        Route::post('update_loan', [AdminLoanController::class, 'update_loan'])->name('update_loan');
+        Route::post('single_loan', [AdminLoanController::class, 'single_loan'])->name('single_loan');
+        Route::post('list_loans', [AdminLoanController::class, 'list_loans'])->name('list_loans');
+        Route::post('list_active_loans', [AdminLoanController::class, 'list_active_loans'])->name('list_active_loans');
+        Route::post('list_pending_loans', [AdminLoanController::class, 'list_pending_loans'])->name('list_pending_loans');
+        Route::post('list_canceled_loans', [AdminLoanController::class, 'list_canceled_loans'])->name('list_canceled_loans');
+        Route::post('accept_loan', [AdminLoanController::class, 'accept_loan'])->name('accept_loan');
+        Route::post('decline_loan', [AdminLoanController::class, 'decline_loan'])->name('decline_loan');
+        Route::post('calculate', [AdminLoanController::class, 'calculate'])->name('calculate');
+
+
 
     });
 
@@ -244,6 +281,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('update_password', [AccountController::class, 'update_password'])->name('update_password');
         Route::post('email_update', [AccountController::class, 'email_update'])->name('email_update');
+
+        Route::post('fetch_currency', [CustomerCurrencyController::class, 'fetch_currency'])->name('fetch_currency');
 
     });
 

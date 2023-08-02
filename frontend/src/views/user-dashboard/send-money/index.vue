@@ -14,8 +14,14 @@
             <InputGroup type="text" label="Amount" placeholder="Amount" v-model="amount" :error="amountError"
               classInput="h-[48px]">
               <template v-slot:prepend>
-                <Select label="" :options="currencies" v-model="currency" style="width: 200px" :error="currencyError"
-                  classInput="h-[48px]" />
+                 <div class="fromGroup relative" :class="`${currencyError ? 'has-error' : ''}  `">
+                    <select name="swift" class="input-control block w-full focus:outline-none h-[48px]" v-model="currency" >
+                        <option value="">Select A Currency</option>
+                        <option v-for="item in currencies" :key="item" :value="item.name">{{ item.name }}</option>
+                    </select>
+
+                    <span v-if="currencyError" class="mt-2 text-danger-500 block text-sm">{{ currencyError }}</span>
+                </div>
               </template>
             </InputGroup>
 
@@ -81,12 +87,11 @@ export default {
           value: "AUD",
           label: "AUD",
         },
-        {
-          value: "EUR",
-          label: "EUR",
-        },
       ],
     }
+  },
+  beforeMount() {
+      this.fetch_currency()
   },
   mounted() {
     this.currency = this.currencies[0].value
@@ -95,6 +100,32 @@ export default {
   methods: {
       format_date(value) {
           return moment(value).format("Do-MMM-YYYY hh:mm A");
+      },
+      fetch_currency() {
+
+          let $this = this
+          const toast = useToast();
+
+          axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/fetch_currency`, {}, {
+              headers: {
+                  "Authorization": "Bearer " + this.$store.authStore.user.token
+              }
+          }).then(function (response) {
+              if (response.data?.status) {
+                  $this.currencies = response.data.currencies;
+                  console.log($this.history)
+
+              } else {
+                  let message = response.data?.message[0];
+                  toast.error(message, {
+                      timeout: 4000,
+                  });
+              }
+          }).catch(function (error) {
+              toast.error(error.response.data.message, {
+                  timeout: 5000,
+              });
+          });
       },
       fetch_history() {
         

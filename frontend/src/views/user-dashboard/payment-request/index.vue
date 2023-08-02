@@ -64,13 +64,13 @@
                                 </span>
                             </span>
                             <span v-if="props.column.field == 'action'">
-                                <Modal v-if="props.row.benefactor == this.$store.authStore.user.user.id " title="Send Money" label="Send Money"
+                                <template v-if="props.row.status != 'paid'">
+<Modal v-if="props.row.benefactor == this.$store.authStore.user.user.id " title="Send Money" label="Send Money"
                                     labelClass="btn-outline-dark btn-sm" ref="modal2" centered >
                                     <h4 class="font-medium text-lg mb-3 text-slate-900">
 
                                     </h4>
                                     <div class="text-base text-slate-600 dark:text-slate-300">
-                                        <!-- {{ props.row }} -->
                                         <div class="space-y-[5px]">
                                             <span class="block text-slate-900 dark:text-slate-300 font-medium leading-5 text-xl mb-4" > Billing Details:</span >
                                             <h4 class="text-slate-600 font-medium dark:text-slate-300 text-sm uppercase">
@@ -96,7 +96,11 @@
                                         <Button text="Close" btnClass="btn-dark btn-sm " @click="$refs.modal2.closeModal()" />
                                     </template>
                                 </Modal>
-                                <Button v-if="props.row.user_id == this.$store.authStore.user.user.id"  text="Deactivate" btnClass="btn-dark btn-sm " @click="cancel" />
+                                </template>
+                            
+                                <!-- <template v-if="props.row.status == 'pending'">
+                                    <Button v-if="props.row.user_id == this.$store.authStore.user.user.id"  text="Deactivate" btnClass="btn-dark btn-sm " @click="cancel" />
+                                </template> -->
                             </span>
                         </template>
                         <template #pagination-bottom="props">
@@ -236,23 +240,23 @@ export default {
             });
             this.deposit_requests = data
         },
-        make_payment() {
-            this.$swal.fire({
-                title: 'Do you want to save the changes?',
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'Save',
-                denyButtonText: `Don't save`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/pay_request`, {}, {
+        make_payment($id) {
+            this.$refs.modal2.closeModal()
+             toast.info("Sending Money", {
+                timeout: 6000,
+            });
+                    axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/pay_request`, {
+                        id : $id
+                    }, {
                         headers: {
                             "Authorization": "Bearer " + this.$store.authStore.user.token
                         }
                     }).then(function (response) {
 
                         if (response.data?.status) {
+                             toast.success("Money Sent Successfully", {
+                                timeout: 4000,
+                            });
                             return response.data?.data
 
                         } else {
@@ -262,10 +266,6 @@ export default {
                             });
                         }
                     });
-                } else if (result.isDenied) {
-                    Swal.fire('Changes are not saved', '', 'info')
-                }
-            })
             
             // this.deposit_requests = data
         },

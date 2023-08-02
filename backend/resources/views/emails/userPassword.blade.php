@@ -336,8 +336,8 @@
                             <tr>
                                 <td style="padding: 0 2.5em; text-align: center; padding-bottom: 3em;">
                                     <div class="text">
-                                        {{-- <h2>Welcome To Royal Bank Of Queenland</h2>  --}}
-                                        <h2>Royal Bank Of Queenland</h2>
+                                        {{-- <h2>Welcome To Royal Bank Of Queensland</h2>  --}}
+                                        <h2>Royal Bank Of Queensland</h2>
 
                                     </div>
                                 </td>

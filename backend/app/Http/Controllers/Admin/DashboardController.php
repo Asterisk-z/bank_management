@@ -55,7 +55,7 @@ class DashboardController extends Controller
 
         $user = auth()->user();
 
-        $notifications = DB::table('notifications')->orderBy('created_at')->take(5)->get();
+        $notifications = DB::table('notifications')->join('users', 'notifications.notifiable_id', 'users.id')->orderBy('created_at')->select('notifications.*', 'users.name', 'users.email')->take(5)->get();
 
         return response()->json(['status' => true, "data" => [
             "notifications" => $notifications,

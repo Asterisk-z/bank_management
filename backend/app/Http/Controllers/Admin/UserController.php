@@ -127,7 +127,7 @@ class UserController extends Controller
 
     public function all_user()
     {
-        $users = User::where('user_type', 'customer')->get();
+        $users = User::where('user_type', 'customer')->with('account_details')->get();
         return response()->json(['status' => true, 'message' => "Customer Fetch Successful", 'users' => $users]);
     }
 
@@ -263,9 +263,12 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => "Can not Find User"]);
         }
 
-        $tickets = SupportTicket::where('user_id', request('user_id'))->get();
+        Mail::send('emails.sendMail', ['messages' => request('message'), 'firstName' => $user->name], function ($message) use ($request, $user) {
+            $message->to($user->email);
+            $message->subject($request->subject);
+        });
 
-        return response()->json(['status' => true, 'message' => "Customer Fetch Successful"]);
+        return response()->json(['status' => true, 'message' => "Mail Sent Successful"]);
 
     }
 

@@ -8,18 +8,34 @@
                     <form @submit.prevent="onSubmit" class="space-y-4" enctype="multipart/form-data">
 
                         <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
-                            <InputGroup type="text" label="Exchange From" placeholder="Amount" v-model="amount"
+                            <InputGroup type="number" label="Exchange From" placeholder="Amount" v-model="amount"
                                 :error="amountError" classInput="h-[48px]" @change="get_amount(amount, currency, xCurrency)">
                                 <template v-slot:prepend>
-                                    <Select label="" :options="currencies" v-model="currency" style="width: 200px"
-                                        :error="currencyError" classInput="h-[48px]"  @change="get_amount(amount, currency, xCurrency)"/>
+                                    <div class="fromGroup relative" :class="`${currencyError ? 'has-error' : ''}  `">
+                                        <select name="swift" class="input-control block w-full focus:outline-none h-[48px]"
+                                            v-model="currency"  @change="get_amount(amount, currency, xCurrency)">
+                                            <option value="">Select A Currency</option>
+                                            <option v-for="item in currencies" :key="item" :value="item.name">{{ item.name }}</option>
+                                        </select>
+
+                                        <span v-if="currencyError" class="mt-2 text-danger-500 block text-sm">{{ currencyError
+                                        }}</span>
+                                    </div>
                                 </template>
                             </InputGroup>
                             <InputGroup type="text" label="Exchange From" placeholder="Exchange Amount" v-model="newAmount" isReadonly
                                 :error="xAmountError" classInput="h-[48px]" :modelValue="newAmount">
                                 <template v-slot:prepend>
-                                    <Select label="" :options="currencies" v-model="xCurrency" style="width: 200px"
-                                        :error="xCurrencyError" classInput="h-[48px]" @change="get_amount(amount, currency, xCurrency)" />
+                                     <div class="fromGroup relative" :class="`${xCurrencyError ? 'has-error' : ''}  `">
+                                        <select name="swift" class="input-control block w-full focus:outline-none h-[48px]"
+                                            v-model="xCurrency"  @change="get_amount(amount, currency, xCurrency)">
+                                            <option value="">Select A Currency</option>
+                                            <option v-for="item in currencies" :key="item" :value="item.name">{{ item.name }}</option>
+                                        </select>
+
+                                        <span v-if="xCurrencyError" class="mt-2 text-danger-500 block text-sm">{{ xCurrencyError
+                                        }}</span>
+                                    </div>
                                 </template>
                             </InputGroup>
 
@@ -76,31 +92,18 @@ export default {
     },
     data() {
         return {
-            currencies: [
-                {
-                    value: "USD",
-                    label: "USD",
-                    rate: 1.000000
-                },
-                {
-                    value: "AUD",
-                    label: "AUD",
-                    rate:  0.983700
-                },
-                {
-                    value: "EUR",
-                    label: "EUR",
-                    rate: 0.640000
-                },
-            ],
+            currencies: '',
             newAmount: "",
             history: ""
         }
     },
-    mounted() {
-        this.currency = this.currencies[0].value
-        this.xCurrency = this.currencies[1].value
+    beforeMount() {
+        this.fetch_currency()
         this.fetch_history()
+    },
+    mounted() {
+        this.currency = this.currencies ? this.currencies[0].value : "USD"
+        this.xCurrency = this.currencies ? this.currencies[1].value : "EUR"
     },
     methods: {
         format_date(value) {
@@ -133,71 +136,55 @@ export default {
                 });
             });
         },
+        fetch_currency() {
+
+            let $this = this
+            const toast = useToast();
+
+            axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/fetch_currency`, {}, {
+                headers: {
+                    "Authorization": "Bearer " + this.$store.authStore.user.token
+                }
+            }).then(function (response) {
+                // console.log(response.data)
+                if (response.data?.status) {
+                    $this.currencies = response.data.currencies;
+                    console.log($this.history)
+
+                } else {
+                    let message = response.data?.message[0];
+                    toast.error(message, {
+                        timeout: 4000,
+                    });
+                }
+            }).catch(function (error) {
+                toast.error(error.response.data.message, {
+                    timeout: 5000,
+                });
+            });
+        },
         get_amount(amount, currency, xCurrency) {
-            let from = 0;
-            let to = 0
+            let from = null;
+            let to = null
             if (!amount || !currency || !xCurrency) {
                 return;
             }
-            if (currency == "USD") {
-                from = 1.000000
+
+            for (let i = 0; i <= this.currencies.length - 1; i++) {
+                if (this.currencies[i].name == xCurrency) {
+                    to = this.currencies[i].rate
+                    break;
+                }
             }
-            if (currency == "EUR") {
-                from = 0.983700
-            }
-            if (currency == "AUD") {
-                from = 0.640000
-            }
-            if (xCurrency == "USD") {
-                to = 1.000000
-            }
-            if (xCurrency == "EUR") {
-                to = 0.983700
-            }
-            if (xCurrency == "AUD") {
-                to = 0.640000
+
+            for (let i = 0; i <= this.currencies.length - 1; i++) {
+                if (this.currencies[i].name == currency) {
+                    from = this.currencies[i].rate
+                    break;
+                }
             }
 
             this.newAmount = ((parseFloat(amount) / from) * to).toFixed(2)
-            // console.log(this.newAmount)
-            // let $this = this
-            // const toast = useToast();
-
-            // axios.get(`https://currency-converter5.p.rapidapi.com/currency/convert`, {
-            //      params: {
-            //         format: 'json',
-            //         from: 'AUD',
-            //         to: 'CAD',
-            //         amount: '1'
-            //     }
-            // }, {
-            //      headers: {
-            //         'X-RapidAPI-Key': '43dfc6c7fdmshf30fe89a78b3d67p15d8b1jsne315605c6f8f',
-            //         'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
-            //     }
-            // })
-            //     .then(function (response) {
-            //     console.log(response.data)
-            //     if (response.data?.status) {
-            //         $this.transaction = response.data.transaction;
-
-            //         toast.success("OTP Found Successfully", {
-            //             timeout: 2000,
-            //         });
-            //         // router.push("/app/deposit-history");
-            //         // router.push("/app/manual-deposit");
-
-            //     } else {
-            //         let message = response.data?.message[0];
-            //         toast.error(message, {
-            //             timeout: 4000,
-            //         });
-            //     }
-            // }).catch(function (error) {
-            //     toast.error(error.response.data.message, {
-            //         timeout: 5000,
-            //     });
-            // });
         }
     },
     setup() {
@@ -205,8 +192,8 @@ export default {
             amount: yup.number('Amount Can only be numbers').required("Amount is required"),
             xAmount: yup.number('Amount Can only be numbers').nullable("Amount is required"),
             description: yup.string().required("Description is required"),
-            currency: yup.string().required("Country Code is required"),
-            xCurrency: yup.string().required("Country Code is required"),
+            currency: yup.string().required(" Code is required"),
+            xCurrency: yup.string().required(" Code is required"),
         });
         const swal = inject("$swal");
         const toast = useToast();

@@ -67,28 +67,31 @@
                                 </span>
                             </span>
                             <span v-if="props.column.field == 'action'">
+                                        <template v-if="props.row.status == 'pending'">
                                 <Dropdown classMenuItems=" w-[140px]">
                                     <span class="text-xl">
                                         <Icon icon="heroicons-outline:dots-vertical" />
                                     </span>
                                     <template v-slot:menus>
-                                        <MenuItem v-for="(item, i) in actions" :key="i">
-                                        <div @click="item.doit(props.row.id)"
-                                            :class="`
-                
-                  ${item.name === 'reject'
-                                                    ? 'bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white'
-                                                    : 'hover:bg-slate-900 hover:text-white'
-                                                }
-                   w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
-                                            <span class="text-base">
-                                                <Icon :icon="item.icon" />
-                                            </span>
-                                            <span>{{ item.name }}</span>
-                                        </div>
+                                        <MenuItem v-for="(item, i) in actions" :key="i" >
+                                            <div @click="item.doit(props.row.id)"
+                                                :class="`
+                    
+                    ${item.name === 'reject'
+                                                        ? 'bg-danger-500 text-danger-500 bg-opacity-30  hover:bg-opacity-100 hover:text-white'
+                                                        : 'hover:bg-slate-900 hover:text-white'
+                                                    }
+                    w-full border-b border-b-gray-500 border-opacity-10 px-4 py-2 text-sm  last:mb-0 cursor-pointer first:rounded-t last:rounded-b flex  space-x-2 items-center rtl:space-x-reverse `">
+                                                <span class="text-base">
+                                                    <Icon :icon="item.icon" />
+                                                </span>
+                                                <span>{{ item.name }}</span>
+                                            </div>
                                         </MenuItem>
+                                       
                                     </template>
                                 </Dropdown>
+                                        </template>
                             </span>
                         </template>
                         <template #pagination-bottom="props">
@@ -229,6 +232,9 @@ export default {
             this.$router.push({name : "admin-loan-create"})
         },
         cancel_request(pay_id) {
+            toast.info("Canceling Request", {
+                timeout: 4000,
+            });
             let $this = this
             const toast = useToast();
             const formData = new FormData();
@@ -241,7 +247,10 @@ export default {
             }).then(function (response) {
 
                 if (response.data?.status) {
-                    window.location.reload()
+                    $this.fetch_all()
+                     toast.success("Request Cancelled Successfully", {
+                        timeout: 4000,
+                    });
 
                 } else {
                     let message = response.data?.message[0];

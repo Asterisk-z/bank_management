@@ -25,7 +25,7 @@ export const AdminMenuItem = [
     link: "transfer-requests",
   },
   {
-    title: "Wire Transfers",
+    title: "Wire Transfer Requests",
     icon: "ic:outline-request-page",
     link: "wire-transfer requests",
   },
@@ -72,33 +72,33 @@ export const AdminMenuItem = [
     icon: "heroicons:document",
     link: "admin-transactions",
   },
-  // {
-  //   title: "Loan Management",
-  //   icon: "heroicons-outline:document",
-  //   link: "#",
-  //   child: [
-  //     {
-  //       childtitle: "Loans",
-  //       childlink: "projects",
-  //     },
-  //     {
-  //       childtitle: "Loan Calculator",
-  //       childlink: "project-details",
-  //     },
-  //     {
-  //       childtitle: "New Loan",
-  //       childlink: "project-details",
-  //     },
-  //     {
-  //       childtitle: "Loan Product",
-  //       childlink: "project-details",
-  //     },
-  //     {
-  //       childtitle: "Loan Repayment",
-  //       childlink: "project-details",
-  //     },
-  //   ],
-  // },
+  {
+    title: "Loan Management",
+    icon: "heroicons-outline:document",
+    link: "#",
+    child: [
+      // {
+      //   childtitle: "New Loan",
+      //   childlink: "admin-create-loan",
+      // },
+      // {
+      //   childtitle: "Loans",
+      //   childlink: "admin-loans",
+      // },
+      // {
+      //   childtitle: "Loan Calculator",
+      //   childlink: "admin-loan-calculator",
+      // },
+      {
+        childtitle: "Loan Products",
+        childlink: "admin-loan-products",
+      },
+      // {
+      //   childtitle: "Loan Repayment",
+      //   childlink: "admin-loan-repayment",
+      // },
+    ],
+  },
   {
     title: "Fixed Deposits",
     icon: "heroicons-outline:document",

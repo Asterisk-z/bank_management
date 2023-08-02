@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('loan_product_id');
             $table->string('borrower_id');
             $table->timestamp('first_payment_date');
-            $table->timestamp('release_date')->nullable();
             $table->string('currency');
             $table->decimal('applied_amount');
+            $table->integer('created_user_id');
+            $table->timestamp('release_date')->nullable();
             $table->decimal('total_payable')->default(0.00);
             $table->decimal('total_paid')->default(0.00);
             $table->string('late_payment_penalties')->nullable();
@@ -31,7 +32,6 @@ return new class extends Migration
             $table->enum('status', ['active', 'pending', 'canceled'])->default('pending');
             $table->timestamp('approved_date')->nullable();
             $table->integer('approved_user_id')->nullable();
-            $table->integer('created_user_id');
             $table->integer('branch_id')->default(1);
             $table->timestamps();
         });

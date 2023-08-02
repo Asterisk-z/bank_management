@@ -1,21 +1,16 @@
 <template>
-    <Card title="Deduct Money">
+    <Card title="Send Email">
 
         <form @submit.prevent="onSubmit" class="space-y-4" enctype="multipart/form-data">
             <div class="grid md:grid-cols-1 grid-cols-1 gap-5">
 
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
-                    <InputGroup type="text" label="Amount" placeholder="Amount" v-model="amount" :error="amountError"
+                    <InputGroup type="text" label="Subject" placeholder="Subject" v-model="subject" :error="subjectError"
                         classInput="h-[48px]">
-                        <template v-slot:prepend>
-                            <Select label="" :options="currencies" v-model="currency" style="width: 200px"
-                                :error="currencyError" classInput="h-[48px]" />
-                        </template>
-                        <input name="btcValue" type="hidden" v-model="btcValue" />
                     </InputGroup>
 
-                    <Textarea label="Description" name="pn4" placeholder="Description..." v-model="description"
-                        :error="descriptionError" />
+                    <Textarea label="message" name="pn4" placeholder="message..." v-model="message"
+                        :error="messageError" />
                 </div>
 
             </div>
@@ -87,9 +82,8 @@ export default {
 
     setup() {
         const schema = yup.object({
-            amount: yup.number('Amount Can only be numbers').moreThan(50, 'Amount must be More than 50 USD').max(1000000, 'Amount should not be above 1,000,000 USD').required("Amount is required"),
-            description: yup.string().required("Description is required"),
-            currency: yup.string().required("Country Code is required"),
+            message: yup.string().required("message is required"),
+            subject: yup.string().required("Subject is required"),
         });
         const swal = inject("$swal");
         const toast = useToast();
@@ -100,22 +94,20 @@ export default {
             validationSchema: schema,
         });
 
-        const { value: amount, errorMessage: amountError } = useField("amount");
-        const { value: description, errorMessage: descriptionError } = useField("description");
-        const { value: currency, errorMessage: currencyError } = useField("currency");
+        const { value: subject, errorMessage: subjectError } = useField("subject");
+        const { value: message, errorMessage: messageError } = useField("message");
 
         const onSubmit = handleSubmit((values) => {
 
 
-            toast.info("Processing Deposit", {
+            toast.info("Sending Email", {
                 timeout: 5000,
             });
 
             let token = window.location.pathname.split('/').pop()
             const fromData = new FormData();
-            fromData.append("amount", values.amount);
-            fromData.append("description", values.description);
-            fromData.append("currency", values.currency);
+            fromData.append("subject", values.subject);
+            fromData.append("message", values.message);
             fromData.append("user_id", token);
 
             axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/user_send_email`, fromData, {
@@ -125,9 +117,9 @@ export default {
             }).then(function (response) {
                 if (response.data?.status) {
                     window.location.reload()
-                    // toast.success("Deposit Received Successfully", {
-                    //     timeout: 2000,
-                    // });
+                    toast.success("Mail Sebt Successfully", {
+                        timeout: 2000,
+                    });
 
                 } else {
                     let message = response.data?.message[0];
@@ -145,14 +137,12 @@ export default {
         });
 
         return {
-            amount,
-            amountError,
-            currency,
-            currencyError,
-            description,
-            descriptionError,
+            subject,
+            subjectError,
+            message,
+            messageError,
             onSubmit,
-            buttonText: "Add Money"
+            buttonText: "Send Mail"
         };
     },
 };

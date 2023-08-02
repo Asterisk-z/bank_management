@@ -2,10 +2,10 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
     <meta charset="utf-8"> <!-- utf-8 works for most cases -->
-    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-    <meta name="x-apple-disable-message-reformatting"> <!-- Disable auto-scale in iOS 10 Mail entirely -->
-    <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <title></title>
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet">
 
@@ -95,21 +95,21 @@
         /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
         @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
             u~div .email-container {
-                min-width: 320px !important;
+                min-width: 350px !important;
             }
         }
 
         /* iPhone 6, 6S, 7, 8, and X */
         @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
             u~div .email-container {
-                min-width: 375px !important;
+                min-width: 395px !important;
             }
         }
 
         /* iPhone 6+, 7+, and 8+ */
         @media only screen and (min-device-width: 414px) {
             u~div .email-container {
-                min-width: 414px !important;
+                min-width: 434px !important;
             }
         }
 
@@ -310,7 +310,7 @@
 <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;">
     <center style="width: 100%; background-color: #f1f1f1;">
         <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
-            &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+            &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
         </div>
         <div style="max-width: 700px; margin: 0 auto;" class="email-container">
             <!-- BEGIN BODY -->
@@ -334,22 +334,62 @@
                     <td valign="middle" class="hero bg_white" style="padding: 2em 0 4em 0;">
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
-                                <td style="text-align: left;">
+                                <td style="padding: 0 2.5em; text-align: center; padding-bottom: 3em;">
+                                    <div class="text">
+                                        {{-- <h2>Welcome To Royal Bank Of Queensland</h2>  --}}
+                                        <h2>Royal Bank Of Queensland</h2>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">
                                     <div class="text-author">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 1024 1024" style="margin-bottom: 20px;">
 
-                                        <p style="font-weight: bolder">Dear Daniel</p>
-                                        <p>We have restricted your account(s) to protect you fron suspicious activity. For your protection, we need to verify your identity.</p>
-                                        <p>This has been your third (3) flag in less than 7 days so in accordance to our regulations, to lift the restrictions on your account(s), please visit Royal Bank Of Queensland Branch closet to you and provide the following credencials:</p>
-                                        <ul>
-                                            <li>Australian State and territory issued identity photocard</li>
-                                            <li>Valid Australian drivers license</li>
-                                            <li>Australian Passport</li>
-                                            <li>Australian Document of identity</li>
-                                        </ul>
-                                        <p>After verifying your account, we will take the necessary steps to protect you from fraud, we apologise for any incontinences this may have caused</p>
-                                        <p>Please don not reply to this automatically-generated e-mail message. </p>
-                                        <p>Sincerely. </p>
+                                            <path fill="lightgreen" d="M512 0C229.232 0 0 229.232 0 512c0 282.784 229.232 512 512 512c282.784 0 512-229.216 512-512C1024 229.232 794.784 0 512 0zm0 961.008c-247.024 0-448-201.984-448-449.01c0-247.024 200.976-448 448-448s448 200.977 448 448s-200.976 449.01-448 449.01zm204.336-636.352L415.935 626.944l-135.28-135.28c-12.496-12.496-32.752-12.496-45.264 0c-12.496 12.496-12.496 32.752 0 45.248l158.384 158.4c12.496 12.48 32.752 12.48 45.264 0c1.44-1.44 2.673-3.009 3.793-4.64l318.784-320.753c12.48-12.496 12.48-32.752 0-45.263c-12.512-12.496-32.768-12.496-45.28 0z" />
 
+                                        </svg>
+
+                                        <h3 class="name" style="font-weight: bolder; font-size: 20px">{{ "yiu made a depositt of 20 usd" }}</h3>
+                                        <span class="position" style="display: inline-block; padding-top: 15px; padding-bottom: 15px;">Your Funds is available is your account</span>
+
+                                        <table style="text-align: left; color:black" style=" padding-top: 15px;">
+                                            <tr>
+                                                <td style="width: 200px; padding-bottom: 15px;">Transaction Code</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">yugfytvyhuhijiht</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 200px; padding-bottom: 15px;">Payment Method</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">onlinehr</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 200px; padding-bottom: 15px;">Payment Date</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">5678hughjkhghg hyuhy</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <hr>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 200px; padding-bottom: 15px;">Amount</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ '8997656565' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 200px; padding-bottom: 15px;">Fee</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ '867879078' }}</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 200px; padding-bottom: 15px;">Total</td>
+                                                <td style="padding-left: 10px; padding-bottom: 15px;">{{ 'usd 78798' }}</td>
+
+                                            </tr>
+
+                                        </table>
+                                        <p style="text-align: center;"><a href="#" class="btn btn-primary btn-block">View Transaction</a></p>
                                     </div>
                                 </td>
                             </tr>
@@ -368,11 +408,7 @@
                                         <tr>
                                             <td style="text-align: center; padding-right: 10px;">
 
-                                                {{-- <p>If you don not perform this action please contact support@royalbank.com</p>  --}}
-                                                {{-- <ul>
-                                                    <li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                                    <li><span class="text">+2 392 3929 210</span></a></li>
-                                                </ul>  --}}
+                                                <p>If you don not perform this action please contact support@royalbank.com</p>
                                             </td>
                                         </tr>
                                     </table>
@@ -383,7 +419,7 @@
                 </tr><!-- end: tr -->
                 <tr>
                     <td class="bg_light" style="text-align: center;">
-                        {{-- <p>No longer want to receive these email? You can <a href="#" style="color: rgba(0,0,0,.8);">Unsubscribe here</a></p>  --}}
+
                     </td>
                 </tr>
             </table>

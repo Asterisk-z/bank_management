@@ -34,15 +34,15 @@
                             <span v-if="props.column.field == 'status'" class="block w-full">
                                 <span
                                     class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25"
-                                    :class="`${props.row.status === 'paid'
+                                    :class="`${props.row.status === 'active'
                                         ? 'text-success-500 bg-success-500'
                                         : ''
                                         } 
-                                                                                ${props.row.status === 'due'
+                                                                                ${props.row.status === 'pending'
                                             ? 'text-warning-500 bg-warning-500'
                                             : ''
                                         }
-                                                                                ${props.row.status === 'cancled'
+                                                                                ${props.row.status === 'closed'
                                             ? 'text-danger-500 bg-danger-500'
                                             : ''
                                         }
@@ -173,7 +173,7 @@ export default {
                 },
                 {
                     label: "Subject",
-                    field: "order",
+                    field: "subject",
                 },
                 {
                     label: "Status",
@@ -181,12 +181,12 @@ export default {
                 },
                 {
                     label: "Created",
-                    field: "date",
+                    field: "created_at",
                 },
-                {
-                    label: "Action",
-                    field: "action",
-                },
+                // {
+                //     label: "Action",
+                //     field: "action",
+                // },
             ],
         };
     },

@@ -11,6 +11,15 @@ use Validator;
 class CurrencyController extends Controller
 {
 
+    public function fetch_currencies()
+    {
+        $currencies = Currency::where('status', 'active')->get();
+        return response()->json([
+            'status' => true,
+            'currencies' => $currencies,
+        ], 200);
+    }
+
     public function create_currency(Request $request)
     {
         $v = Validator::make($request->all(), [

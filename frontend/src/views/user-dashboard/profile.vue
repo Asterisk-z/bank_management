@@ -78,7 +78,7 @@
             <TabPanel>
               <Card title="User Details">
                   
-                <ul class="grid grid-cols-3">
+                <ul class="grid md:grid-cols-3 grid-cols-1 gap-3">
                     <li class="flex space-x-3 rtl:space-x-reverse">
                         <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
                           <Icon icon="heroicons:envelope" />

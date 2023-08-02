@@ -10,9 +10,10 @@
                         merged />
                     <!-- <Button icon="heroicons-outline:plus-sm" text="Deposit via Payoneer"
                         btnClass=" btn-dark font-normal btn-sm " iconClass="text-lg" link="manual-deposit-payoneer" /> -->
+      <button @click="exportToPDF"   class=" btn-dark font-normal btn-sm " >Export to PDF</button>
                 </div>
             </div>
-            <div class="-mx-6">
+            <div class="-mx-6 ">
                 <template v-if="transactions">
                     <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="transactions"
                         :sort-options="{
@@ -23,7 +24,7 @@
                             }" :search-options="{
                                 enabled: true,
                                 externalQuery: searchTerm,
-                            }" >
+                            }"  id="element-to-convert" >
                         <template v-slot:table-row="props">
                             <span v-if="props.column.field == 'customer'" class="flex items-center">
                                 <span class="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">{{
@@ -107,6 +108,7 @@ import axios from "axios";
 import { useToast } from "vue-toastification";
 import Modal from '@/components/Modal/Modal';
 import moment from 'moment';
+import html2pdf from "html2pdf.js";
 export default {
     mixins: [window],
     components: {
@@ -194,6 +196,12 @@ export default {
     methods: {
         format_date(value) {
             return moment(value).format("Do-MMM-YYYY hh:mm A");
+        },
+        exportToPDF() {
+            html2pdf(document.getElementById('element-to-convert'), {
+                margin: 1,
+                filename: "i-was-html.pdf",
+            });
         },
         async fetch_transactions() {
             const data = await axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/list_transactions`, {}, {
