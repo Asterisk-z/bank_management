@@ -56,7 +56,7 @@ class LoanApprovalNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "LA" => $this->message ? $this->message : "",
         ];
     }
 }

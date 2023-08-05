@@ -1,388 +1,274 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
 <head>
-    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
-    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-    <meta name="x-apple-disable-message-reformatting"> <!-- Disable auto-scale in iOS 10 Mail entirely -->
-    <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet">
-
-    <!-- CSS Reset : BEGIN -->
-    <style>
-        /* What it does: Remove spaces around the email design added by some email clients. */
-        /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
-        html,
-        body {
-            margin: 0 auto !important;
-            padding: 0 !important;
-            height: 100% !important;
-            width: 100% !important;
-            background: #f1f1f1;
-        }
-
-        /* What it does: Stops email clients resizing small text. */
-        * {
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        /* What it does: Centers email on Android 4.4 */
-        div[style*="margin: 16px 0"] {
-            margin: 0 !important;
-        }
-
-        /* What it does: Stops Outlook from adding extra spacing to tables. */
+    <!-- Compiled with Bootstrap Email version: 1.3.1 -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+    <style type="text/css">
+        body,
         table,
         td {
-            mso-table-lspace: 0pt !important;
-            mso-table-rspace: 0pt !important;
+            font-family: Helvetica, Arial, sans-serif !important
         }
 
-        /* What it does: Fixes webkit padding issue. */
-        table {
-            border-spacing: 0 !important;
-            border-collapse: collapse !important;
-            table-layout: fixed !important;
-            margin: 0 auto !important;
+        .ExternalClass {
+            width: 100%
         }
 
-        /* What it does: Uses a better rendering method when resizing images in IE. */
-        img {
-            -ms-interpolation-mode: bicubic;
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
+            line-height: 150%
         }
 
-        /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
         a {
+            text-decoration: none
+        }
+
+        * {
+            color: inherit
+        }
+
+        a[x-apple-data-detectors],
+        u+#body a,
+        #MessageViewBody a {
+            color: inherit;
             text-decoration: none;
+            font-size: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+            line-height: inherit
         }
 
-        /* What it does: A work-around for email clients meddling in triggered links. */
-        *[x-apple-data-detectors],
-        /* iOS */
-        .unstyle-auto-detected-links *,
-        .aBn {
-            border-bottom: 0 !important;
-            cursor: default !important;
-            color: inherit !important;
-            text-decoration: none !important;
-            font-size: inherit !important;
-            font-family: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
+        img {
+            -ms-interpolation-mode: bicubic
         }
 
-        /* What it does: Prevents Gmail from displaying a download button on large, non-linked images. */
-        .a6S {
-            display: none !important;
-            opacity: 0.01 !important;
+        table:not([class^=s-]) {
+            font-family: Helvetica, Arial, sans-serif;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+            border-spacing: 0px;
+            border-collapse: collapse
         }
 
-        /* What it does: Prevents Gmail from changing the text color in conversation threads. */
-        .im {
-            color: inherit !important;
+        table:not([class^=s-]) td {
+            border-spacing: 0px;
+            border-collapse: collapse
         }
 
-        /* If the above doesn't work, add a .g-img class to any image in question. */
-        img.g-img+div {
-            display: none !important;
-        }
+        @media screen and (max-width: 600px) {
 
-        /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
-        /* Create one of these media queries for each additional viewport size you'd like to fix */
-
-        /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
-        @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
-            u~div .email-container {
-                min-width: 320px !important;
+            .w-full,
+            .w-full>tbody>tr>td {
+                width: 100% !important
             }
-        }
 
-        /* iPhone 6, 6S, 7, 8, and X */
-        @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
-            u~div .email-container {
-                min-width: 375px !important;
+            .w-24,
+            .w-24>tbody>tr>td {
+                width: 96px !important
             }
-        }
 
-        /* iPhone 6+, 7+, and 8+ */
-        @media only screen and (min-device-width: 414px) {
-            u~div .email-container {
-                min-width: 414px !important;
+            .w-40,
+            .w-40>tbody>tr>td {
+                width: 160px !important
+            }
+
+            .p-lg-10:not(table),
+            .p-lg-10:not(.btn)>tbody>tr>td,
+            .p-lg-10.btn td a {
+                padding: 0 !important
+            }
+
+            .p-3:not(table),
+            .p-3:not(.btn)>tbody>tr>td,
+            .p-3.btn td a {
+                padding: 12px !important
+            }
+
+            .p-6:not(table),
+            .p-6:not(.btn)>tbody>tr>td,
+            .p-6.btn td a {
+                padding: 24px !important
+            }
+
+            *[class*=s-lg-]>tbody>tr>td {
+                font-size: 0 !important;
+                line-height: 0 !important;
+                height: 0 !important
+            }
+
+            .s-4>tbody>tr>td {
+                font-size: 16px !important;
+                line-height: 16px !important;
+                height: 16px !important
+            }
+
+            .s-6>tbody>tr>td {
+                font-size: 24px !important;
+                line-height: 24px !important;
+                height: 24px !important
+            }
+
+            .s-10>tbody>tr>td {
+                font-size: 40px !important;
+                line-height: 40px !important;
+                height: 40px !important
             }
         }
 
     </style>
-
-    <!-- CSS Reset : END -->
-
-    <!-- Progressive Enhancements : BEGIN -->
-    <style>
-        .primary {
-            background: #17bebb;
-        }
-
-        .bg_white {
-            background: #ffffff;
-        }
-
-        .bg_light {
-            background: #f7fafa;
-        }
-
-        .bg_black {
-            background: #000000;
-        }
-
-        .bg_dark {
-            background: rgba(0, 0, 0, .8);
-        }
-
-        .email-section {
-            padding: 2.5em;
-        }
-
-        /*BUTTON*/
-        .btn {
-            padding: 10px 15px;
-            display: inline-block;
-        }
-
-        .btn.btn-primary {
-            border-radius: 5px;
-            background: #17bebb;
-            color: #ffffff;
-        }
-
-        .btn.btn-white {
-            border-radius: 5px;
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .btn.btn-white-outline {
-            border-radius: 5px;
-            background: transparent;
-            border: 1px solid #fff;
-            color: #fff;
-        }
-
-        .btn.btn-black-outline {
-            border-radius: 0px;
-            background: transparent;
-            border: 2px solid #000;
-            color: #000;
-            font-weight: 700;
-        }
-
-        .btn-custom {
-            color: rgba(0, 0, 0, .3);
-            text-decoration: underline;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Poppins', sans-serif;
-            color: #000000;
-            margin-top: 0;
-            font-weight: 400;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 1.8;
-            color: rgba(0, 0, 0, .4);
-        }
-
-        a {
-            color: #17bebb;
-        }
-
-        table {}
-
-        /*LOGO*/
-
-        .logo h1 {
-            margin: 0;
-        }
-
-        .logo h1 a {
-            color: #17bebb;
-            font-size: 24px;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /*HERO*/
-        .hero {
-            position: relative;
-            z-index: 0;
-        }
-
-        .hero .text {
-            color: rgba(0, 0, 0, .3);
-        }
-
-        .hero .text h2 {
-            color: #000;
-            font-size: 34px;
-            margin-bottom: 0;
-            font-weight: 200;
-            line-height: 1.4;
-        }
-
-        .hero .text h3 {
-            font-size: 24px;
-            font-weight: 300;
-        }
-
-        .hero .text h2 span {
-            font-weight: 600;
-            color: #000;
-        }
-
-        .text-author {
-            bordeR: 1px solid rgba(0, 0, 0, .05);
-            max-width: 70%;
-            margin: 0 auto;
-            padding: 2em;
-        }
-
-        .text-author img {
-            border-radius: 50%;
-            padding-bottom: 20px;
-        }
-
-        .text-author h3 {
-            margin-bottom: 0;
-        }
-
-        ul.social {
-            padding: 0;
-        }
-
-        ul.social li {
-            display: inline-block;
-            margin-right: 10px;
-        }
-
-        /*FOOTER*/
-
-        .footer {
-            border-top: 1px solid rgba(0, 0, 0, .05);
-            color: rgba(0, 0, 0, .5);
-        }
-
-        .footer .heading {
-            color: #000;
-            font-size: 20px;
-        }
-
-        .footer ul {
-            margin: 0;
-            padding: 0;
-        }
-
-        .footer ul li {
-            list-style: none;
-            margin-bottom: 10px;
-        }
-
-        .footer ul li a {
-            color: rgba(0, 0, 0, 1);
-        }
-
-
-        @media screen and (max-width: 500px) {}
-
-    </style>
-
-
 </head>
-
-<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;">
-    <center style="width: 100%; background-color: #f1f1f1;">
-        <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
-            &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
-        </div>
-        <div style="max-width: 700px; margin: 0 auto;" class="email-container">
-            <!-- BEGIN BODY -->
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-                <tr>
-                    <td valign="top" class="bg_white" style="padding: 1em 2.5em 0 2.5em;">
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+<body class="bg-light" style="outline: 0; width: 100%; min-width: 100%; height: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: Helvetica, Arial, sans-serif; line-height: 24px; font-weight: normal; font-size: 16px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: #000000; margin: 0; padding: 0; border-width: 0;" bgcolor="#f7fafc">
+    <table class="bg-light body" valign="top" role="presentation" border="0" cellpadding="0" cellspacing="0" style="outline: 0; width: 100%; min-width: 100%; height: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: Helvetica, Arial, sans-serif; line-height: 24px; font-weight: normal; font-size: 16px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: #000000; margin: 0; padding: 0; border-width: 0;" bgcolor="#f7fafc">
+        <tbody>
+            <tr>
+                <td valign="top" style="line-height: 24px; font-size: 16px; margin: 0;" align="left" bgcolor="#f7fafc">
+                    <table class="container" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                        <tbody>
                             <tr>
-                                <td class="logo" style="text-align: center;">
-                                    <h1>
-                                        <a href="#">
-                                            <img src="{{ asset('logo.png') }}" style="width: 50%" />
-                                        </a>
-                                    </h1>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr><!-- end tr -->
-                <tr>
-                    <td valign="middle" class="hero bg_white" style="padding: 2em 0 4em 0;">
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td style="text-align: left;">
-                                    <div class="text-author">
+                                <td align="center" style="line-height: 24px; font-size: 16px; margin: 0; padding: 0 16px;">
 
-                                        <p style="font-weight: bolder">Dear {{ $firstName }}</p>
+                                    <table align="center" role="presentation">
+                                        <tbody>
+                                            <tr>
+                                                <td width="600">
 
-                                        <p>{{ $messages }}</p>
-                                        <p>Best Regards. </p>
-                                        <p>RoyalBank Team. </p>
+                                                    <table align="center" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 600px; margin: 0 auto;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="line-height: 24px; font-size: 16px; margin: 0;" align="left">
+                                                                    <table class="s-10 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;" align="left" width="100%" height="40">
+                                                                                    &#160;
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="ax-center" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="line-height: 24px; font-size: 16px; margin: 0;" align="left">
 
+                                                                                    <a href="#">
+                                                                                        <img src="{{ asset('logo.png') }}" style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 206px; border-style: none; border-width: 0;" width="206" />
+                                                                                    </a>
 
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr><!-- end tr -->
-                <!-- 1 Column Text + Button : END -->
-            </table>
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: auto;">
-                <tr>
-                    <td valign="middle" class="bg_light footer email-section">
-                        <table>
-                            <tr>
-                                <td valign="top" width="33.333%" style="padding-top: 10px;">
-                                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                                        <tr>
-                                            <td style="text-align: center; padding-right: 10px;">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="s-10 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;" align="left" width="100%" height="40">
+                                                                                    &#160;
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="card p-6 p-lg-10 space-y-4" role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-radius: 6px; border-collapse: separate !important; width: 100%; overflow: hidden; border: 1px solid #e2e8f0;" bgcolor="#ffffff">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="line-height: 24px; font-size: 16px; width: 100%; margin: 0; padding: 40px;" align="left" bgcolor="#ffffff">
+                                                                                    <h1 class="h3 fw-700" style="padding-top: 0; padding-bottom: 0; font-weight: 700 !important; vertical-align: baseline; font-size: 28px; line-height: 33.6px; margin: 0;" align="center">
+                                                                                        {{ $subject }}
+                                                                                    </h1>
+                                                                                    <table class="s-4 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td style="line-height: 16px; font-size: 16px; width: 100%; height: 16px; margin: 0;" align="left" width="100%" height="16">
+                                                                                                    &#160;
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                    <p class="" style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;" align="left">
+                                                                                        Hello {{ $firstName }},<br><br>
 
-                                                {{-- <p>If you don not perform this action please contact support@royalbank.com</p>  --}}
-                                                {{-- <ul>
-                                                    <li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                                    <li><span class="text">+2 392 3929 210</span></a></li>
-                                                </ul>  --}}
-                                            </td>
-                                        </tr>
+                                                                                        {{ $messages }}
+
+                                                                                    </p>
+                                                                                    <table class="s-4 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td style="line-height: 16px; font-size: 16px; width: 100%; height: 16px; margin: 0;" align="left" width="100%" height="16">
+                                                                                                    &#160;
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                    <table class="btn btn-primary p-3 fw-700" role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-radius: 6px; border-collapse: separate !important; font-weight: 700 !important;">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td style="line-height: 24px; font-size: 16px; border-radius: 6px; font-weight: 300 !important; margin: 0;" align="left">
+                                                                                                    <p>Best Regards. </p>
+                                                                                                    <p>RoyalBank Team. </p>
+
+                                                                                                    {{-- <a href="#" style="color: #ffffff; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: 700 !important; white-space: nowrap; background-color: #0d6efd; padding: 12px; border: 1px solid #0d6efd;">Visit Website</a>  --}}
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="s-10 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;" align="left" width="100%" height="40">
+                                                                                    &#160;
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="s-6 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="line-height: 24px; font-size: 24px; width: 100%; height: 24px; margin: 0;" align="left" width="100%" height="24">
+                                                                                    &#160;
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <div class="text-muted text-center" style="color: #718096;" align="center">
+                                                                        For Support support@royalbank.com
+                                                                    </div>
+                                                                    <table class="s-6 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="line-height: 24px; font-size: 24px; width: 100%; height: 24px; margin: 0;" align="left" width="100%" height="24">
+                                                                                    &#160;
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </table>
+
                                 </td>
                             </tr>
-                        </table>
-                    </td>
-                </tr><!-- end: tr -->
-                <tr>
-                    <td class="bg_light" style="text-align: center;">
-                        {{-- <p>No longer want to receive these email? You can <a href="#" style="color: rgba(0,0,0,.8);">Unsubscribe here</a></p>  --}}
-                    </td>
-                </tr>
-            </table>
-
-        </div>
-    </center>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

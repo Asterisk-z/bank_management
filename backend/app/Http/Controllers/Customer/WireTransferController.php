@@ -111,7 +111,7 @@ class WireTransferController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Wire Transfer Is been processed ',
+            'message' => 'Transaction Initiated',
         ], 200);
 
     }

@@ -22,3 +22,7 @@ Route::get('/', function () {
 Route::get('/test_mailables', function () {
     return view('mail-templete');
 });
+
+Route::get('/notify', function () {
+    return view('emails.notification');
+});

@@ -56,7 +56,7 @@ class DepositMoneyNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "DM" => $this->message ? $this->message : "",
         ];
     }
 }

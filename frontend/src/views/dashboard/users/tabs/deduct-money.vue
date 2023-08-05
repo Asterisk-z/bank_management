@@ -152,6 +152,12 @@ export default {
                 toast.error("Sorry, We are unable to receive your deposit", {
                     timeout: 5000,
                 });
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    router.push({ name: 'Login' })
+                }
             });
 
         });

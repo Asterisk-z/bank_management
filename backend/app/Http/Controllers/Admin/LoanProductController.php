@@ -119,6 +119,15 @@ class LoanProductController extends Controller
             'message' => "loan Products Found Successfully",
             'loan_products' => $loan_products,
         ], 200);
+    }
+    public function fetch_products()
+    {
+        $loan_products = LoanProduct::where('status', 'active')->orderBy('created_at')->get();
+        return response()->json([
+            'status' => true,
+            'message' => "loan Products Found Successfully",
+            'loan_products' => $loan_products,
+        ], 200);
 
     }
     public function all_active_loan_product()

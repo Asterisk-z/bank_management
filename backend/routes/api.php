@@ -31,6 +31,7 @@ use App\Http\Controllers\Customer\SendMoneyController;
 use App\Http\Controllers\Customer\SupportTicketController;
 use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\Customer\WireTransferController;
+use App\Http\Controllers\Customer\WithdrawalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -75,11 +76,12 @@ Route::prefix('v1')->group(function () {
 
     });
 
-    Route::prefix('admin')->namespace('Admin')->middleware('auth:api')->group(function () {
+    Route::prefix('admin')->namespace('Admin')->middleware(['auth:api', 'admin'])->group(function () {
         Route::post('update_user', [UserController::class, 'update_user'])->name('update_user');
         Route::post('create_user', [UserController::class, 'create_user'])->name('create_user');
         Route::post('all_user', [UserController::class, 'all_user'])->name('all_user');
         Route::post('user', [UserController::class, 'single_user'])->name('single_user');
+        Route::post('fetch_users', [UserController::class, 'fetch_users'])->name('fetch_users');
         Route::post('user_transactions', [UserController::class, 'user_transactions'])->name('user_transactions');
         Route::post('add_money', [UserController::class, 'add_money'])->name('add_money');
         Route::post('deduct_money', [UserController::class, 'deduct_money'])->name('deduct_money');
@@ -210,12 +212,18 @@ Route::prefix('v1')->group(function () {
         Route::post('all_not_active_loan_product', [LoanProductController::class, 'all_not_active_loan_product'])->name('all_not_active_loan_product');
         Route::post('activate_loan_product', [LoanProductController::class, 'activate_loan_product'])->name('activate_loan_product');
         Route::post('deactivate_loan_product', [LoanProductController::class, 'deactivate_loan_product'])->name('deactivate_loan_product');
+        Route::post('fetch_products', [LoanProductController::class, 'fetch_products'])->name('fetch_products');
 
-                
         Route::post('create_loan', [AdminLoanController::class, 'create_loan'])->name('create_loan');
         Route::post('update_loan', [AdminLoanController::class, 'update_loan'])->name('update_loan');
         Route::post('single_loan', [AdminLoanController::class, 'single_loan'])->name('single_loan');
+        Route::post('single_editable_loan', [AdminLoanController::class, 'single_editable_loan'])->name('single_editable_loan');
         Route::post('list_loans', [AdminLoanController::class, 'list_loans'])->name('list_loans');
+        Route::post('create_loan_payment', [AdminLoanController::class, 'create_loan_payment'])->name('create_loan_payment');
+        Route::post('list_loan_payments', [AdminLoanController::class, 'list_loan_payments'])->name('list_loan_payments');
+        Route::post('list_loans_payment_detail_for_payments', [AdminLoanController::class, 'list_loans_payment_detail_for_payments'])->name('list_loans_payment_detail_for_payments');
+        Route::post('list_active_loans_for_payments', [AdminLoanController::class, 'list_active_loans_for_payments'])->name('list_active_loans_for_payments');
+        Route::post('list_loans_payment_for_payments', [AdminLoanController::class, 'list_loans_payment_for_payments'])->name('list_loans_payment_for_payments');
         Route::post('list_active_loans', [AdminLoanController::class, 'list_active_loans'])->name('list_active_loans');
         Route::post('list_pending_loans', [AdminLoanController::class, 'list_pending_loans'])->name('list_pending_loans');
         Route::post('list_canceled_loans', [AdminLoanController::class, 'list_canceled_loans'])->name('list_canceled_loans');
@@ -223,11 +231,9 @@ Route::prefix('v1')->group(function () {
         Route::post('decline_loan', [AdminLoanController::class, 'decline_loan'])->name('decline_loan');
         Route::post('calculate', [AdminLoanController::class, 'calculate'])->name('calculate');
 
-
-
     });
 
-    Route::prefix('customer')->namespace('Customer')->middleware('auth:api')->group(function () {
+    Route::prefix('customer')->namespace('Customer')->middleware(['auth:api', 'customer'])->group(function () {
         Route::post('dashboard', [DashBoardController::class, 'dashboard'])->name('dashboard');
         Route::post('deposit_via_payoneer', [DepositController::class, 'payoneer'])->name('deposit_via_payoneer');
         Route::post('deposit_via_check', [DepositController::class, 'check'])->name('deposit_via_check');
@@ -276,14 +282,20 @@ Route::prefix('v1')->group(function () {
         Route::post('my_fixed_deposit', [FixedDepositController::class, 'my_fixed_deposit'])->name('my_fixed_deposit');
 
         Route::post('upload_profile', [ProfileController::class, 'upload_profile'])->name('upload_profile');
-        Route::post('notifications', [NotificationController::class, 'notifications'])->name('notifications');
-        Route::post('all_notifications', [NotificationController::class, 'all_notifications'])->name('all_notifications');
 
         Route::post('update_password', [AccountController::class, 'update_password'])->name('update_password');
         Route::post('email_update', [AccountController::class, 'email_update'])->name('email_update');
 
         Route::post('fetch_currency', [CustomerCurrencyController::class, 'fetch_currency'])->name('fetch_currency');
 
+        Route::post('withdraw', [WithdrawalController::class, 'withdraw'])->name('withdraw');
+        Route::post('withdraw_requests', [WithdrawalController::class, 'withdraw_requests'])->name('withdraw_requests');
+
+    });
+
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('customer/notifications', [NotificationController::class, 'notifications'])->name('notifications');
+        Route::post('customer/all_notifications', [NotificationController::class, 'all_notifications'])->name('all_notifications');
     });
 
 });

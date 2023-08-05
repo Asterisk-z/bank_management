@@ -23,7 +23,7 @@ class CurrencySeeder extends Seeder
         ]);
         Currency::create([
             'name' => 'EUR',
-            'rate' => 0.983700,
+            'rate' => 1.51,
             'base' => 'no',
             'sign' => '€',
             'status' => 'active',

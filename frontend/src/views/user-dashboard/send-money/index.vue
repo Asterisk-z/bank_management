@@ -125,6 +125,10 @@ export default {
               toast.error(error.response.data.message, {
                   timeout: 5000,
               });
+               
+              if (error.response?.data?.error == 'Unauthorized') {
+                $this.$router.push({ name: 'Login' })
+              }
           });
       },
       fetch_history() {
@@ -151,6 +155,10 @@ export default {
             toast.error(error.response.data.message, {
               timeout: 5000,
             });
+             
+            if (error.response?.data?.error == 'Unauthorized') {
+              $this.$router.push({ name: 'Login' })
+            }
         });
       }
   },
@@ -211,6 +219,10 @@ export default {
           toast.error(error.response.data.message, {
             timeout: 5000,
           });
+           
+        if (error.response?.data?.error == 'Unauthorized') {
+          router.push({ name: 'Login' })
+        }
       });
 
     });

@@ -153,6 +153,11 @@ export default {
                         timeout: 4000,
                     });
                 }
+            }).catch(function (error) {
+                 
+                if (error.response?.data?.error == 'Unauthorized') {
+                    router.push({ name: 'Login' })
+                }
             });
 
         });

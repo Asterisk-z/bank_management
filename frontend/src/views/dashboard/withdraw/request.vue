@@ -262,7 +262,7 @@ export default {
                     toast.success("Deposit Approved Successfully", {
                         timeout: 4000,
                     });
-                    $this.$router.push({ name: 'admin-deposit-request' })
+                    $this.fetch_all()
 
                 } else {
                     let message = response.data?.message[0];
@@ -270,8 +270,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });
@@ -293,7 +296,7 @@ export default {
                     toast.success("Deposit Declined Successfully", {
                         timeout: 4000,
                     });
-                    $this.$router.push({ name: 'admin-deposit-request' })
+                    $this.fetch_all()
 
                 } else {
                     let message = response.data?.message[0];
@@ -301,8 +304,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });
@@ -329,8 +335,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });
@@ -354,8 +363,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });
@@ -382,8 +394,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });
@@ -410,8 +425,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });

@@ -56,7 +56,7 @@ class FixedDepositDeclineNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "FD" => $this->message ? $this->message : "",
         ];
     }
 }

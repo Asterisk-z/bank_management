@@ -75,7 +75,7 @@ class FixedDepositController extends Controller
         //     'transaction_ref' => $trans_ref,
         //     'description' => $request['description'],
         // ]);
-        // auth()->user()->account_details->sub_balance($request['currency'], $request['amount']);
+        // auth()->user()->account_details->sub_balance( $request['amount'],$request['currency']);
 
         $trans_ref = Helper::generate_trans_ref(auth()->user()->id);
 

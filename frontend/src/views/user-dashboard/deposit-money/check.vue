@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="grid xl:grid-cols-1 grid-cols-1 gap-5">
-            <Card title="Deposit WIth Electronic Check">
+            <Card title="Deposit WIth Electronic Cheque">
                 
                 <form @submit.prevent="onSubmit" class="space-y-4"  enctype="multipart/form-data">
                     
@@ -133,7 +133,7 @@ export default {
                 return;
             }
 
-            toast.info("Requesting Deposit", {
+            toast.info("Processing Deposit", {
                 timeout: 5000,
             });
 
@@ -164,6 +164,12 @@ export default {
                 }
             }).catch(function (error) {
                 // console.log(error);
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    router.push({ name: 'Login' })
+                }
                 toast.error("Sorry, We are unable to receive your deposit", {
                     timeout: 5000,
                 });

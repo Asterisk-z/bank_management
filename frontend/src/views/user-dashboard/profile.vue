@@ -138,11 +138,11 @@
                   " :series="basicArea.series" />
               </Card>
               <Card title="User Cards">
-                  <div class="grid lg:grid-cols-2 grid-col-1">
+                  <div class="grid lg:grid-cols-2 grid-col-1 gap-10">
                     <!-- <div> -->
                       <div class="w-100 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl " :class="{ 'blur-md' : information.account_details?.first_card_status == 'not_active' }">
                           
-                          <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/background.jpg">
+                          <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
             
                           <div class="w-full px-8 absolute top-8">
                               <div class="flex justify-between">
@@ -191,7 +191,7 @@
                     <!-- <div> -->
                       <div class="w-100 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl "  :class="{ 'blur-md': information.account_details?.second_card_status == 'not_active' }">
             
-                          <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/background.jpg">
+                          <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
             
                           <div class="w-full px-8 absolute top-8">
                               <div class="flex justify-between">
@@ -240,7 +240,7 @@
                     <!-- </div> -->
                   </div>
                   
-                  <ul class="grid grid-cols-2 my-40 mx-20">
+                  <ul class="grid md:grid-cols-2 grid-cols-1 my-40 mx-20">
                       <li class="">
                           <div class="flex space-x-3 rtl:space-x-reverse mb-4">
                             <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
@@ -427,7 +427,12 @@ export default {
             
           }
         }).catch(function (error) {
-          
+          if (error.response?.data?.error == 'Unauthorized') {
+            toast.error("Session Expired", {
+              timeout: 3000,
+            });
+            $this.$router.push({ name: 'Login' })
+          }
         });
     
     }

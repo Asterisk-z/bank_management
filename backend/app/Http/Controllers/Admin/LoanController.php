@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TransactionMail;
 use App\Models\Loan;
 use App\Models\LoanCollateral;
 use App\Models\LoanPayment;
@@ -13,11 +14,12 @@ use App\Services\Calculator;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 
 class LoanController extends Controller
 {
-    public function create_loan_product(Request $request)
+    public function create_loan(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'loan_product_id' => 'required',
@@ -56,7 +58,7 @@ class LoanController extends Controller
         $loan->description = $request->input('description');
         $loan->remarks = $request->input('remarks');
         $loan->created_user_id = auth()->user()->id;
-        $loan->branch_id = auth()->user()->branch_id;
+        $loan->branch_id = 1;
 
         $loan->save();
 
@@ -87,7 +89,7 @@ class LoanController extends Controller
         return response()->json(['status' => true, 'message' => "Loan Product Created Successful"]);
 
     }
-    public function update_loan_product(Request $request)
+    public function update_loan(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
@@ -99,7 +101,7 @@ class LoanController extends Controller
             'release_date' => 'required',
             'applied_amount' => 'required|numeric',
             'late_payment_penalties' => 'required|numeric',
-            'attachment' => 'nullable|mimes:jpeg,JPEG,png,PNG,jpg,doc,pdf,docx,zip',
+            // 'attachment' => 'nullable|mimes:jpeg,JPEG,png,PNG,jpg,doc,pdf,docx,zip',
         ]);
 
         if ($validator->fails()) {
@@ -175,7 +177,7 @@ class LoanController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-        $loan = Loan::where('id', request('loan_id'))->first();
+        $loan = Loan::where('id', request('loan_id'))->with('borrower')->first();
 
         if (!$loan) {
             return response()->json([
@@ -226,23 +228,10 @@ class LoanController extends Controller
             ], 422);
         }
 
-        $loan_collaterals = LoanCollateral::where('loan_id', $loan->id)
-            ->orderBy("id", "desc")
-            ->get();
-
-        $repayments = LoanRepayment::where('loan_id', $loan->id)->get();
-
-        $payments = LoanPayment::where('loan_id', $loan->id)->orderBy('id', 'desc')->get();
-
         return response()->json([
             'status' => true,
             'message' => "loan Found Successfully",
-            'data' => [
-                "loan" => $loan,
-                "loan_collaterals" => $loan_collaterals,
-                "repayments" => $repayments,
-                "payments" => $payments,
-            ],
+            "loan" => $loan,
         ], 200);
 
     }
@@ -277,10 +266,6 @@ class LoanController extends Controller
             ], 422);
         }
 
-        $loan->status = 'approved';
-        $loan->approved_date = date('Y-m-d');
-        $loan->approved_user_id = auth()->user()->id;
-        $loan->save();
         DB::beginTransaction();
 
         $calculator = new Calculator(
@@ -317,10 +302,13 @@ class LoanController extends Controller
             $loan_repayment->save();
         }
 
+        $trans_ref = Helper::generate_trans_ref($user->id);
         $transaction = new Transaction();
         $transaction->user_id = $loan->borrower_id;
+        $transaction->transaction_ref = $trans_ref;
         $transaction->currency = $loan->currency;
         $transaction->amount = $loan->applied_amount;
+        $transaction->fee = '0.00';
         $transaction->process = 'credit';
         $transaction->type = 'loan';
         $transaction->method = 'manual';
@@ -329,29 +317,22 @@ class LoanController extends Controller
         $transaction->notify = 'Loan Request of ' . $loan->currency . " " . $loan->applied_amount . " was approved";
         $transaction->loan_ref = $loan->loan_ref;
 
+        $loan->status = 'approved';
+        $loan->approved_date = date('Y-m-d');
+        $loan->approved_user_id = auth()->user()->id;
+        $loan->save();
         $transaction->save();
+
+        $user->account_details->add_balance($loan->applied_amount, $loan->currency);
+        Mail::to($user)->send(new TransactionMail($transaction, $user));
 
         DB::commit();
 
-        $loan_collaterals = LoanCollateral::where('loan_id', $loan->id)
-            ->orderBy("id", "desc")
-            ->get();
-
-        $repayments = LoanRepayment::where('loan_id', $loan->id)->get();
-
-        $payments = LoanPayment::where('loan_id', $loan->id)->orderBy('id', 'desc')->get();
-
         return response()->json([
             'status' => true,
-            'message' => "loan Found Successfully",
-            'data' => [
-                "loan" => $loan,
-                "loan_collaterals" => $loan_collaterals,
-                "repayments" => $repayments,
-                "payments" => $payments,
-            ],
+            'message' => "loan Update Successfully",
+            "loan" => $loan,
         ], 200);
-
     }
 
     public function decline_loan(Request $request)
@@ -404,6 +385,79 @@ class LoanController extends Controller
     }
 
     public function list_active_loans()
+    {
+
+        $loans = Loan::select('loans.*')
+            ->with('borrower')
+        // ->with('currency')
+            ->with('loan_product')
+            ->orderBy("loans.id", "desc")->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Loan Found Successfully",
+            'loans' => $loans,
+        ], 200);
+
+    }
+
+    public function list_loans_payment_detail_for_payments(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $repayment = LoanRepayment::where('id', request('id'))->where('status', 'pending')->first();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Loan Found Successfully",
+            'repayment' => $repayment,
+        ], 200);
+
+    }
+
+    public function list_loans_payment_for_payments(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'loan_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+        $loan = Loan::where('id', request('loan_id'))->first();
+
+        if (!$loan) {
+            return response()->json([
+                'status' => false,
+                'errors' => "Loan Not Found",
+            ], 422);
+        }
+
+        $repayments = LoanRepayment::where('loan_id', $loan->id)->where('status', 'pending')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Loan Found Successfully",
+            'repayments' => $repayments,
+        ], 200);
+
+    }
+
+    public function list_active_loans_for_payments()
     {
 
         $loans = Loan::select('loans.*')
@@ -536,6 +590,7 @@ class LoanController extends Controller
         ], 200);
 
     }
+
     public function create_loan_collateral(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -577,6 +632,7 @@ class LoanController extends Controller
         return response()->json(['status' => true, 'message' => "Loan Collateral Created Successful"]);
 
     }
+
     public function update_loan_collateral(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -625,12 +681,14 @@ class LoanController extends Controller
         return response()->json(['status' => true, 'message' => "Loan Collateral Created Successful"]);
 
     }
+
     public function destroy_loan_collateral($id)
     {
         $loancollateral = LoanCollateral::find($id);
         $loancollateral->delete();
         return back()->with('success', _lang('Deleted successfully'));
     }
+
     public function single_loan_collateral(Request $request)
     {
 
@@ -654,6 +712,7 @@ class LoanController extends Controller
         ], 200);
 
     }
+
     public function list_loan_repayments(Request $request)
     {
 
@@ -675,6 +734,7 @@ class LoanController extends Controller
         ], 200);
 
     }
+
     public function list_loan_payments(Request $request)
     {
 
@@ -689,6 +749,7 @@ class LoanController extends Controller
         ], 200);
 
     }
+
     public function create_loan_payment(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -705,8 +766,57 @@ class LoanController extends Controller
 
         DB::beginTransaction();
 
-        $repayment = LoanRepayment::find($request->due_amount_of);
+        $repayment = LoanRepayment::where('id', $request->due_amount_of)->where('status', 'pending')->first();
+        if (!$repayment) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Payment Not Found',
+            ], 400);
+        }
         $loan = Loan::find($request->loan_id);
+        $user = User::where('id', $loan->borrower_id)->first();
+
+        //Check Balance
+        $received = $user->transactions()->where('process', 'credit')->whereIn('status', ['approved', 'pending'])->where('currency', $loan->currency)->sum('amount');
+        $sent = $user->transactions()->where('process', 'debit')->whereIn('status', ['approved', 'pending'])->where('currency', $loan->currency)->sum('amount');
+        $balance_from_transaction_history = round(floatval($received) - floatval($sent), 2);
+        $stored_balance = $user->account_details->balance($loan->currency);
+        if ($stored_balance != $balance_from_transaction_history) {
+            return response()->json([
+                'status' => false,
+                'bb' => $balance_from_transaction_history,
+                'sc' => $stored_balance,
+                'message' => 'User balance and transaction balance does not match',
+            ], 400);
+        }
+
+        $sub = $stored_balance - floatval($request->amount_to_pay);
+        if ($sub < 0) {
+            return response()->json([
+                'stored_balance' => $stored_balance,
+                'user' => $user,
+                'sce' => $request->amount_to_pay,
+                'status' => false,
+                'message' => 'User Does not have that amount',
+            ], 400);
+        }
+
+        $trans_ref = Helper::generate_trans_ref($user->id);
+        $transaction = new Transaction();
+        $transaction->user_id = $loan->borrower_id;
+        $transaction->transaction_ref = $trans_ref;
+        $transaction->currency = $loan->currency;
+        $transaction->amount = $request->amount_to_pay;
+        $transaction->fee = '0.00';
+        $transaction->process = 'debit';
+        $transaction->type = 'loan';
+        $transaction->method = 'manual';
+        $transaction->status = 'approved';
+        $transaction->description = 'Loan Approved';
+        $transaction->notify = 'Loan Repayment of ' . $loan->currency . " " . $request->amount_to_pay . " was successful";
+        $transaction->loan_ref = $loan->loan_ref;
+        $transaction->save();
+        $user->account_details->sub_balance($request->amount_to_pay, $loan->currency);
 
         $loanpayment = new LoanPayment();
         $loanpayment->loan_id = $request->loan_id;
@@ -715,23 +825,28 @@ class LoanController extends Controller
         $loanpayment->interest = $repayment->interest;
         $loanpayment->amount_to_pay = $repayment->amount_to_pay;
         $loanpayment->remarks = $request->remarks;
+
+        $loanpayment->transaction_id = $transaction->id;
         $loanpayment->repayment_id = $repayment->id;
         $loanpayment->user_id = auth()->id();
 
         $loanpayment->save();
-        $repayment->status = 1;
+        $repayment->status = 'approved';
         $repayment->save();
 
         $loan->total_paid = $loan->total_paid + $repayment->amount_to_pay;
         if ($loan->total_paid >= $loan->applied_amount) {
-            $loan->status = 2;
+            $loan->status = 'cleared';
         }
+
         $loan->save();
+
         DB::commit();
 
-        return response()->json(['status' => true, 'message' => "Loan Collateral Created Successful"]);
+        return response()->json(['status' => true, 'message' => "Loan Paid Successful"]);
 
     }
+
     public function destroy($id)
     {
         DB::beginTransaction();

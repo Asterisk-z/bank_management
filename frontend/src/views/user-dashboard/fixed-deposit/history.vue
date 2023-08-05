@@ -192,6 +192,7 @@ export default {
             return moment(value).format("Do-MMM-YYYY hh:mm A");
         },
         async fetch_transactions() {
+            let $this = this;
             const data = await axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/my_fixed_deposit`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
@@ -206,6 +207,14 @@ export default {
                     toast.error(message, {
                         timeout: 4000,
                     });
+                }
+            }).catch(function (error) {
+                 
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
                 }
             });
             this.transactions = data

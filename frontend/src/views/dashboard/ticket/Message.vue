@@ -139,7 +139,12 @@ const getMessages = async () => {
 
     }
   }).catch(function (error) {
-    console.log('catch')
+    if (error.response?.data?.error == 'Unauthorized') {
+      toast.error("Session Expired", {
+        timeout: 3000,
+      });
+      router.push({ name: 'Login' })
+    }
     // router.push({ name: 'admin-all-tickets' });
     toast.error(error, {
       timeout: 4000,
@@ -184,8 +189,12 @@ const sendMessage = () => {
       
     }
   }).catch(function (error) {
-    console.log('catch')
-    
+    if (error.response?.data?.error == 'Unauthorized') {
+      toast.error("Session Expired", {
+        timeout: 3000,
+      });
+      router.push({ name: 'Login' })
+    }
          toast.error(error, {
           timeout: 4000,
         });

@@ -7,8 +7,8 @@
           <img  :src="logoWhite"  alt=""  v-if="this.$store.themeSettingsStore.isDark || this.$store.themeSettingsStore.semidark" class="w-[70%]"/>
         </router-link>
         <router-link :to="{ name: 'home' }" v-if="   this.$store.themeSettingsStore.sidebarCollasp &&   !this.$store.themeSettingsStore.isMouseHovered ">
-          <img :src="logoC" alt="" v-if="!this.$store.themeSettingsStore.isDark && !this.$store.themeSettingsStore.semidark"  class="w-[70%]" />
-          <img :src="logoC" alt="" v-if="this.$store.themeSettingsStore.isDark || this.$store.themeSettingsStore.semidark"  class="w-[70%]" />
+          <img :src="logoC" alt="" v-if="!this.$store.themeSettingsStore.isDark && !this.$store.themeSettingsStore.semidark"  class="w-[70%] text-center" />
+          <img :src="logoW" alt="" v-if="this.$store.themeSettingsStore.isDark || this.$store.themeSettingsStore.semidark"  class="w-[70%] text-center " />
         </router-link>
 
         <span class="cursor-pointer text-slate-900 dark:text-white text-2xl" v-if="!this.$store.themeSettingsStore.sidebarCollasp ||   this.$store.themeSettingsStore.isMouseHovered " @click="   this.$store.themeSettingsStore.sidebarCollasp = !this.$store.themeSettingsStore.sidebarCollasp " >
@@ -34,7 +34,8 @@ import { gsap } from "gsap";
 import { SimpleBar } from "simplebar-vue3";
 import { ref, onMounted } from "vue";
 import logoWhite from "@/assets/images/logo/Logo_White.png"
-import logoC from "@/assets/images/logo/Logo_m_gold.svg"
+import logoC from "@/assets/images/logo/small_gold.svg"
+import logoW from "@/assets/images/logo/small_white.png"
 import logo from "@/assets/images/logo/Logo_Black.png"
 
 export default defineComponent({
@@ -46,7 +47,7 @@ export default defineComponent({
   data() {
     return {
       logoWhite, logoC,
-      logo,
+      logo, logoW,
       AdminMenuItem, UserMenuItem,
       openClass: "w-[278px]",
       closeClass: "w-[72px] close_sidebar",

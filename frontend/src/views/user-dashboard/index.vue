@@ -11,7 +11,7 @@
                                         <div class="text-slate-600 dark:text-slate-300 text-[15px] font-medium ml-6 mb-3 mt-2">
                                             {{ item.title }}
                                         </div>
-                                        <div class="text-slate-900 dark:text-white text-[25px] font-medium ml-6 mb-3">
+                                        <div class="text-slate-900 dark:text-white text-[22px] font-medium ml-6 mb-3">
                                             {{ item.sign+ " " +item.count }}
                                         </div>
                                         <div class="flex text-yellow-600 dark:text-yellow-600 text-[16px] font-medium  ml-6 mb-3">
@@ -61,7 +61,7 @@
                                                 }${props.row.status === 'pending' 
                                                     ? 'text-danger-500 bg-danger-500'
                                                     : ''
-                                                }${props.row.status === 'canceled'
+                                                }${props.row.status === 'canceled' || props.row.status === 'declined'
                                                     ? 'text-danger-500 bg-danger-500'
                                                     : ''
                                                 }${props.row.status === 'shipped'
@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         
-                        <div class="w-[450px] h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.first_card_status == 'not_active' }">
+                        <div class="w-[400px] h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.first_card_status == 'not_active' }">
                 
                             <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
                 
@@ -608,10 +608,16 @@ export default {
                     });
                 }
             }).catch(function (error) {
-                console.log(error)
-                toast.error("Error  ", {
+                toast.error("Error", {
                     timeout: 5000,
                 });
+                 
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
         }
     }

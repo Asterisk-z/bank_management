@@ -57,7 +57,7 @@ class BlockChainNotication extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "BC" => $this->message ? $this->message : "",
         ];
     }
 }

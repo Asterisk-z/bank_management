@@ -20,7 +20,7 @@ export const AdminMenuItem = [
     link: "users",
   },
   {
-    title: "Transfer Requests",
+    title: "Payment Requests",
     icon: "mdi:bank-transfer",
     link: "transfer-requests",
   },
@@ -69,22 +69,22 @@ export const AdminMenuItem = [
   },
   {
     title: "Transactions",
-    icon: "heroicons:document",
+    icon: "icon-park-outline:transaction-order",
     link: "admin-transactions",
   },
   {
     title: "Loan Management",
-    icon: "heroicons-outline:document",
+    icon: "lucide:helping-hand",
     link: "#",
     child: [
-      // {
-      //   childtitle: "New Loan",
-      //   childlink: "admin-create-loan",
-      // },
-      // {
-      //   childtitle: "Loans",
-      //   childlink: "admin-loans",
-      // },
+      {
+        childtitle: "New Loan",
+        childlink: "admin-create-loan",
+      },
+      {
+        childtitle: "Loans",
+        childlink: "admin-loans",
+      },
       // {
       //   childtitle: "Loan Calculator",
       //   childlink: "admin-loan-calculator",
@@ -93,15 +93,15 @@ export const AdminMenuItem = [
         childtitle: "Loan Products",
         childlink: "admin-loan-products",
       },
-      // {
-      //   childtitle: "Loan Repayment",
-      //   childlink: "admin-loan-repayment",
-      // },
+      {
+        childtitle: "Loan Repayment",
+        childlink: "admin-loan-payment",
+      },
     ],
   },
   {
     title: "Fixed Deposits",
-    icon: "heroicons-outline:document",
+    icon: "ri:luggage-deposit-line",
     link: "#",
     child: [
       {
@@ -120,7 +120,7 @@ export const AdminMenuItem = [
   },
   {
     title: "Gift Card",
-    icon: "heroicons-outline:document",
+    icon: "fluent:gift-card-money-20-regular",
     link: "#",
     child: [
       {
@@ -135,7 +135,7 @@ export const AdminMenuItem = [
   },
   {
     title: "Currency",
-    icon: "heroicons-outline:document",
+    icon: "grommet-icons:currency",
     link: "#",
     child: [
       {
@@ -150,7 +150,7 @@ export const AdminMenuItem = [
   },
   {
     title: "Support TIckets",
-    icon: "heroicons-outline:document",
+    icon: "fa:ticket",
     link: "#",
     child: [
       {
@@ -165,7 +165,7 @@ export const AdminMenuItem = [
   },
   {
     title: "Banks",
-    icon: "heroicons-outline:document",
+    icon: "ant-design:bank-outlined",
     link: "#",
     child: [
       {

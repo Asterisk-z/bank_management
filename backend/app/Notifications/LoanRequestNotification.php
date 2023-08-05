@@ -56,7 +56,7 @@ class LoanRequestNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "LR" => $this->message ? $this->message : "",
         ];
     }
 }

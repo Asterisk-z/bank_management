@@ -7,6 +7,8 @@ use App\Mail\TransactionMail;
 use App\Models\FixedDeposit;
 use App\Models\FixedDepositPlan;
 use App\Models\User;
+use App\Notifications\FixedDepositApprovalNotification;
+use App\Notifications\FixedDepositDeclineNotification;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -298,14 +300,14 @@ class FDRController extends Controller
 
         DB::beginTransaction();
 
-            $plan->name = request('name');
-            $plan->minimum_amount = request('minimum');
-            $plan->maximum_amount = request('maximum');
-            $plan->interest_rate = request('rate');
-            $plan->duration = request('duration');
-            $plan->duration_type = request('durationType');
-            $plan->description = request('description');
-            $plan->status = request('status');
+        $plan->name = request('name');
+        $plan->minimum_amount = request('minimum');
+        $plan->maximum_amount = request('maximum');
+        $plan->interest_rate = request('rate');
+        $plan->duration = request('duration');
+        $plan->duration_type = request('durationType');
+        $plan->description = request('description');
+        $plan->status = request('status');
         $plan->save();
 
         DB::commit();
@@ -368,6 +370,13 @@ class FDRController extends Controller
         $user->account_details->add_balance($payment_request->deposit_amount, $payment_request->currency);
 
         Mail::to($user)->send(new TransactionMail($transaction, $user));
+
+        Mail::send('emails.status', ['messages' => "Your Fixed Deposit Request of  " . $transaction->currency . " " . $transaction->amount . " to with reference no. " . $transaction->transaction_ref . " was approved  ", 'firstName' => $user->name, 'subject' => "Fixed Deposit Approved"], function ($message) use ($request, $user) {
+            $message->to($user->email);
+            $message->subject("Fixed Deposit Request Approved");
+        });
+
+        $user->notify(new FixedDepositApprovalNotification("Your Fixed Deposit Request  with reference no. " . $transaction->transaction_ref . " is completed successfully "));
 
         return response()->json([
             'status' => true,
@@ -432,6 +441,13 @@ class FDRController extends Controller
             $user->account_details->sub_balance($payment_request->deposit_amount, $payment_request->currency);
 
             // Mail::to($user)->send(new TransactionMail($transaction, $user));
+
+            Mail::send('emails.status', ['messages' => "Your Fixed Deposit Request of  " . $transaction->currency . " " . $transaction->amount . " to with reference no. " . $transaction->transaction_ref . " was rejected  ", 'firstName' => $user->name, 'subject' => "Fixed Deposit Request declined"], function ($message) use ($request, $user) {
+                $message->to($user->email);
+                $message->subject("Fixed Deposit Request Declined");
+            });
+
+            $user->notify(new FixedDepositDeclineNotification("Your Fixed Deposit Request  with reference no. " . $transaction->transaction_ref . " was rejected "));
 
             return response()->json([
                 'status' => true,

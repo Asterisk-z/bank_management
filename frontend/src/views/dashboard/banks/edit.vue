@@ -164,7 +164,12 @@ export default {
 
                 }
             }).catch(function (error) {
-
+                if (error.response?.data?.error == 'Unauthorized') {
+                    // toast.error("Session Expired", {
+                    //     timeout: 3000,
+                    // });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
         }
     },
@@ -252,6 +257,12 @@ export default {
                 toast.error(error.response.data.message, {
                     timeout: 5000,
                 });
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    router.push({ name: 'Login' })
+                }
             });
 
         });
@@ -287,7 +298,14 @@ export default {
                 });
             }
         }).catch(function (error) {
+            if (error.response?.data?.error == 'Unauthorized') {
+                toast.error("Session Expired", {
+                    timeout: 3000,
+                });
+                $this.$router.push({ name: 'Login' })
+            }
             router.push({ name: 'admin-all-banks' });
+
         });
         return {
 

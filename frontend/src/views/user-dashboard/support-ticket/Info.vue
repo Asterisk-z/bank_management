@@ -88,7 +88,11 @@ const getMessages = async () => {
     toast.error("Ticket Not Found", {
       timeout: 4000,
     });
-    
+     
+    if (error.response?.data?.error == 'Unauthorized') {
+      router.push({ name: 'Login' })
+    }
+
     router.push({ name: 'support-tickets' })
   });
 };
@@ -112,7 +116,10 @@ const closeticket = async () => {
 
     }
   }).catch(function (error) {
-    console.log(error)
+     
+    if (error.response?.data?.error == 'Unauthorized') {
+      router.push({ name: 'Login' })
+    }
 
     toast.error(error, {
       timeout: 4000,

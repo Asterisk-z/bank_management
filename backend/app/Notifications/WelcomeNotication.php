@@ -56,7 +56,7 @@ class WelcomeNotication extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "WM" => $this->message ? $this->message : "",
         ];
     }
 }

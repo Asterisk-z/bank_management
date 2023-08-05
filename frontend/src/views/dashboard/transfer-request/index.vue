@@ -258,8 +258,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });
@@ -286,8 +289,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });
@@ -311,8 +317,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });
@@ -339,8 +348,11 @@ export default {
                         timeout: 4000,
                     });
                 }
-            }).catch(function (result) {
-                if (result.response?.data?.error == 'Unauthorized') {
+            }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
             });

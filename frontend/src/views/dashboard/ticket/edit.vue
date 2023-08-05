@@ -188,7 +188,10 @@ export default {
                 }
             }).catch(function (error) {
 
-                if (result.response?.data?.error == 'Unauthorized') {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
                 toast.error(error.response.data.message, {
@@ -268,6 +271,12 @@ export default {
                     });
                 }
             }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    router.push({ name: 'Login' })
+                }
                 toast.error(error.response.data.message, {
                     timeout: 5000,
                 });
@@ -302,6 +311,12 @@ export default {
                 });
             }
         }).catch(function (error) {
+            if (error.response?.data?.error == 'Unauthorized') {
+                toast.error("Session Expired", {
+                    timeout: 3000,
+                });
+                router.push({ name: 'Login' })
+            }
             router.push({ name: 'admin-all-tickets' });
         });
 

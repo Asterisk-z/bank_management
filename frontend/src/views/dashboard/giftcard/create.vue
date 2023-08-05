@@ -155,7 +155,10 @@ export default {
                 }
             }).catch(function (error) {
 
-                if (result.response?.data?.error == 'Unauthorized') {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
                     $this.$router.push({ name: 'Login' })
                 }
                 toast.error(error.response.data.message, {

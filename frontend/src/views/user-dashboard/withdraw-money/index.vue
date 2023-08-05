@@ -53,7 +53,7 @@ export default {
                     button: "Withdraw",
                     bg: "bg-primary-500",
                     doit: () => {
-                        this.$router.push("/app/manual-deposit/payoneer");
+                        this.$router.push({name : 'withdraw'});
                     }
                 },
                 {
@@ -65,7 +65,7 @@ export default {
                     button: "Withdraw",
                     bg: "bg-primary-500",
                     doit: () => {
-                        this.$router.push("/app/manual-deposit/payoneer");
+                        this.$router.push({ name: 'withdraw' });
                     }
                 },
             ],

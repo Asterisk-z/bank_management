@@ -23,7 +23,8 @@ import Navmenu from "./Navmenu";
 import { useThemeSettingsStore } from "@/store/themeSettings";
 const themeSettingsStore = useThemeSettingsStore();
 import logoWhite from "@/assets/images/logo/Logo_White.png"
-import logoC from "@/assets/images/logo/Logo_m_gold.svg"
+import logoC from "@/assets/images/logo/small_gold.svg"
+import logoW from "@/assets/images/logo/small_white.png"
 import logo from "@/assets/images/logo/Logo_Black.png"
 
 export default defineComponent({
@@ -34,7 +35,7 @@ export default defineComponent({
   data() {
     return {
       AdminMenuItem, UserMenuItem,
-      logoWhite, logoC,
+      logoWhite, logoC, logoW,
       logo,
       openClass: "w-[248px]",
       closeClass: "w-[72px] close_sidebar",

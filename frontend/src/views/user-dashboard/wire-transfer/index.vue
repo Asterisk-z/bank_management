@@ -151,6 +151,13 @@ export default {
                 toast.error(error.response.data.message, {
                     timeout: 5000,
                 });
+                
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
         },
         select_bank(e) {
@@ -196,7 +203,7 @@ export default {
                 toast.error(error.response.data.message, {
                     timeout: 5000,
                 });
-                    if (result.response?.data?.error == 'Unauthorized') {
+                    if (error.response?.data?.error == 'Unauthorized') {
                         $this.$router.push({ name: 'Login' })
                     }
             });
@@ -227,7 +234,7 @@ export default {
 
         const onSubmit = handleSubmit((values) => {
 
-            toast.info("Making Exchange", {
+            toast.info("Connecting to Online Service", {
                 timeout: 5000,
             });
             
@@ -259,7 +266,9 @@ export default {
                     });
                 }
             }).catch(function (error) {
-                console.log(error);
+                  if (error.response?.data?.error == 'Unauthorized') {
+                    router.push({ name: 'Login' })
+                }
 
                 toast.error(error.response.data.message, {
                     timeout: 5000,

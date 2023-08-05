@@ -138,6 +138,9 @@ const getTicket = async () => {
       timeout: 4000,
     });
 
+    if (error.response?.data?.error == 'Unauthorized') {
+      router.push({ name: 'Login' })
+    }
     router.push({ name: 'support-tickets' })
   });
 };
@@ -172,8 +175,10 @@ const getMessages = async () => {
 
     }
   }).catch(function (error) {
-    console.log('catch')
-    // router.push({ name: 'admin-all-tickets' });
+     
+    if (error.response?.data?.error == 'Unauthorized') {
+      $this.$router.push({ name: 'Login' })
+    }
     toast.error(error, {
       timeout: 4000,
     });
@@ -217,8 +222,10 @@ const sendMessage = () => {
       
     }
   }).catch(function (error) {
-    console.log('catch')
     
+    if (error.response?.data?.error == 'Unauthorized') {
+      router.push({ name: 'Login' })
+    }
          toast.error(error, {
           timeout: 4000,
         });

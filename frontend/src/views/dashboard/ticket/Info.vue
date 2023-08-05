@@ -95,7 +95,12 @@ const getTicket = async () => {
     }
   }).catch(function (error) {
     console.log(error)
-
+    if (error.response?.data?.error == 'Unauthorized') {
+      toast.error("Session Expired", {
+        timeout: 3000,
+      });
+      router.push({ name: 'Login' })
+    }
     toast.error(error, {
       timeout: 4000,
     });
@@ -121,7 +126,12 @@ const closeticket = async () => {
 
     }
   }).catch(function (error) {
-    console.log(error)
+    if (error.response?.data?.error == 'Unauthorized') {
+      toast.error("Session Expired", {
+        timeout: 3000,
+      });
+      router.push({ name: 'Login' })
+    }
 
     toast.error(error, {
       timeout: 4000,

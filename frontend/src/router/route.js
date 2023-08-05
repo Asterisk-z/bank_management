@@ -269,6 +269,24 @@ const routes = [
           middleware: [user],
         },
       },
+      {
+        path: "withdraw",
+        name: "withdraw",
+        component: () => import("@/views/user-dashboard/withdraw-money/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
+      {
+        path: "withdraw-requests",
+        name: "withdraw-requests",
+        component: () => import("@/views/user-dashboard/withdraw-money/list.vue"),
+        meta: {
+          hide: true,
+          middleware: [user],
+        },
+      },
 
 
 
@@ -596,6 +614,61 @@ const routes = [
         path: "admin-edit-loan-product/:loan_product_id",
         name: "admin-edit-loan-product",
         component: () => import("@/views/dashboard/loans/lp_edit.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      
+      {
+        path: "admin-loans",
+        name: "admin-loans",
+        component: () => import("@/views/dashboard/loans/index.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-create-loan",
+        name: "admin-create-loan",
+        component: () => import("@/views/dashboard/loans/create.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-edit-loan/:loan_id",
+        name: "admin-edit-loan",
+        component: () => import("@/views/dashboard/loans/edit.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-view-loan/:loan_id",
+        name: "admin-view-loan",
+        component: () => import("@/views/dashboard/loans/view.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-loan-payment",
+        name: "admin-loan-payment",
+        component: () => import("@/views/dashboard/loans/payment_index.vue"),
+        meta: {
+          hide: true,
+          middleware: [admin],
+        },
+      },
+      {
+        path: "admin-create-loan-payment",
+        name: "admin-create-loan-payment",
+        component: () => import("@/views/dashboard/loans/payment_create.vue"),
         meta: {
           hide: true,
           middleware: [admin],

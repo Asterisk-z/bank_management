@@ -7,6 +7,7 @@ use App\Mail\TransactionMail;
 use App\Models\DepositRequest;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Notifications\DepositMoneyNotification;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -239,6 +240,13 @@ class DepositController extends Controller
 
         Mail::to($user)->send(new TransactionMail($transaction, $user));
 
+        Mail::send('emails.status', ['messages' => "Your Deposit of  " . $transaction->currency . " " . $transaction->amount . "  with reference no. " . $transaction->transaction_ref . " is completed successfully  ", 'firstName' => $user->name, 'subject' => "Deposit Completed"], function ($message) use ($request, $user) {
+            $message->to($user->email);
+            $message->subject("Deposit Completed");
+        });
+
+        $user->notify(new DepositMoneyNotification("Your Deposit Request  with reference no. " . $transaction->transaction_ref . " is completed successfully "));
+
         return response()->json([
             'status' => true,
             'message' => 'Upload',
@@ -279,6 +287,13 @@ class DepositController extends Controller
         $payment_request->status = 'declined';
 
         $payment_request->save();
+
+        Mail::send('emails.status', ['messages' => "Your Deposit Request of  " . $payment_request->currency . " " . $payment_request->amount . "  with reference no. " . $payment_request->deposit_ref . " was declined", 'firstName' => $user->name, 'subject' => "Deposit Request Declined"], function ($message) use ($request, $user) {
+            $message->to($user->email);
+            $message->subject("Deposit Request Declined");
+        });
+
+        $user->notify(new DepositMoneyNotification("Your Deposit Request  with reference no. " . $payment_request->deposit_ref . " is declined "));
 
         return response()->json([
             'status' => true,

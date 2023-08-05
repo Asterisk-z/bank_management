@@ -212,15 +212,15 @@ export default {
 
         const onSubmit = handleSubmit((values) => {
 
-            toast.info("Making Exchange", {
-                timeout: 5000,
-            });
             if (values.currency == values.xCurrency) {
                 toast.error("Can not convert same currency", {
                     timeout: 2000,
                 });
                 return
             }
+            toast.info("Connecting to Exchange Service", {
+                timeout: 5000,
+            });
 
             const fromData = new FormData();
             fromData.append("amount", values.amount);
@@ -253,6 +253,10 @@ export default {
                 toast.error(error.response.data.message, {
                     timeout: 5000,
                 });
+                
+                if (error.response?.data?.error == 'Unauthorized') {
+                    router.push({ name: 'Login' })
+                }
             });
 
         });

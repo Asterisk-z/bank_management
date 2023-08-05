@@ -81,7 +81,7 @@ class UserController extends Controller
             'user_id' => 'required|max:255',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'email' => 'required|email|unique:users|max:255',
+            // 'email' => 'required|email|exists:users|max:255',
             'branch_id' => 'required',
             // 'password' => 'required|min:6',
             'country_code' => 'required|min:2|max:6',
@@ -125,6 +125,11 @@ class UserController extends Controller
 
     }
 
+    public function fetch_users()
+    {
+        $users = User::where('user_type', 'customer')->where('status', 'active')->get();
+        return response()->json(['status' => true, 'message' => "Customer Fetch Successful", 'users' => $users]);
+    }
     public function all_user()
     {
         $users = User::where('user_type', 'customer')->with('account_details')->get();
@@ -263,7 +268,7 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => "Can not Find User"]);
         }
 
-        Mail::send('emails.sendMail', ['messages' => request('message'), 'firstName' => $user->name], function ($message) use ($request, $user) {
+        Mail::send('emails.sendMail', ['messages' => request('message'), 'firstName' => $user->name, 'subject' => $request->subject], function ($message) use ($request, $user) {
             $message->to($user->email);
             $message->subject($request->subject);
         });

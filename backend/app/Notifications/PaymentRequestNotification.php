@@ -56,7 +56,7 @@ class PaymentRequestNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "PR" => $this->message ? $this->message : "",
         ];
     }
 }

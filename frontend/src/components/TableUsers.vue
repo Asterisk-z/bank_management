@@ -146,9 +146,19 @@ export default {
                     
                 } else {
                     let message = response.data?.message[0];
+                   
                     toast.error(message, {
                         timeout: 4000,
                     });
+                }
+            }).catch(function (error) {
+                 
+                
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
                 }
             });
             this.all_users = data
@@ -178,13 +188,13 @@ export default {
                         this.$router.push("/app/user/"+id+"/edit");
                     },
                 },
-                {
-                    name: "delete",
-                    icon: "heroicons-outline:trash",
-                     doit: () => {
-                        console.log("deleted")
-                    },
-                },
+                // {
+                //     name: "delete",
+                //     icon: "heroicons-outline:trash",
+                //      doit: () => {
+                //         console.log("deleted")
+                //     },
+                // },
             ],
             options: [
                 {

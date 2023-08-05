@@ -198,6 +198,14 @@ export default {
                         timeout: 4000,
                     });
                 }
+            }).catch(function (error) {
+                
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
             this.deposit_requests = data
         }

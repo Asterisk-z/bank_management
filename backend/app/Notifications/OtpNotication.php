@@ -56,7 +56,7 @@ class OtpNotication extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "OP" => $this->message ? $this->message : "",
         ];
     }
 }

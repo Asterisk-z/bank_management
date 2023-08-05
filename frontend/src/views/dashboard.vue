@@ -224,7 +224,12 @@ export default {
           });
         }
       }).catch(function (error) {
-        console.log(error)
+        if (error.response?.data?.error == 'Unauthorized') {
+          toast.error("Session Expired", {
+            timeout: 3000,
+          });
+          $this.$router.push({ name: 'Login' })
+        }
         toast.error("Error  ", {
           timeout: 5000,
         });

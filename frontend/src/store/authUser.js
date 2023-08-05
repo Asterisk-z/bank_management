@@ -59,6 +59,12 @@ export const useAuthStore = defineStore('auth',{
                 toast.error("User not found", {
                     timeout: 2000,
                 });
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                    timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
 
         },
@@ -94,10 +100,16 @@ export const useAuthStore = defineStore('auth',{
                     });
                 }
             }).catch(function (error) {
-                console.log(error.response?.data?.error)
+                
                 toast.error(error.response?.data?.error, {
                     timeout: 2000,
                 });
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                    timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
 
         },

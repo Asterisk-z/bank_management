@@ -56,7 +56,7 @@ class LoanCanceledNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "LC" => $this->message ? $this->message : "",
         ];
     }
 }

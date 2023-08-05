@@ -87,6 +87,13 @@ export default {
                 // toast.error("Sorry, We are unable to receive your deposit", {
                 //     timeout: 5000,
                 // });
+                
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
         }
     },
@@ -111,7 +118,7 @@ export default {
         const onSubmit = handleSubmit((values) => {
 
 
-            toast.info("Processing Deposit", {
+            toast.info("Retrieving Gift Card", {
                 timeout: 5000,
             });
 
@@ -128,7 +135,7 @@ export default {
             }).then(function (response) {
                 if (response.data?.status) {
 
-                    toast.success("Deposit Received Successfully", {
+                    toast.success("Gift Card Received Successfully", {
                         timeout: 2000,
                     });
                     // router.push("/app/deposit-history");
@@ -146,6 +153,13 @@ export default {
                 toast.error("Sorry, We are unable to receive your deposit", {
                     timeout: 5000,
                 });
+                
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
 
         });

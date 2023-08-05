@@ -7,6 +7,7 @@ use App\Mail\TransactionMail;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\WithdrawRequest;
+use App\Notifications\WithdrawMoneyApprovedNotification;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -95,7 +96,7 @@ class WithdrawController extends Controller
             'transaction_ref' => $trans_ref,
             'description' => $request['description'],
             'withdraw_ref' => $withdraw_ref,
-            'notify' => "Admin made a Withdrawal from your account",
+            'notify' => "Admin approved a Withdrawal from your account",
         ]);
         $user->account_details->sub_balance($request['amount'], $request['currency']);
 
@@ -277,9 +278,19 @@ class WithdrawController extends Controller
         $withdrawRequest->status = 'approved';
         $withdrawRequest->save();
 
-        $transaction = Transaction::find($withdrawRequest->transaction_id);
+        $transaction = Transaction::where('withdraw_ref', $withdrawRequest->withdraw_ref)->first();
         $transaction->status = 'approved';
+
         $transaction->save();
+
+        $user = User::where('id', $transaction->user_id)->first();
+
+        Mail::send('emails.status', ['messages' => "Your Withdraw Request of  " . $transaction->currency . " " . $transaction->amount . " to with reference no. " . $transaction->transaction_ref . " is completed successfully  ", 'firstName' => $user->name, 'subject' => "Withdraw Request Completed"], function ($message) use ($request, $user) {
+            $message->to($user->email);
+            $message->subject("Withdraw Request Approved");
+        });
+
+        $user->notify(new WithdrawMoneyApprovedNotification("Your Withdraw Request  with reference no. " . $transaction->transaction_ref . " is completed successfully "));
 
         DB::commit();
 
@@ -310,9 +321,23 @@ class WithdrawController extends Controller
         $withdrawRequest->status = 'declined';
         $withdrawRequest->save();
 
-        $transaction = Transaction::find($withdrawRequest->transaction_id);
+        $transaction = Transaction::where('withdraw_ref', $withdrawRequest->withdraw_ref)->first();
         $transaction->status = 'declined';
         $transaction->save();
+        $user = User::where('id', $withdrawRequest->user_id)->first();
+        $user->account_details->add_balance($transaction->amount, $transaction->currency);
+        // return response()->json([
+        //     'status' => false,
+        //     'message' => 'Upload',
+        //     'user' => $user,
+        //     "transaction" => $transaction->currency,
+        // ], 200);
+        Mail::send('emails.status', ['messages' => "Your Withdraw Request of  " . $transaction->currency . " " . $transaction->amount . " to with reference no. " . $transaction->transaction_ref . " was rejected  ", 'firstName' => $user->name, 'subject' => "Withdraw Request declined"], function ($message) use ($request, $user) {
+            $message->to($user->email);
+            $message->subject("Withdraw Request Declined");
+        });
+
+        $user->notify(new WithdrawMoneyApprovedNotification("Your Withdraw Request  with reference no. " . $transaction->transaction_ref . " is rejected "));
 
         DB::commit();
 

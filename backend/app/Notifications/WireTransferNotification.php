@@ -56,7 +56,7 @@ class WireTransferNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "EM" => $this->message ? $this->message : "",
+            "WT" => $this->message ? $this->message : "",
         ];
     }
 }

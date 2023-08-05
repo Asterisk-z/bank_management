@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('attachment')->nullable();
             $table->string('description')->nullable();
             $table->string('remarks')->nullable();
-            $table->enum('status', ['active', 'pending', 'canceled'])->default('pending');
+            $table->enum('status', ['approved', 'pending', 'declined', 'cleared'])->default('pending');
             $table->timestamp('approved_date')->nullable();
             $table->integer('approved_user_id')->nullable();
             $table->integer('branch_id')->default(1);

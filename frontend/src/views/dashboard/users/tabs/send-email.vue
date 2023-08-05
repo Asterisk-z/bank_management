@@ -128,6 +128,12 @@ export default {
                     });
                 }
             }).catch(function (error) {
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    router.push({ name: 'Login' })
+                }
                 // console.log(error);
                 // toast.error("Sorry, We are unable to receive your deposit", {
                 //     timeout: 5000,

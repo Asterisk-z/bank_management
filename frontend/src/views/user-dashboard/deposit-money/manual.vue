@@ -57,7 +57,7 @@ export default {
                     }
                 },
                 {
-                    title: "Electronic Check",
+                    title: "Electronic Cheque",
                     price_Yearly: "$126",
                     price_Monthly: "$16",
                     limit: "Deposit Limit($50.00 - $10,000,000.00)",

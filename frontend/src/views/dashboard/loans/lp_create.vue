@@ -168,7 +168,12 @@ export default {
                    
                 }
             }).catch(function (error) {
-                
+                if (error.response?.data?.error == 'Unauthorized') {
+                    // toast.error("Session Expired", {
+                    //     timeout: 3000,
+                    // });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
         }
     },
@@ -180,7 +185,7 @@ export default {
             termPeriod: yup.string().required("Term Period is required"),
             interestType: yup.string().required("Interest Type is required"),
             terms: yup.number('Terms Can only be numbers').required("Term is required"),
-            minimum: yup.number('Mininum Amount Can only be numbers').required("Mininum Amount is required"),
+            minimum: yup.number('Mininum Amount Can only be numbers').required("Minimum Amount is required"),
             maximum: yup.number('Maximum Amount Can only be numbers').required("Maximum Amount is required"),
             status: yup.string().required("Status is required"), 
             description: yup.string().required("Description is required"),
@@ -251,6 +256,12 @@ export default {
                 toast.error(error.response.data.message, {
                     timeout: 5000,
                 });
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    router.push({ name: 'Login' })
+                }
             });
 
         });

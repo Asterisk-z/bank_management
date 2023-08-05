@@ -133,7 +133,7 @@ export default {
                 return;
             }
 
-            toast.info("Requesting Deposit", {
+            toast.info("Processing Deposit", {
                 timeout: 5000,
             });
 
@@ -164,9 +164,16 @@ export default {
                 }
             }).catch(function (error) {
                 
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
                 toast.error("Sorry, We are unable to receive your deposit", {
                     timeout: 5000,
                 });
+                
             });
 
         });
@@ -185,7 +192,7 @@ export default {
             // file,
             // fileError,
             onSubmit,
-            buttonText: "Make Payment"
+            buttonText: "Make Deposit"
         };
     },
 }

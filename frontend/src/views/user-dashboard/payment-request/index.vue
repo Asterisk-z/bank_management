@@ -203,6 +203,7 @@ export default {
     },
     methods: {
         async fetch_deposit_requests() {
+            let $this = this
             const data = await axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/all_request`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
@@ -218,10 +219,19 @@ export default {
                         timeout: 4000,
                     });
                 }
+            }).catch(function (error) {
+                 
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
             this.deposit_requests = data
         },
         async fetch_receive_requests() {
+            let $this = this
             const data = await axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/received_requests`, {}, {
                 headers: {
                     "Authorization": "Bearer " + this.$store.authStore.user.token
@@ -237,11 +247,20 @@ export default {
                         timeout: 4000,
                     });
                 }
+            }).catch(function (error) {
+                 
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
             });
             this.deposit_requests = data
         },
         make_payment($id) {
             this.$refs.modal2.closeModal()
+            let $this = this
              toast.info("Sending Money", {
                 timeout: 6000,
             });
@@ -265,6 +284,14 @@ export default {
                                 timeout: 4000,
                             });
                         }
+                    }).catch(function (error) {
+                         
+                if (error.response?.data?.error == 'Unauthorized') {
+                    toast.error("Session Expired", {
+                        timeout: 3000,
+                    });
+                    $this.$router.push({ name: 'Login' })
+                }
                     });
             
             // this.deposit_requests = data
