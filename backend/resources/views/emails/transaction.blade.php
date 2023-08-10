@@ -207,7 +207,15 @@
                                                                         </tbody>
                                                                     </table>
                                                                     <div class="space-y-4">
+                                                                        @if($transaction->status == "approved")
                                                                         <h1 class="text-4xl fw-800" style="padding-top: 0; padding-bottom: 0; font-weight: 800 !important; vertical-align: baseline; font-size: 36px; line-height: 43.2px; margin: 0 auto; text-align: center;" align="center">Transaction Completed</h1>
+                                                                        @endif
+                                                                        @if($transaction->status == "pending" || $transaction->status == "awaiting_otp")
+                                                                        <h1 class="text-4xl fw-800" style="padding-top: 0; padding-bottom: 0; font-weight: 800 !important; vertical-align: baseline; font-size: 36px; line-height: 43.2px; margin: 0 auto; text-align: center;" align="center">Transaction Initiated</h1>
+                                                                        @endif
+                                                                        @if($transaction->status == "canceled" || $transaction->status == "declined" )
+                                                                        <h1 class="text-4xl fw-800" style="padding-top: 0; padding-bottom: 0; font-weight: 800 !important; vertical-align: baseline; font-size: 36px; line-height: 43.2px; margin: 0 auto; text-align: center;" align="center">Transaction Declined</h1>
+                                                                        @endif
 
                                                                         <table class="s-4 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
                                                                             <tbody>
@@ -238,11 +246,27 @@
                                                                                     <td style="line-height: 24px; font-size: 16px; width: 100%; border-radius: 24px; margin: 0; padding: 40px;" align="center" bgcolor="#ffffff">
                                                                                         {{-- <h3 class="text-center" style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 28px; line-height: 33.6px; margin: 0;" align="center">Receipt</h3>  --}}
                                                                                         {{-- <p class="text-center text-muted" style="line-height: 24px; font-size: 16px; color: #718096; width: 100%; margin: 0;" align="center">Receipt Nujber</p>  --}}
+                                                                                        @if($transaction->status == "approved")
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 1024 1024" style="margin-bottom: 20px;">
 
                                                                                             <path fill="lightgreen" d="M512 0C229.232 0 0 229.232 0 512c0 282.784 229.232 512 512 512c282.784 0 512-229.216 512-512C1024 229.232 794.784 0 512 0zm0 961.008c-247.024 0-448-201.984-448-449.01c0-247.024 200.976-448 448-448s448 200.977 448 448s-200.976 449.01-448 449.01zm204.336-636.352L415.935 626.944l-135.28-135.28c-12.496-12.496-32.752-12.496-45.264 0c-12.496 12.496-12.496 32.752 0 45.248l158.384 158.4c12.496 12.48 32.752 12.48 45.264 0c1.44-1.44 2.673-3.009 3.793-4.64l318.784-320.753c12.48-12.496 12.48-32.752 0-45.263c-12.512-12.496-32.768-12.496-45.28 0z" />
 
                                                                                         </svg>
+                                                                                        @endif
+                                                                                        @if($transaction->status == "pending" || $transaction->status == "awaiting_otp")
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                                                                                            <circle cx="9" cy="16" r="2" fill="currentColor" />
+                                                                                            <circle cx="23" cy="16" r="2" fill="currentColor" />
+                                                                                            <circle cx="16" cy="16" r="2" fill="currentColor" />
+                                                                                            <path fill="currentColor" d="M16 30a14 14 0 1 1 14-14a14.016 14.016 0 0 1-14 14Zm0-26a12 12 0 1 0 12 12A12.014 12.014 0 0 0 16 4Z" />
+                                                                                        </svg>
+                                                                                        @endif
+                                                                                        @if($transaction->status == "canceled" || $transaction->status == "declined" )
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                                                            <path fill="red" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10s10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8zm3.59-13L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41z" />
+                                                                                        </svg>
+                                                                                        @endif
+
 
                                                                                         <table class="p-2 w-full" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
                                                                                             <tbody>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\TransactionMail;
 use App\Models\GiftCard;
 use App\Models\PaymentMethod;
+use App\Notifications\DepositMoneyNotification;
 use App\Services\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,9 @@ class DepositController extends Controller
             'proof' => $attachment,
             'deposit_ref' => $deposit_ref,
         ]);
+
+        auth()->user()->notify(new DepositMoneyNotification("Your Deposit Request  of " . $request->currency . " " . $request->amount . " is pending "));
+
         //EMAIL_REQUIRED
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
     }
@@ -98,6 +102,7 @@ class DepositController extends Controller
             'deposit_ref' => $deposit_ref,
         ]);
         //EMAIL_REQUIRED
+        auth()->user()->notify(new DepositMoneyNotification("Your Deposit Request  of " . $request->currency . " " . $request->amount . " is pending "));
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
     }
 
@@ -163,6 +168,7 @@ class DepositController extends Controller
         // Notification::send(auth()->user(), new BlockChainNotication);
 
         Mail::to(auth()->user())->send(new TransactionMail($transaction, auth()->user()));
+        auth()->user()->notify(new DepositMoneyNotification("Your Deposit Request  of " . $request->currency . " " . $request->amount . " is successful "));
 
         //EMAIL_REQUIRED
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
@@ -223,6 +229,9 @@ class DepositController extends Controller
         ]);
         auth()->user()->account_details->add_balance($request['amount'], $request['currency']);
         //EMAIL_REQUIRED
+
+        auth()->user()->notify(new DepositMoneyNotification("Your Deposit Request  of " . $request->currency . " " . $request->amount . " is successful "));
+
         return response()->json(['status' => true, 'message' => "Deposit Requested successfully"]);
     }
 
@@ -263,6 +272,9 @@ class DepositController extends Controller
             $gift_card->save();
             auth()->user()->account_details->add_balance($gift_card->amount, $gift_card->currency);
             //EMAIL_REQUIRED
+
+            auth()->user()->notify(new DepositMoneyNotification("Your Deposit  of " . $request->currency . " " . $request->amount . " is successful "));
+
             DB::commit();
 
             return response()->json(['status' => true, 'message' => "All User Deposit Requests", 'data' => $gift_card]);

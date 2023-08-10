@@ -25,7 +25,6 @@
 <script>
 import Profile from "./Navtools/Profile.vue";
 import Notification from "./Navtools/Notification.vue";
-import Message from "./Navtools/Message.vue";
 import SwitchDark from "./Navtools/SwitchDark.vue";
 import Icon from "../Icon";
 import SearchModal from "./Navtools/SearchModal.vue";
@@ -38,7 +37,6 @@ export default {
   components: {
     Profile,
     Notification,
-    Message,
     SwitchDark,
     Icon,
     SearchModal,

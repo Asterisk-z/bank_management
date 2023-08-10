@@ -41,7 +41,6 @@
 </template>
 <script>
 import Signup from "../common/Signup";
-import Social from "../common/Social";
 // Image Import
 import logoWhite from "@/assets/images/logo/Logo_White.png"
 import logo from "@/assets/images/logo/Logo_Black.png"
@@ -70,7 +69,6 @@ export default {
     }
   },
   components: {
-    Social,
     Signup,
     Carousel
   },

@@ -63,7 +63,6 @@
 
 <script>
 import { MenuItem, Menu } from '@headlessui/vue';
-import { notifications } from '@/constant/data';
 import Card from '@/components/Card';
 import axios from 'axios';
 import moment from 'moment';

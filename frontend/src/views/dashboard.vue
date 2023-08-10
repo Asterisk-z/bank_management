@@ -1,6 +1,5 @@
 <template>
   <div>
-      <Breadcrumb />
       
       <div class="grid grid-cols-12 gap-5 mb-5">
         <div class="2xl:col-span-12 lg:col-span-12 col-span-12">
@@ -70,7 +69,6 @@
   </div>
 </template>
 <script>
-import Breadcrumb from "@/views/components/Breadcrumbs";
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
 import window from "@/mixins/window";
@@ -81,7 +79,6 @@ import { useToast } from "vue-toastification";
 export default {
   mixins: [window],
   components: {
-    Breadcrumb,
     Card,
     Icon,
     TransactionsTable,

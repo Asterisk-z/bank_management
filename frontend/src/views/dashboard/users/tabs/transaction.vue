@@ -88,7 +88,6 @@ import Icon from "@/components/Icon";
 import InputGroup from "@/components/InputGroup";
 import Pagination from "@/components/Pagination";
 import { MenuItem } from "@headlessui/vue";
-import { advancedTable } from "@/constant/basic-tablle-data";
 import window from "@/mixins/window";
 import axios from 'axios';
 import { useToast } from "vue-toastification";
@@ -107,7 +106,6 @@ export default {
 
     data() {
         return {
-            advancedTable,
             current: 1,
             perpage: 10,
             pageRange: 5,

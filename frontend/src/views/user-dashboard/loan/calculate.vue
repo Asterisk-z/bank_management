@@ -47,7 +47,7 @@
     </div>
 </template>
 <script>
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Dropdown from "@/components/Dropdown";
@@ -66,7 +66,7 @@ export default {
         Dropdown,
         Textarea,
         Select,
-        Breadcrumb,
+         
         Card,
         FromGroup,
         Button,

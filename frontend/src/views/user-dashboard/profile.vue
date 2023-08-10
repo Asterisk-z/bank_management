@@ -138,188 +138,215 @@
                   " :series="basicArea.series" />
               </Card>
               <Card title="User Cards">
-                  <div class="grid lg:grid-cols-2 grid-col-1 gap-10">
-                    <!-- <div> -->
-                      <div class="w-100 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl " :class="{ 'blur-md' : information.account_details?.first_card_status == 'not_active' }">
-                          
-                          <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
-            
-                          <div class="w-full px-8 absolute top-8">
-                              <div class="flex justify-between">
-                                  <img class="w-8 h-8" src="@/assets/images/card/icon.svg"/>
-                                  <!-- <img class="w-14 h-14 mt-[-10px]" src="https://i.imgur.com/bbPHJVe.png"/> -->
-                              </div>
-                          </div>
-                          <div class="w-full px-8 absolute bottom-5">
-                            
-                              <div class="pt-0">
-                                  <p class="font-light  text-xs">
-                                      Card Number
-                                  </p>
-                                  <p class="font-medium tracking-more-wider tracking-[.25em]">
-                                      <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>
-                                  </p>
-                              </div>
-                              <div class="pt-2 pr-6">
-                                  <div class="flex justify-start gap-10">
-                                      <div class="">
-                                          <p class="font-light text-xs">
-                                              Name
-                                          </p>
-                                          <p class="font-medium tracking-wider text-sm">
-                                              {{ this.$store.authStore.user.user.name }}
-                                          </p>
-                                      </div>
-                                      <div class="">
-                                          <p class="font-light text-xs">
-                                              Exp. Date
-                                          </p>
-                                          <p class="font-medium tracking-wider text-sm">
-                                              08/27
-                                          </p>
-                                      </div>
-                                    
-                                  </div>
-                              </div>
-                          </div>
-                        
-                          <div class=" absolute right-5 bottom-5">
-                              <img class="w-20 h-20 " src="@/assets/images/card/chip1.png"/>
-                          </div>
-                      </div>
-                    <!-- </div> -->
-                    <!-- <div> -->
-                      <div class="w-100 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl "  :class="{ 'blur-md': information.account_details?.second_card_status == 'not_active' }">
-            
-                          <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
-            
-                          <div class="w-full px-8 absolute top-8">
-                              <div class="flex justify-between">
-                                  <img class="w-8 h-8" src="@/assets/images/card/icon.svg"/>
-                                  <!-- <img class="w-14 h-14 mt-[-10px]" src="https://i.imgur.com/bbPHJVe.png"/> -->
-                              </div>
-                          </div>
-                          <div class="w-full px-8 absolute bottom-5">
-                            
-                              <div class="pt-0">
-                                  <p class="font-light  text-xs">
-                                      Card Number
-                                  </p>
-                                  <p class="font-medium tracking-more-wider tracking-[.25em]">
-                                      <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>
-                                  </p>
-                              </div>
-                              <div class="pt-2 pr-6">
-                                  <div class="flex justify-start gap-10">
-                                      <div class="">
-                                          <p class="font-light text-xs">
-                                              Name
-                                          </p>
-                                          <p class="font-medium tracking-wider text-sm">
-                                              {{ this.$store.authStore.user.user.name }}
-                                          </p>
-                                      </div>
-                                      <div class="">
-                                          <p class="font-light text-xs">
-                                              Exp. Date
-                                          </p>
-                                          <p class="font-medium tracking-wider text-sm">
-                                              08/27
-                                          </p>
-                                      </div>
-                                    
-                                  </div>
-                              </div>
-                          </div>
-                        
-                          <div class=" absolute right-5 bottom-5">
-                              <img class="w-20 h-20 " src="@/assets/images/card/chip1.png"/>
-                          </div>
-                      </div>
-
-                    <!-- </div> -->
-                  </div>
                   
-                  <ul class="grid md:grid-cols-2 grid-cols-1 my-40 mx-20">
-                      <li class="">
-                          <div class="flex space-x-3 rtl:space-x-reverse mb-4">
-                            <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                                  <Icon icon="fa6-solid:circle-dollar-to-slot" />
-                              </div>
-                              <div class="flex-1">
-                                  <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                                    First Card Balance
-                                  </div>
-                                  <a class="text-base text-slate-600 dark:text-slate-50">
-                                      {{ information.account_details?.first_card_balance }}
-                                  </a>
-                              </div>
-                          </div>
-
-                          <div class="flex space-x-3 rtl:space-x-reverse  mb-4">
-                            <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                                  <Icon icon="solar:card-2-linear" />
-                              </div>
-                              <div class="flex-1">
-                                  <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                                      First Card Number
-                                  </div>
-                                  <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('first')" v-if="!view_first">
-                                      {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span>XXXX</span> <span>XXXX</span> <span>XXXX</span>
-                                  </a>
-                                  <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('first')" v-else>
-                                      {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
-                                  </a>
-                              </div>
-                          </div>
-
-                          <div class="flex space-x-3 flex-row-reverse mb-4 mx-20">
-                              <Button text="offset" btnClass="btn-primary btn-sm" />
-                          </div>
-                      </li>
-                      <li class="ml-20">
-                          <div class="flex space-x-3 rtl:space-x-reverse mb-4"  v-if="information.account_details?.second_card_status == active">
-                            <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                                  <Icon icon="fa6-solid:circle-dollar-to-slot" />
-                              </div>
-                              <div class="flex-1">
-                                  <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                                    Second Card Balance
-                                  </div>
-                                  <a class="text-base text-slate-600 dark:text-slate-50">
-                                      {{ information.account_details?.second_card_balance }}
-                                  </a>
-                              </div>
-                          </div>
-
-                          <div class="flex space-x-3 rtl:space-x-reverse  mb-4" v-if="information.account_details?.second_card_status == active">
-                            <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                                  <Icon icon="solar:card-2-linear" />
-                              </div>
-                              <div class="flex-1">
-                                  <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                                      Second Card Number
-                                  </div>
-                                  <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('second')" v-if="!view_second">
-                                      {{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[0] }} <span>XXXX</span> <span>XXXX</span> <span>XXXX</span>
-                                  </a>
-                                  <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('second')" v-else>
-                                      {{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[0] }} 
-                                      <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[1] }}</span> 
-                                      <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[2] }}</span> 
-                                      <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[3] }}</span>
-                                  </a>
-                              </div>
-                          </div>
-                          
-
-                          <div class="flex space-x-3 flex-row-reverse  mb-4 mx-20">
-                              <Button text="request" btnClass="btn-primary btn-sm" />
-                          </div>
-                      </li>
-                      
-                  </ul>
                   
+              <div class="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-1 gap-10">
+                  <div class=" flex justify-center space-x-10">
+                        <div class="space-y-5">
+            
+                            <div class="w-auto h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.first_card_status == 'not_active' }">
+                  
+                                <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
+                  
+                                <div class="w-full px-8 absolute top-8">
+                                    <div class="flex justify-between">
+                                        <img class="w-8 h-8" src="@/assets/images/card/small_white.png"/>
+                                    </div>
+                                </div>
+                                <div class="w-full px-8 absolute bottom-5">
+                                  
+                                    <div class="pt-0 pb-3">
+                                        <p class="font-light  text-[10px]">
+                                            Card Number
+                                        </p>
+                                    <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]" @click="toggleview('first')" v-if="!view_first">
+                                        <span class="mr-2"> {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} </span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>
+                                      
+                                    </p>
+                                      <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]" @click="toggleview('first')"  v-else>
+                                            {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span  class="mr-2">{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span> <span  class="mr-2">{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span  class="mr-2">{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
+                                      </p>
+                                    </div>
+                                    <div class="pt-2 pr-6">
+                                        <div class="flex justify-start gap-10">
+                                            <div class="">
+                                                <p class="font-light text-[10px]">
+                                                    Name
+                                                </p>
+                                                <p class="font-medium tracking-wider text-[12px]">
+                                                    {{ this.$store.authStore.user.user.name }}
+                                                </p>
+                                            </div>
+                                            <div class="">
+                                                <p class="font-light text-[10px]">
+                                                    Exp. Date
+                                                </p>
+                                                <p class="font-medium tracking-wider text-[12px]">
+                                                    08/27
+                                                </p>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <div class=" absolute right-5 bottom-5">
+                                    <img class="w-14 h-14 " src="@/assets/images/card/chip1.png"/>
+                                </div>
+                            </div>
+                          
+                            <div class="rounded-md bg-white dark:bg-slate-800 px-5 py-8  flex items-center" >
+                                <div class="flex-1">
+                                    <div class="w-auto">
+                                     
+                                        <div class="flex space-x-3 rtl:space-x-reverse mb-4">
+                                          <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
+                                                <Icon icon="fa6-solid:circle-dollar-to-slot" />
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
+                                                  First Card Balance
+                                                </div>
+                                                <a class="text-base text-slate-600 dark:text-slate-50">
+                                                    {{ information.account_details?.first_card_balance }}
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex space-x-3 rtl:space-x-reverse  mb-4">
+                                          <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
+                                                <Icon icon="solar:card-2-linear" />
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
+                                                    First Card Number
+                                                </div>
+                                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('first')" v-if="!view_first">
+                                                    {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span>XXXX</span> <span>XXXX</span> <span>XXXX</span>
+                                                </a>
+                                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('first')" v-else>
+                                                    {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex space-x-3 flex-row-reverse mb-4 mx-20">
+                                            <Button text="Block" btnClass="btn-danger btn-sm mx-5" @click="toggle_card('first')"  v-if="information.account_details?.first_card_status == 'active'" />
+                                            <Button text="offset" btnClass="btn-primary btn-sm" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                    
+                  <div class=" flex justify-center space-x-10">
+                        <div class="space-y-5">
+            
+                            <div class="w-auto h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.second_card_status == 'not_active' }">
+                  
+                                <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
+                  
+                                <div class="w-full px-8 absolute top-8">
+                                    <div class="flex justify-between">
+                                        <img class="w-8 h-8" src="@/assets/images/card/small_white.png"/>
+                                    </div>
+                                </div>
+                                <div class="w-full px-8 absolute bottom-5">
+                                  
+                                    <div class="pt-0 pb-3">
+                                        <p class="font-light  text-[10px]">
+                                            Card Number
+                                        </p>
+                                        <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]" @click="toggleview('second')" v-if="!view_second">
+                                            <span class="mr-2"> {{ information.account_details?.second_card_number?.match(/.{1,4}/g)[0] }} </span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>
+                                          
+                                        </p>
+                                          <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]" @click="toggleview('second')"  v-else>
+                                                {{ information.account_details?.second_card_number?.match(/.{1,4}/g)[0] }} <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
+                                          </p>
+                                    </div>
+                                    <div class="pt-2 pr-6">
+                                        <div class="flex justify-start gap-10">
+                                            <div class="">
+                                                <p class="font-light text-[10px]">
+                                                    Name
+                                                </p>
+                                                <p class="font-medium tracking-wider text-[12px]">
+                                                    {{ this.$store.authStore.user.user.name }}
+                                                </p>
+                                            </div>
+                                            <div class="">
+                                                <p class="font-light text-[10px]">
+                                                    Exp. Date
+                                                </p>
+                                                <p class="font-medium tracking-wider text-[12px]">
+                                                    08/27
+                                                </p>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <div class=" absolute right-5 bottom-5">
+                                    <img class="w-14 h-14 " src="@/assets/images/card/chip1.png"/>
+                                </div>
+                            </div>
+                          
+                            <div class="rounded-md bg-white dark:bg-slate-800 px-5 py-8  flex items-center" >
+                                <div class="flex-1">
+                                    <div class="w-auto">
+                                     
+                                        <div class="flex space-x-3 rtl:space-x-reverse mb-4" v-if="information.account_details?.second_card_status == 'active'">
+                                          <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
+                                                <Icon icon="fa6-solid:circle-dollar-to-slot" />
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
+                                                  Second Card Balance
+                                                </div>
+                                                <a class="text-base text-slate-600 dark:text-slate-50">
+                                                    {{ information.account_details?.second_card_balance }}
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex space-x-3 rtl:space-x-reverse  mb-4" v-if="information.account_details?.second_card_status == 'active'">
+                                          <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
+                                                <Icon icon="solar:card-2-linear" />
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
+                                                    Second Card Number
+                                                </div>
+                                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('second')" v-if="!view_second">
+                                                    {{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[0] }} <span>XXXX</span> <span>XXXX</span> <span>XXXX</span>
+                                                </a>
+                                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('second')" v-else>
+                                                    {{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[0] }} 
+                                                    <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[1] }}</span> 
+                                                    <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[2] }}</span> 
+                                                    <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[3] }}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex space-x-3 flex-row-reverse mb-4 mx-20">
+                                            <Button text="Request Card" btnClass="btn-primary btn-sm" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+
+
               </Card>
             </TabPanel>
             <TabPanel>
@@ -338,7 +365,7 @@
 <script>
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
-import { basicArea, basicAreaDark } from "@/constant/appex-chart.js";
+import { basicArea, basicAreaDark } from "@/constant/data.js";
 import { ref, onMounted } from 'vue';
 import { useDropzone } from "vue3-dropzone";
 import axios from "axios";
@@ -347,6 +374,8 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import UpdatePassword from "@/views/user-dashboard/tabs/form";
 import RequestCard from "@/views/user-dashboard/tabs/form";
 import Button from "@/components/Button";
+
+import { useToast } from "vue-toastification";
 
 export default {
   components: {
@@ -400,41 +429,70 @@ export default {
       let testing = ref('uploadProfile')
     },
     get_account_details() {
-        let $this = this
+      let $this = this
 
-        axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/dashboard`, {}, {
-          headers: {
-            "Authorization": "Bearer " + this.$store.authStore.user.token
-          }
-        }).then(function (response) {
+      const toast = useToast();
+      axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/dashboard`, {}, {
+        headers: {
+          "Authorization": "Bearer " + this.$store.authStore.user.token
+        }
+      }).then(function (response) {
 
-          if (response.data?.status) {
-            $this.information = response.data?.data;
-            $this.account_number = $this.information?.account_details?.account_number
+        if (response.data?.status) {
+          $this.information = response.data?.data;
+          $this.account_number = $this.information?.account_details?.account_number
 
-            // $this.statistics1[0].count = $this.information.last_transaction ? parseFloat($this.information.total_balance).toLocaleString("en-US") : "0";
-            // $this.transactions = $this.information.recent_transaction ? $this.information.recent_transaction : [];
-            // $this.statistics1[0].stat = "";
-            // $this.statistics1[1].count = parseFloat($this.information.account_details?.aud_balance).toLocaleString("en-US");
-            // $this.statistics1[2].count = parseFloat($this.information.account_details?.usd_balance).toLocaleString("en-US");
-            // $this.statistics1[3].count = parseFloat($this.information.account_details?.eur_balance).toLocaleString("en-US");
-            // $this.statistics1[3].count = parseFloat($this.information.account_details?.eur_balance).toLocaleString("en-US");
-            // $this.card_balance = $this.information.account_details?.first_card_balance
-            // $this.card_number = $this.information.account_details.first_card_number.match(/.{1,4}/g);
+          // $this.statistics1[0].count = $this.information.last_transaction ? parseFloat($this.information.total_balance).toLocaleString("en-US") : "0";
+          // $this.transactions = $this.information.recent_transaction ? $this.information.recent_transaction : [];
+          // $this.statistics1[0].stat = "";
+          // $this.statistics1[1].count = parseFloat($this.information.account_details?.aud_balance).toLocaleString("en-US");
+          // $this.statistics1[2].count = parseFloat($this.information.account_details?.usd_balance).toLocaleString("en-US");
+          // $this.statistics1[3].count = parseFloat($this.information.account_details?.eur_balance).toLocaleString("en-US");
+          // $this.statistics1[3].count = parseFloat($this.information.account_details?.eur_balance).toLocaleString("en-US");
+          // $this.card_balance = $this.information.account_details?.first_card_balance
+          // $this.card_number = $this.information.account_details.first_card_number.match(/.{1,4}/g);
 
 
-          } else {
-            
-          }
-        }).catch(function (error) {
-          if (error.response?.data?.error == 'Unauthorized') {
-            toast.error("Session Expired", {
-              timeout: 3000,
-            });
-            $this.$router.push({ name: 'Login' })
-          }
-        });
-    
+        } else {
+
+        }
+      }).catch(function (error) {
+        if (error.response?.data?.error == 'Unauthorized') {
+          toast.error("Session Expired", {
+            timeout: 3000,
+          });
+          $this.$router.push({ name: 'Login' })
+        }
+      });
+
+    },
+    toggle_card(card) {
+      let $this = this
+
+      const toast = useToast();
+      axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/toggle_card`, {card: card}, {
+        headers: {
+          "Authorization": "Bearer " + this.$store.authStore.user.token
+        }
+      }).then(function (response) {
+
+        if (response.data?.status) {
+           toast.success("card blocked successfully", {
+            timeout: 3000,
+           });
+          window.location.reload()
+        } else {
+
+        }
+      }).catch(function (error) {
+        if (error.response?.data?.error == 'Unauthorized') {
+          toast.error("Session Expired", {
+            timeout: 3000,
+          });
+          $this.$router.push({ name: 'Login' })
+        }
+      });
+
     }
   },
   setup() {

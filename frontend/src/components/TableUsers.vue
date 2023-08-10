@@ -107,7 +107,6 @@ import Icon from "@/components/Icon";
 import InputGroup from "@/components/InputGroup";
 import Pagination from "@/components/Pagination";
 import { MenuItem } from "@headlessui/vue";
-import { users } from "@/constant/basic-tablle-data";
 import Button from "@/components/Button";
 import SplitDropdown from '@/components/Dropdown/SplitDropdown';
 import axios from "axios";
@@ -167,7 +166,6 @@ export default {
     data() {
         return {
             user3,
-            users,
             all_users: "",
             current: 1,
             perpage: 10,

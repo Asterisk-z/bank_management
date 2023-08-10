@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Breadcrumb />
 
         <div class="grid xl:grid-cols-1 grid-cols-1 gap-5">
             <Card title="Create User">
@@ -56,7 +55,7 @@
     </div>
 </template>
 <script>
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Card from "@/components/Card";
 import Textinput from "@/components/Textinput";
 import Dropdown from "@/components/Dropdown";
@@ -78,7 +77,7 @@ export default {
         InputGroup,
         Dropdown,
         Select,
-        Breadcrumb,
+         
         Card,
     },
     data() {

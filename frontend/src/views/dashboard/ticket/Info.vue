@@ -51,7 +51,6 @@
 </template>
 <script setup>
 import Icon from "@/components/Icon";
-import {useChatStore} from "@/store/chat";
 import { computed, ref, onMounted } from "vue";
 
 import axios from 'axios'
@@ -63,7 +62,6 @@ const toast = useToast();
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
-const store = useChatStore();
 const app_url = import.meta.env.VITE_APP_API_BASEURL;
 
 const user = computed(() => store.user);

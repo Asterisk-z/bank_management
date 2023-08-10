@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TransactionMail;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Notifications\WireTransferNotification;
@@ -86,12 +87,15 @@ class WireTransferController extends Controller
         $user = User::where('id', request('user'))->first();
 
         $transaction->status = 'canceled';
+        $transaction->notify = "Your Wire Transfer Request was declined";
         $transaction->save();
 
         Mail::send('emails.status', ['messages' => "Your Wire Transfer Request  with reference no. " . $transaction->transaction_ref . "  was declined", 'firstName' => $user->name, 'subject' => "Wire Transfer Declined"], function ($message) use ($request, $user) {
             $message->to($user->email);
             $message->subject("Wire Transfer Declined");
         });
+
+        Mail::to($user)->send(new TransactionMail($transaction, $user));
 
         $user->account_details->add_balance($transaction->amount, $transaction->currency);
 
@@ -122,12 +126,15 @@ class WireTransferController extends Controller
         $user = User::where('id', request('user'))->first();
 
         $transaction->status = 'approved';
+        $transaction->notify = "Your Wire Transfer Request  is completed";
         $transaction->save();
 
         Mail::send('emails.status', ['messages' => "Your Wire Transfer Request of  " . $transaction->currency . " " . $transaction->amount . " to " . $transaction->account_holder . "  with reference no. " . $transaction->transaction_ref . " is completed successfully  ", 'firstName' => $user->name, 'subject' => "Wire Transfer Completed"], function ($message) use ($request, $user) {
             $message->to($user->email);
             $message->subject("Wire Transfer Completed");
         });
+
+        Mail::to($user)->send(new TransactionMail($transaction, $user));
 
         $user->notify(new WireTransferNotification("Your Wire Transfer Request  with reference no. " . $transaction->transaction_ref . " is completed successfully "));
 

@@ -86,8 +86,6 @@
 <script setup>
 import Icon from "@/components/Icon";
 import { computed, ref, onMounted } from "vue";
-import {useChatStore} from "@/store/chat";
-import user1 from "@/assets/images/users/default.jpg";
 import axios from 'axios'
 import { useRouter, useRoute } from 'vue-router'
 import { useToast } from "vue-toastification";

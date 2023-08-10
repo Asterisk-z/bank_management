@@ -32,7 +32,7 @@ class TransactionMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Royal Bank : Transaction Completed',
+            subject: 'Royal Bank : Transaction',
         );
     }
 

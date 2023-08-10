@@ -188,7 +188,7 @@
     </div>
 </template>
 <script>
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Card from "@/components/Card";
 import InputGroup from "@/components/InputGroup";
 import Textarea from "@/components/Textarea";
@@ -213,11 +213,11 @@ export default {
         InputGroup,
         Textarea,
         vSelect,
-        Breadcrumb,
+         
         FromGroup,
         Card,
         Select,
-        Breadcrumb,
+         
     },
     data() {
         return {

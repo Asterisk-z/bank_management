@@ -401,7 +401,7 @@
 </template>
 <script>
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Card from "@/components/Card";
 import InputGroup from "@/components/InputGroup";
 import Textarea from "@/components/Textarea";
@@ -430,7 +430,7 @@ export default {
         InputGroup,
         Textarea,
         vSelect,
-        Breadcrumb,
+         
         FromGroup,
         Card,
         Select,
@@ -439,7 +439,7 @@ export default {
         Tab,
         TabPanels,
         TabPanel,
-        Breadcrumb,
+         
     },
     data() {
         return {

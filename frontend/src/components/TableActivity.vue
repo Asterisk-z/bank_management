@@ -58,11 +58,10 @@
 </template>
 <script>
 import Pagination from "@/components/Pagination";
-import { activity } from "@/constant/basic-tablle-data";
-
 import axios from 'axios';
 import { useToast } from "vue-toastification";
 import moment from 'moment';
+
 export default {
     components: {
         Pagination,
@@ -70,7 +69,6 @@ export default {
 
     data() {
         return {
-            activity,
             notifications: "",
             current: 1,
             perpage: 10,

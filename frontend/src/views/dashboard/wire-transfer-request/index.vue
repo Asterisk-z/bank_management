@@ -69,7 +69,7 @@
                                 </span>
                             </span>
                             <span v-if="props.column.field == 'action'">
-                                <Dropdown classMenuItems=" w-[140px]">
+                                <Dropdown classMenuItems=" w-[140px]" v-if="props.row.status == 'pending'">
                                     <span class="text-xl">
                                         <Icon icon="heroicons-outline:dots-vertical" />
                                     </span>
@@ -111,7 +111,7 @@
 </template>
 <script>
 import Dropdown from "@/components/Dropdown";
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
@@ -127,7 +127,7 @@ export default {
     mixins: [window],
     components: {
         Pagination,
-        Breadcrumb,
+         
         InputGroup,
         Dropdown,
         Icon,
@@ -257,6 +257,9 @@ export default {
             const formData = new FormData();
             formData.append('id', pay_id)
             formData.append('user', user_id)
+             toast.info("Wire Transfer Processing", {
+                timeout: 5000,
+            });
 
             axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/approve_wire_transfer`, formData, {
                 headers: {
@@ -291,6 +294,9 @@ export default {
             const formData = new FormData();
             formData.append('id', pay_id)
             formData.append('user', user_id)
+            toast.info("Wire Transfer Processing", {
+                timeout: 5000,
+            });
 
             axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/cancel_wire_transfer`, formData, {
                 headers: {

@@ -113,7 +113,7 @@
 </template>
 <script>
 import Dropdown from "@/components/Dropdown";
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
@@ -129,7 +129,7 @@ export default {
     mixins: [window],
     components: {
         Pagination,
-        Breadcrumb,
+         
         InputGroup,
         Dropdown,
         Icon,

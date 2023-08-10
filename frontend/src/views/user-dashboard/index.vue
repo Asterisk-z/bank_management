@@ -1,35 +1,28 @@
 <template>
     <div>
         <div class="grid grid-cols-12 gap-5 mb-5">
-            <div class="2xl:col-span-8 lg:col-span-12 md:col-span-12 col-span-12">
+            <div class="2xl:col-span-8 lg:col-span-8 md:col-span-12 col-span-12">
                 <Card bodyClass="p-4">
                     <div class="grid lg:grid-cols-2 md:grid-cols-1 grid-cols-1 gap-4 mb-5">
                         <div v-for="(item, i) in statistics1" :key="i">
-                            <Card :bodyClass="`pt-4 pb-3 px-4 ${item.bg} rounded-lg h-[180px]` ">
+                            <Card :bodyClass="`pt-4 pb-3 px-4 ${item.bg} rounded-lg h-[8em]` ">
                                 <div class="flex space-x-3 rtl:space-x-reverse">
                                     <div class="flex-1">
-                                        <div class="text-slate-600 dark:text-slate-300 text-[15px] font-medium ml-6 mb-3 mt-2">
+                                        <div class="text-slate-600 dark:text-slate-300 text-[12px] font-medium ml-6 mb-3 mt-2">
                                             {{ item.title }}
                                         </div>
-                                        <div class="text-slate-900 dark:text-white text-[22px] font-medium ml-6 mb-3">
+                                        <div class="text-slate-900 dark:text-white text-[15px] font-medium ml-6 mb-3">
                                             {{ item.sign+ " " +item.count }}
                                         </div>
-                                        <div class="flex text-yellow-600 dark:text-yellow-600 text-[16px] font-medium  ml-6 mb-3">
-                                            <!-- <Icon :icon="item.iconr"/>  -->
-                                            <!-- <span class="text-[12px] ml-2">{{ item.stat }}</span> -->
-                                        </div>
                                     </div>
-                                    <div class="flex-none">
-                                        <Chart :type="item.chartType" :option="item.chart.chartOptions" :series="item.chart.series" :height="item.chartHeight" :width="item.chartWeight"/>
+                                    <div class="">
+                                        <Chart :type="item.chartType" :option="item.chart.chartOptions" :series="item.chart.series" :height="item.chartHeight" :width="item.chartWeight" class="float-left"/>
                                     </div>
                                 </div>
                             </Card>
                         </div>
                     </div>
                     
-                    <!-- <Card title="Loan Transactions" noborder>
-                        <LoanTable class="-mx-2 -mb-6" />
-                    </Card> -->
                     <Card title="Recent Transactions" noborder>
                         <!-- <TransactionTable class="-mx-2 -mb-6" :table_data="information.recent_transaction" /> -->
                         <template v-if="transactions">
@@ -95,7 +88,7 @@
                 
 
             </div>
-            <div class="2xl:col-span-4 lg:col-span-12 md:col-span-12 col-span-12 ">
+            <div class="2xl:col-span-4 lg:col-span-4 md:col-span-12 col-span-12 ">
                 <div class=" flex justify-center items-center">
                     <div class="space-y-5">
 
@@ -113,7 +106,7 @@
                             </div>
                         </div>
                         
-                        <div class="w-[400px] h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.first_card_status == 'not_active' }">
+                        <div class="w-auto h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.first_card_status == 'not_active' }">
                 
                             <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
                 
@@ -125,29 +118,29 @@
                             </div>
                             <div class="w-full px-8 absolute bottom-5">
                                 
-                                <div class="pt-0">
-                                    <p class="font-light  text-xs">
+                                <div class="pt-0 pb-3">
+                                    <p class="font-light  text-[10px]">
                                         Card Number
                                     </p>
-                                    <p class="font-medium tracking-more-wider tracking-[.25em]">
+                                    <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]">
                                         <span class="mr-2">{{ card_number[0] }}</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>
                                     </p>
                                 </div>
                                 <div class="pt-2 pr-6">
                                     <div class="flex justify-start gap-10">
                                         <div class="">
-                                            <p class="font-light text-xs">
+                                            <p class="font-light text-[10px]">
                                                 Name
                                             </p>
-                                            <p class="font-medium tracking-wider text-sm">
+                                            <p class="font-medium tracking-wider text-[12px]">
                                                 {{ this.$store.authStore.user.user.name }}
                                             </p>
                                         </div>
                                         <div class="">
-                                            <p class="font-light text-xs">
+                                            <p class="font-light text-[10px]">
                                                 Exp. Date
                                             </p>
-                                            <p class="font-medium tracking-wider text-sm">
+                                            <p class="font-medium tracking-wider text-[12px]">
                                                 08/27
                                             </p>
                                         </div>
@@ -157,7 +150,7 @@
                             </div>
                             
                             <div class=" absolute right-5 bottom-5">
-                                <img class="w-20 h-20 " src="@/assets/images/card/chip1.png"/>
+                                <img class="w-14 h-14 " src="@/assets/images/card/chip1.png"/>
                             </div>
                         </div>
                         
@@ -178,7 +171,7 @@
     </div>
 </template>
 <script>
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
 import window from "@/mixins/window";
@@ -194,7 +187,7 @@ import moment from 'moment';
 export default {
     mixins: [window],
     components: {
-        Breadcrumb,
+         
         Card,
         Icon,
         LoanTable,
@@ -250,8 +243,8 @@ export default {
 
                     },
                     chartType: 'radialBar',
-                    chartHeight: '150',
-                    chartWeight: '114',
+                    chartHeight: '120',
+                    chartWeight: '100',
                 },
                 {
                     title: "AUD Balance",
@@ -333,8 +326,8 @@ export default {
                         },
                     },
                     chartType: 'bar',
-                    chartHeight: '110',
-                    chartWeight: '114',
+                    chartHeight: '70',
+                    chartWeight: '74',
                 },
                 {
                     title: "USD Balance",
@@ -416,8 +409,8 @@ export default {
                         },
                     },
                     chartType: 'bar',
-                    chartHeight: '110',
-                    chartWeight: '114',
+                    chartHeight: '70',
+                    chartWeight: '74',
                 },
                 {
                     title: "EUR Balance",
@@ -499,8 +492,8 @@ export default {
                         },
                     },
                     chartType: 'bar',
-                    chartHeight: '110',
-                    chartWeight: '114',
+                    chartHeight: '70',
+                    chartWeight: '74',
                 },
             ],
             chartOne: {
@@ -508,7 +501,7 @@ export default {
                 series: [44, 55, 67, 83],
                 chartOptions: {
                     chart: {
-                        height: 350,
+                        height: 10,
                         type: 'radialBar',
                     },
                     plotOptions: {

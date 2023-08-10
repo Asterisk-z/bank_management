@@ -32,12 +32,12 @@ class UserSeeder extends Seeder
         $user->account_details()->create(['account_number' => $account_number, 'first_card_number' => $card_number]);
 
         $user = new User();
-        $user->last_name = "Daniel";
+        $user->last_name = "first";
         $user->first_name = "User";
         $user->phone = "1234567000";
         $user->country_code = "234";
-        $user->name = "Daniel User";
-        $user->email = "daniel@royal.com";
+        $user->name = "first User";
+        $user->email = "first@royal.com";
         $user->user_type = "customer";
         $user->status = "active";
         $user->password = bcrypt("1qa2ws3ed4rf");
@@ -49,12 +49,12 @@ class UserSeeder extends Seeder
         // $user->account_details->add_balance(30, "USD");
 
         $user = new User();
-        $user->last_name = "Olang";
+        $user->last_name = "second";
         $user->first_name = "User";
         $user->phone = "1234560000";
         $user->country_code = "234";
-        $user->name = "Olang User";
-        $user->email = "olang@royal.com";
+        $user->name = "second User";
+        $user->email = "second@royal.com";
         $user->user_type = "customer";
         $user->status = "active";
         $user->password = bcrypt("1qa2ws3ed4rf");

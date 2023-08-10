@@ -22,7 +22,7 @@ class AuthController extends Controller
         $v = Validator::make($request->all(), [
             'lname' => 'required|min:3',
             'fname' => 'required|min:3',
-            'country_code' => 'required|min:2|max:6',
+            'country_code' => 'required|min:1|max:6',
             'phone' => 'required|min:10',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:3|confirmed',

@@ -285,6 +285,7 @@ Route::prefix('v1')->group(function () {
 
         Route::post('update_password', [AccountController::class, 'update_password'])->name('update_password');
         Route::post('email_update', [AccountController::class, 'email_update'])->name('email_update');
+        Route::post('toggle_card', [AccountController::class, 'toggle_card'])->name('toggle_card');
 
         Route::post('fetch_currency', [CustomerCurrencyController::class, 'fetch_currency'])->name('fetch_currency');
 

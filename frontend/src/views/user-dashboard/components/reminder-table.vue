@@ -3,10 +3,10 @@
             <Card  bodyClass="m-2" v-for="notify in table_data" v-bind:key="notify">
                 <div class="rounded-md bg-white dark:bg-slate-800 p-4 relative border-l-4 border-indigo-500 "   >
                     <div class="max-w-full">
-                        <h4 class="text-sm font-medium text-slate-900 dark:text-white mb-2">
+                        <p class="text-[12px] font-medium text-slate-900 dark:text-white mb-1">
                             {{ Object.values(notify.data)[0] }}
-                        </h4>
-                        <p class="text-sm text-slate-600 dark:text-slate-300 text-opacity-80">
+                        </p>
+                        <p class="text-[10px] text-slate-600 dark:text-slate-300 text-opacity-80">
                            {{ fromNow(notify.created_at) }}
                         </p>
                     </div>

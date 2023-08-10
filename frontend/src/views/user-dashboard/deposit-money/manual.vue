@@ -31,13 +31,13 @@
 </template>
 <script>
 import Button from "@/components/Button";
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Card from "@/components/Card";
 
 export default {
     components: {
         Card,
-        Breadcrumb,
+         
         Button,
     },
     data() {

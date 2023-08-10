@@ -46,7 +46,7 @@
     </div>
 </template>
 <script>
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import Card from "@/components/Card";
 import Textinput from "@/components/Textinput";
 import Dropdown from "@/components/Dropdown";
@@ -68,7 +68,7 @@ export default {
         InputGroup,
         Dropdown,
         Select,
-        Breadcrumb,
+         
         Card,
     },
     data() {

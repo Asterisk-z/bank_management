@@ -45,7 +45,6 @@
 </template>
 <script>
 import Signin from "../common/Signin";
-import Social from "../common/Social";
 import Carousel from "@/components/Carousel";
 import sideImg1 from "@/assets/images/auth/slideShow2.png";
 import sideImg2 from "@/assets/images/auth/slideShow1.png";
@@ -72,7 +71,6 @@ export default {
     }
   },
   components: {
-    Social,
     Signin,
     Carousel
   },

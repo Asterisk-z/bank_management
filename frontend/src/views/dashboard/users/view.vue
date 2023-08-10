@@ -522,7 +522,7 @@
     </div>
 </template>
 <script>
-import Breadcrumb from "@/views/components/Breadcrumbs";
+ 
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 import Card from "@/components/Card";
 import Icon from "@/components/Icon";
@@ -542,7 +542,7 @@ import Button from "@/components/Button";
 
 export default {
   components: {
-    Breadcrumb,
+     
     TabGroup,
         Textinput,
     TabList,

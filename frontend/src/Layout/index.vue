@@ -37,7 +37,6 @@
 <script>
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Header from "../components/Header";
-import Settings from "../components/Settings";
 import Sidebar from "../components/Sidebar/";
 import window from "@/mixins/window";
 import MobileSidebar from "@/components/Sidebar/MobileSidebar.vue";
@@ -50,7 +49,6 @@ export default {
     Header,
     Footer,
     Sidebar,
-    Settings,
     Breadcrumbs,
     FooterMenu,
     MobileSidebar,
