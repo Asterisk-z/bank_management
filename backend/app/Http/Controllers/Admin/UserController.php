@@ -503,13 +503,8 @@ class UserController extends Controller
             return response()->json(['status' => false, 'message' => "Can not Find User"]);
         }
 
-        if ($user->kyc_status == 'yes') {
-            $user->kyc_status = 'no';
-        }
+        $user->kyc_status = $user->kyc_status == 'yes' ? 'no' : 'yes';
 
-        if ($user->kyc_status == 'no') {
-            $user->kyc_status = 'yes';
-        }
         $user->save();
 
         return response()->json(['status' => true, 'message' => "Customer Fetch Successful", "user" => $user]);

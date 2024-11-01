@@ -31,6 +31,13 @@ class SendMoneyController extends Controller
             ], 422);
         }
 
+        if (!$auth_user->done_kyc()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Debit Restricted Due to incomplete KYC',
+            ], 400);
+        }
+
         if (!$auth_user->account_details->can_make_withdrawal()) {
             return response()->json([
                 'status' => false,

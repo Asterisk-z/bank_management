@@ -32,6 +32,14 @@ class WireTransferController extends Controller
                 'errors' => $v->errors(),
             ], 422);
         }
+
+        if (!$auth_user->done_kyc()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Debit Restricted Due to incomplete KYC',
+            ], 400);
+        }
+
         $bank = Bank::find($request->selectedBank);
 
         if (!$auth_user->account_details->can_make_withdrawal()) {

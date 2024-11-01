@@ -32,6 +32,13 @@ class PaymentRequestController extends Controller
             ], 422);
         }
 
+        if (!$auth_user->done_kyc()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Debit Restricted Due to incomplete KYC',
+            ], 400);
+        }
+
         // Find Recipient
         $user = User::where('email', $request->recipient)->orWhere('account_number', $request->recipient)->first();
 

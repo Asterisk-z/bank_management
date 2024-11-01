@@ -13,7 +13,8 @@
               <img v-if="this.$store.authStore.user.user.profile_picture"
                 :src="app_url + '/uploads/profile_photo/' + this.$store.authStore.user.user.profile_picture" alt=""
                 class="w-full h-full object-cover rounded-full" />
-              <img v-else src="@/assets/images/users/default.jpg" alt="" class="w-full h-full object-cover rounded-full" />
+              <img v-else src="@/assets/images/users/default.jpg" alt=""
+                class="w-full h-full object-cover rounded-full" />
 
               <div>
                 <div v-bind="getRootProps()">
@@ -45,15 +46,15 @@
             {{ account_number }}
           </div>
           <div class="text-sm text-slate-600 font-light dark:text-slate-300">
-              Account Number
+            Account Number
           </div>
         </div>
-        
+
       </div>
       <!-- profile info-500 -->
     </div>
 
-    <TabGroup>
+    <TabGroup :selectedIndex="selectedTab" @change="changeTabIndex">
       <div class="grid gap-5 grid-cols-12">
         <div class="xl:col-span-3 lg:col-span-4 col-span-12 card-auto-height">
           <Card>
@@ -77,21 +78,21 @@
           <TabPanels>
             <TabPanel>
               <Card title="User Details">
-                  
+
                 <ul class="grid md:grid-cols-3 grid-cols-1 gap-3">
-                    <li class="flex space-x-3 rtl:space-x-reverse">
-                        <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                          <Icon icon="heroicons:envelope" />
-                        </div>
-                        <div class="flex-1">
-                          <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                            EMAIL
-                          </div>
-                          <a class="text-base text-slate-600 dark:text-slate-50">
-                             {{ this.$store.authStore.user.user.email }}
-                          </a>
-                        </div>
-                    </li>
+                  <li class="flex space-x-3 rtl:space-x-reverse">
+                    <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
+                      <Icon icon="heroicons:envelope" />
+                    </div>
+                    <div class="flex-1">
+                      <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
+                        EMAIL
+                      </div>
+                      <a class="text-base text-slate-600 dark:text-slate-50">
+                        {{ this.$store.authStore.user.user.email }}
+                      </a>
+                    </div>
+                  </li>
                   <!-- end single list -->
                   <li class="flex space-x-3 rtl:space-x-reverse">
                     <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
@@ -101,25 +102,18 @@
                       <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
                         PHONE
                       </div>
-                      <a
-                        href="#"
-                        class="text-base text-slate-600 dark:text-slate-50"
-                      >
-                         {{ this.$store.authStore.user.user.phone }}
+                      <a href="#" class="text-base text-slate-600 dark:text-slate-50">
+                        {{ this.$store.authStore.user.user.phone }}
                       </a>
                     </div>
                   </li>
                   <!-- end single list -->
                   <li class="flex space-x-3 rtl:space-x-reverse">
-                    <div
-                      class="flex-none text-2xl text-slate-600 dark:text-slate-300"
-                    >
+                    <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
                       <Icon icon="heroicons:map" />
                     </div>
                     <div class="flex-1">
-                      <div
-                        class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]"
-                      >
+                      <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
                         Branch
                       </div>
                       <div class="text-base text-slate-600 dark:text-slate-50">
@@ -131,219 +125,254 @@
                 </ul>
               </Card>
               <Card title="Account Overview">
-                  
+
                 <apexchart type="area" height="250" :options="this.$store.themeSettingsStore.isDark
-                    ? basicAreaDark.chartOptions
-                    : basicArea.chartOptions
+                  ? basicAreaDark.chartOptions
+                  : basicArea.chartOptions
                   " :series="basicArea.series" />
               </Card>
               <Card title="User Cards">
-                  
-                  
-              <div class="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-1 gap-10">
+
+
+                <div class="grid xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-1 gap-10">
                   <div class=" flex justify-center space-x-10">
-                        <div class="space-y-5">
-            
-                            <div class="w-auto h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.first_card_status == 'not_active' }">
-                  
-                                <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
-                  
-                                <div class="w-full px-8 absolute top-8">
-                                    <div class="flex justify-between">
-                                        <img class="w-8 h-8" src="@/assets/images/card/small_white.png"/>
-                                    </div>
-                                </div>
-                                <div class="w-full px-8 absolute bottom-5">
-                                  
-                                    <div class="pt-0 pb-3">
-                                        <p class="font-light  text-[10px]">
-                                            Card Number
-                                        </p>
-                                    <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]" @click="toggleview('first')" v-if="!view_first">
-                                        <span class="mr-2"> {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} </span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>
-                                      
-                                    </p>
-                                      <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]" @click="toggleview('first')"  v-else>
-                                            {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span  class="mr-2">{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span> <span  class="mr-2">{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span  class="mr-2">{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
-                                      </p>
-                                    </div>
-                                    <div class="pt-2 pr-6">
-                                        <div class="flex justify-start gap-10">
-                                            <div class="">
-                                                <p class="font-light text-[10px]">
-                                                    Name
-                                                </p>
-                                                <p class="font-medium tracking-wider text-[12px]">
-                                                    {{ this.$store.authStore.user.user.name }}
-                                                </p>
-                                            </div>
-                                            <div class="">
-                                                <p class="font-light text-[10px]">
-                                                    Exp. Date
-                                                </p>
-                                                <p class="font-medium tracking-wider text-[12px]">
-                                                    08/27
-                                                </p>
-                                            </div>
-                                          
-                                        </div>
-                                    </div>
-                                </div>
-                              
-                                <div class=" absolute right-5 bottom-5">
-                                    <img class="w-14 h-14 " src="@/assets/images/card/chip1.png"/>
-                                </div>
-                            </div>
-                          
-                            <div class="rounded-md bg-white dark:bg-slate-800 px-5 py-8  flex items-center" >
-                                <div class="flex-1">
-                                    <div class="w-auto">
-                                     
-                                        <div class="flex space-x-3 rtl:space-x-reverse mb-4">
-                                          <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                                                <Icon icon="fa6-solid:circle-dollar-to-slot" />
-                                            </div>
-                                            <div class="flex-1">
-                                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                                                  First Card Balance
-                                                </div>
-                                                <a class="text-base text-slate-600 dark:text-slate-50">
-                                                    {{ information.account_details?.first_card_balance }}
-                                                </a>
-                                            </div>
-                                        </div>
+                    <div class="space-y-5">
 
-                                        <div class="flex space-x-3 rtl:space-x-reverse  mb-4">
-                                          <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                                                <Icon icon="solar:card-2-linear" />
-                                            </div>
-                                            <div class="flex-1">
-                                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                                                    First Card Number
-                                                </div>
-                                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('first')" v-if="!view_first">
-                                                    {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span>XXXX</span> <span>XXXX</span> <span>XXXX</span>
-                                                </a>
-                                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('first')" v-else>
-                                                    {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
-                                                </a>
-                                            </div>
-                                        </div>
+                      <div class="w-auto h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"
+                        :class="{ 'blur-md': information.account_details?.first_card_status == 'not_active' }">
 
-                                        <div class="flex space-x-3 flex-row-reverse mb-4 mx-20">
-                                            <Button text="Block" btnClass="btn-danger btn-sm mx-5" @click="toggle_card('first')"  v-if="information.account_details?.first_card_status == 'active'" />
-                                            <Button text="offset" btnClass="btn-primary btn-sm" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <img class="object-cover w-[450px] h-full rounded-xl"
+                          src="@/assets/images/card/green-slate.jpg">
 
+                        <div class="w-full px-8 absolute top-8">
+                          <div class="flex justify-between">
+                            <img class="w-8 h-8" src="@/assets/images/card/small_white.png" />
+                          </div>
                         </div>
-                        
+                        <div class="w-full px-8 absolute bottom-5">
+
+                          <div class="pt-0 pb-3">
+                            <p class="font-light  text-[10px]">
+                              Card Number
+                            </p>
+                            <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]"
+                              @click="toggleview('first')" v-if="!view_first">
+                              <span class="mr-2"> {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0]
+                                }} </span> <span class="mr-2">XXXX</span> <span class="mr-2">XXXX</span> <span
+                                class="mr-2">XXXX</span>
+
+                            </p>
+                            <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]"
+                              @click="toggleview('first')" v-else>
+                              {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span
+                                class="mr-2">{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[1]
+                                }}</span> <span class="mr-2">{{
+                                  information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span
+                                class="mr-2">{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3]
+                                }}</span>
+                            </p>
+                          </div>
+                          <div class="pt-2 pr-6">
+                            <div class="flex justify-start gap-10">
+                              <div class="">
+                                <p class="font-light text-[10px]">
+                                  Name
+                                </p>
+                                <p class="font-medium tracking-wider text-[12px]">
+                                  {{ this.$store.authStore.user.user.name }}
+                                </p>
+                              </div>
+                              <div class="">
+                                <p class="font-light text-[10px]">
+                                  Exp. Date
+                                </p>
+                                <p class="font-medium tracking-wider text-[12px]">
+                                  08/27
+                                </p>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class=" absolute right-5 bottom-5">
+                          <img class="w-14 h-14 " src="@/assets/images/card/chip1.png" />
+                        </div>
+                      </div>
+
+                      <div class="rounded-md bg-white dark:bg-slate-800 px-5 py-8  flex items-center">
+                        <div class="flex-1">
+                          <div class="w-auto">
+
+                            <div class="flex space-x-3 rtl:space-x-reverse mb-4">
+                              <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
+                                <Icon icon="fa6-solid:circle-dollar-to-slot" />
+                              </div>
+                              <div class="flex-1">
+                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
+                                  First Card Balance
+                                </div>
+                                <a class="text-base text-slate-600 dark:text-slate-50">
+                                  {{ information.account_details?.first_card_balance }}
+                                </a>
+                              </div>
+                            </div>
+
+                            <div class="flex space-x-3 rtl:space-x-reverse  mb-4">
+                              <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
+                                <Icon icon="solar:card-2-linear" />
+                              </div>
+                              <div class="flex-1">
+                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
+                                  First Card Number
+                                </div>
+                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('first')"
+                                  v-if="!view_first">
+                                  {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }}
+                                  <span>XXXX</span> <span>XXXX</span> <span>XXXX</span>
+                                </a>
+                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('first')"
+                                  v-else>
+                                  {{ information.account_details?.first_card_number?.match(/.{1,4}/g)[0] }} <span>{{
+                                    information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span>
+                                  <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span>
+                                  <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
+                                </a>
+                              </div>
+                            </div>
+
+                            <div class="flex space-x-3 flex-row-reverse mb-4 mx-20">
+                              <Button text="Block" btnClass="btn-danger btn-sm mx-5" @click="toggle_card('first')"
+                                v-if="information.account_details?.first_card_status == 'active'" />
+                              <Button text="offset" btnClass="btn-primary btn-sm" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
-                    
+
+                  </div>
+
                   <div class=" flex justify-center space-x-10">
-                        <div class="space-y-5">
-            
-                            <div class="w-auto h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"  :class="{ 'blur-md': information.account_details?.second_card_status == 'not_active' }">
-                  
-                                <img class="object-cover w-[450px] h-full rounded-xl" src="@/assets/images/card/green-slate.jpg">
-                  
-                                <div class="w-full px-8 absolute top-8">
-                                    <div class="flex justify-between">
-                                        <img class="w-8 h-8" src="@/assets/images/card/small_white.png"/>
-                                    </div>
-                                </div>
-                                <div class="w-full px-8 absolute bottom-5">
-                                  
-                                    <div class="pt-0 pb-3">
-                                        <p class="font-light  text-[10px]">
-                                            Card Number
-                                        </p>
-                                        <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]" @click="toggleview('second')" v-if="!view_second">
-                                            <span class="mr-2"> {{ information.account_details?.second_card_number?.match(/.{1,4}/g)[0] }} </span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>   <span class="mr-2">XXXX</span>
-                                          
-                                        </p>
-                                          <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]" @click="toggleview('second')"  v-else>
-                                                {{ information.account_details?.second_card_number?.match(/.{1,4}/g)[0] }} <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span>{{ information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
-                                          </p>
-                                    </div>
-                                    <div class="pt-2 pr-6">
-                                        <div class="flex justify-start gap-10">
-                                            <div class="">
-                                                <p class="font-light text-[10px]">
-                                                    Name
-                                                </p>
-                                                <p class="font-medium tracking-wider text-[12px]">
-                                                    {{ this.$store.authStore.user.user.name }}
-                                                </p>
-                                            </div>
-                                            <div class="">
-                                                <p class="font-light text-[10px]">
-                                                    Exp. Date
-                                                </p>
-                                                <p class="font-medium tracking-wider text-[12px]">
-                                                    08/27
-                                                </p>
-                                            </div>
-                                          
-                                        </div>
-                                    </div>
-                                </div>
-                              
-                                <div class=" absolute right-5 bottom-5">
-                                    <img class="w-14 h-14 " src="@/assets/images/card/chip1.png"/>
-                                </div>
-                            </div>
-                          
-                            <div class="rounded-md bg-white dark:bg-slate-800 px-5 py-8  flex items-center" >
-                                <div class="flex-1">
-                                    <div class="w-auto">
-                                     
-                                        <div class="flex space-x-3 rtl:space-x-reverse mb-4" v-if="information.account_details?.second_card_status == 'active'">
-                                          <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                                                <Icon icon="fa6-solid:circle-dollar-to-slot" />
-                                            </div>
-                                            <div class="flex-1">
-                                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                                                  Second Card Balance
-                                                </div>
-                                                <a class="text-base text-slate-600 dark:text-slate-50">
-                                                    {{ information.account_details?.second_card_balance }}
-                                                </a>
-                                            </div>
-                                        </div>
+                    <div class="space-y-5">
 
-                                        <div class="flex space-x-3 rtl:space-x-reverse  mb-4" v-if="information.account_details?.second_card_status == 'active'">
-                                          <div class="flex-none text-2xl text-slate-600 dark:text-slate-300" >
-                                                <Icon icon="solar:card-2-linear" />
-                                            </div>
-                                            <div class="flex-1">
-                                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]" >
-                                                    Second Card Number
-                                                </div>
-                                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('second')" v-if="!view_second">
-                                                    {{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[0] }} <span>XXXX</span> <span>XXXX</span> <span>XXXX</span>
-                                                </a>
-                                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('second')" v-else>
-                                                    {{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[0] }} 
-                                                    <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[1] }}</span> 
-                                                    <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[2] }}</span> 
-                                                    <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[3] }}</span>
-                                                </a>
-                                            </div>
-                                        </div>
+                      <div class="w-auto h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl"
+                        :class="{ 'blur-md': information.account_details?.second_card_status == 'not_active' }">
 
-                                        <div class="flex space-x-3 flex-row-reverse mb-4 mx-20">
-                                            <Button text="Request Card" btnClass="btn-primary btn-sm" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <img class="object-cover w-[450px] h-full rounded-xl"
+                          src="@/assets/images/card/green-slate.jpg">
 
+                        <div class="w-full px-8 absolute top-8">
+                          <div class="flex justify-between">
+                            <img class="w-8 h-8" src="@/assets/images/card/small_white.png" />
+                          </div>
                         </div>
-                        
+                        <div class="w-full px-8 absolute bottom-5">
+
+                          <div class="pt-0 pb-3">
+                            <p class="font-light  text-[10px]">
+                              Card Number
+                            </p>
+                            <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]"
+                              @click="toggleview('second')" v-if="!view_second">
+                              <span class="mr-2"> {{
+                                information.account_details?.second_card_number?.match(/.{1,4}/g)[0] }} </span> <span
+                                class="mr-2">XXXX</span> <span class="mr-2">XXXX</span> <span class="mr-2">XXXX</span>
+
+                            </p>
+                            <p class="font-medium tracking-more-wider tracking-[.25em] md:text-[12px] text-[14px]"
+                              @click="toggleview('second')" v-else>
+                              {{ information.account_details?.second_card_number?.match(/.{1,4}/g)[0] }} <span>{{
+                                information.account_details?.first_card_number?.match(/.{1,4}/g)[1] }}</span> <span>{{
+                                  information.account_details?.first_card_number?.match(/.{1,4}/g)[2] }}</span> <span>{{
+                                  information.account_details?.first_card_number?.match(/.{1,4}/g)[3] }}</span>
+                            </p>
+                          </div>
+                          <div class="pt-2 pr-6">
+                            <div class="flex justify-start gap-10">
+                              <div class="">
+                                <p class="font-light text-[10px]">
+                                  Name
+                                </p>
+                                <p class="font-medium tracking-wider text-[12px]">
+                                  {{ this.$store.authStore.user.user.name }}
+                                </p>
+                              </div>
+                              <div class="">
+                                <p class="font-light text-[10px]">
+                                  Exp. Date
+                                </p>
+                                <p class="font-medium tracking-wider text-[12px]">
+                                  08/27
+                                </p>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class=" absolute right-5 bottom-5">
+                          <img class="w-14 h-14 " src="@/assets/images/card/chip1.png" />
+                        </div>
+                      </div>
+
+                      <div class="rounded-md bg-white dark:bg-slate-800 px-5 py-8  flex items-center">
+                        <div class="flex-1">
+                          <div class="w-auto">
+
+                            <div class="flex space-x-3 rtl:space-x-reverse mb-4"
+                              v-if="information.account_details?.second_card_status == 'active'">
+                              <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
+                                <Icon icon="fa6-solid:circle-dollar-to-slot" />
+                              </div>
+                              <div class="flex-1">
+                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
+                                  Second Card Balance
+                                </div>
+                                <a class="text-base text-slate-600 dark:text-slate-50">
+                                  {{ information.account_details?.second_card_balance }}
+                                </a>
+                              </div>
+                            </div>
+
+                            <div class="flex space-x-3 rtl:space-x-reverse  mb-4"
+                              v-if="information.account_details?.second_card_status == 'active'">
+                              <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
+                                <Icon icon="solar:card-2-linear" />
+                              </div>
+                              <div class="flex-1">
+                                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-1 leading-[12px]">
+                                  Second Card Number
+                                </div>
+                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('second')"
+                                  v-if="!view_second">
+                                  {{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[0] }}
+                                  <span>XXXX</span> <span>XXXX</span> <span>XXXX</span>
+                                </a>
+                                <a class="text-base text-slate-600 dark:text-slate-50" @click="toggleview('second')"
+                                  v-else>
+                                  {{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[0] }}
+                                  <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[1]
+                                    }}</span>
+                                  <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[2]
+                                    }}</span>
+                                  <span>{{ information.account_details?.seconds_card_number?.match(/.{1,4}/g)[3]
+                                    }}</span>
+                                </a>
+                              </div>
+                            </div>
+
+                            <div class="flex space-x-3 flex-row-reverse mb-4 mx-20">
+                              <Button text="Request Card" btnClass="btn-primary btn-sm" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
+
+                  </div>
                 </div>
 
 
@@ -353,8 +382,13 @@
               <UpdatePassword />
             </TabPanel>
             <TabPanel>
-              <RequestCard />
+              <Card title="KYC Verification">
+                <KycForm />
+              </Card>
             </TabPanel>
+            <!-- <TabPanel>
+              <RequestCard />
+            </TabPanel> -->
           </TabPanels>
         </div>
       </div>
@@ -376,6 +410,8 @@ import RequestCard from "@/views/user-dashboard/tabs/form";
 import Button from "@/components/Button";
 
 import { useToast } from "vue-toastification";
+import KycForm from "@/views/user-dashboard/tabs/KycForm.vue";
+import { useRoute } from "vue-router";
 
 export default {
   components: {
@@ -389,16 +425,18 @@ export default {
     Icon,
     UpdatePassword,
     RequestCard,
+    KycForm,
   },
   data() {
     return {
       basicArea,
       basicAreaDark,
       view_first: false,
-      view_second: false, 
+      view_second: false,
       app_url: import.meta.env.VITE_APP_API_BASEURL,
       account_number: "00000000000",
       information: "",
+      selectedTab: 0,
       tabItems: [
         {
           title: "Account Overview",
@@ -409,14 +447,36 @@ export default {
         {
           title: "Change Password",
         },
+        {
+          title: "KYC Verification",
+        },
       ]
     }
 
   },
   mounted() {
     this.get_account_details()
+    this.updateTab();
+
   },
   methods: {
+    changeTabIndex(index) {
+      this.selectedTab = index
+    },
+    updateTab() {
+      const route = useRoute();
+      const to = route.query.to;
+      if (to) {
+        console.log(to)
+        switch (to) {
+          case 'kyc':
+            this.changeTabIndex(2)
+          // default:
+          //   this.changeTabIndex(0)
+        }
+      }
+
+    },
     toggleview(card) {
       if (card == 'first') {
         this.view_first = !this.view_first
@@ -470,16 +530,16 @@ export default {
       let $this = this
 
       const toast = useToast();
-      axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/toggle_card`, {card: card}, {
+      axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/toggle_card`, { card: card }, {
         headers: {
           "Authorization": "Bearer " + this.$store.authStore.user.token
         }
       }).then(function (response) {
 
         if (response.data?.status) {
-           toast.success("card blocked successfully", {
+          toast.success("card blocked successfully", {
             timeout: 3000,
-           });
+          });
           window.location.reload()
         } else {
 

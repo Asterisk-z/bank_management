@@ -57,6 +57,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(DepositRequest::class)->orderBy('id', 'desc');
     }
 
+    public function kycs()
+    {
+        return $this->hasMany(Kyc::class)->orderBy('id', 'desc');
+    }
+
     public function payment_requests()
     {
         return $this->hasMany(PaymentRequest::class)->with('user')->orderBy('id', 'desc');
@@ -110,6 +115,11 @@ class User extends Authenticatable implements JWTSubject
     public function documents()
     {
         return $this->hasMany(Document::class, 'user_id');
+    }
+
+    public function done_kyc()
+    {
+        return $this->kyc_status == 'yes' ? true : false;
     }
 
     public function generateTwoFactorCode()

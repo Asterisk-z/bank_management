@@ -32,6 +32,7 @@ use App\Http\Controllers\Customer\SupportTicketController;
 use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\Customer\WireTransferController;
 use App\Http\Controllers\Customer\WithdrawalController;
+use App\Http\Controllers\KycController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -231,6 +232,10 @@ Route::prefix('v1')->group(function () {
         Route::post('decline_loan', [AdminLoanController::class, 'decline_loan'])->name('decline_loan');
         Route::post('calculate', [AdminLoanController::class, 'calculate'])->name('calculate');
 
+        Route::post('admin_user_kyc/{id}', [KycController::class, 'getAdminUserKycs']);
+        Route::post('admin_all_kyc', [KycController::class, 'getAdminAllKycs']);
+        Route::post('action_kyc', [KycController::class, 'actionKyc']);
+
     });
 
     Route::prefix('customer')->namespace('Customer')->middleware(['auth:api', 'customer'])->group(function () {
@@ -291,6 +296,10 @@ Route::prefix('v1')->group(function () {
 
         Route::post('withdraw', [WithdrawalController::class, 'withdraw'])->name('withdraw');
         Route::post('withdraw_requests', [WithdrawalController::class, 'withdraw_requests'])->name('withdraw_requests');
+
+        Route::post('kyc_documents', [KycController::class, 'getDocuments'])->name('kyc.documents');
+        Route::post('user_kycs', [KycController::class, 'getUserKycs'])->name('kyc.userkyc');
+        Route::post('upload_kyc', [KycController::class, 'uploadKyc'])->name('kyc.upload');
 
     });
 

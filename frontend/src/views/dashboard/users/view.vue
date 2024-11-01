@@ -512,6 +512,9 @@
                         <TabPanel>
                             <SendEmail />
                         </TabPanel>
+                        <TabPanel>
+                            <KycTable />
+                        </TabPanel>
                     </TabPanels>
                     </div>
                 </div>
@@ -532,6 +535,7 @@ import AddMoney from "@/views/dashboard/users/tabs/add-money";
 import DeductMoney from "@/views/dashboard/users/tabs/deduct-money";
 import SendEmail from "@/views/dashboard/users/tabs/send-email";
 import FixedDeposit from "@/views/dashboard/users/tabs/fixed-deposit";
+import KycTable from "@/views/dashboard/users/tabs/kyc";
 import SupportTicket from "@/views/dashboard/users/tabs/support-ticket";
 import axios from 'axios';
 import { useToast } from "vue-toastification";
@@ -559,7 +563,8 @@ export default {
     SendEmail,
     Loans,
     FixedDeposit,
-    SupportTicket
+    SupportTicket,
+    KycTable
   },
   data() {
       return {
@@ -587,7 +592,10 @@ export default {
                     title: "Support Ticket",
                 },
                 {
-                    title: "Send Email",
+                  title: "Send Email",
+                },
+                {
+                  title: "KYC Verification",
                 },
             ],
             user: "",
