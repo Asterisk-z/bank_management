@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <form @submit.prevent="onSubmit" class="space-y-4" enctype="multipart/form-data">
+    <div class="space-y-6">
+        <form @submit.prevent="onSubmit" class="space-y-4 pb-10" enctype="multipart/form-data">
 
             <div class="grid lg:grid-cols-1 md:grid-cols-1 grid-cols-1 gap-5">
 
@@ -20,7 +20,7 @@
                         class="w-full text-center border-dashed border border-secondary-500 rounded-md py-[52px] flex flex-col justify-center items-center"
                         :class="files.length === 0 ? 'cursor-pointer' : ' pointer-events-none'">
                         <div v-if="files.length === 0">
-                            <input v-bind="getInputProps()" class="hidden" name="file" />
+                            <input v-bind="getInputProps()" class="hidden" name="file" accept="image/*" />
                             <img src="@/assets/images/svg/upload.svg" alt="" class="mx-auto mb-4" />
                             <p v-if="isDragActive" class="text-sm text-slate-500 dark:text-slate-300 font-light">
                                 Drop the files here ...
@@ -41,14 +41,18 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary float-right text-center">
-                {{ buttonText }}
+            <button type="submit" class="btn btn-primary float-right text-center" @click="toggleLoader">
+                {{ loading ? "loading..." : buttonText }}
             </button>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
         </form>
 
 
-        <div class="-mx-6 mt-6">
-
+        <div class=" my-10">
             <template v-if="kycs">
                 <!-- {{ kycs }} -->
                 <vue-good-table :columns="columns" styleClass=" vgt-table  centered " :rows="kycs" :sort-options="{
@@ -101,7 +105,6 @@
                     </template>
                 </vue-good-table>
             </template>
-
         </div>
     </div>
 </template>
@@ -148,6 +151,7 @@ export default {
         return {
             kyc_documents: [],
             kycs: '',
+            loading: false,
             dateNtim: null,
             app_url: import.meta.env.VITE_APP_API_BASEURL,
             current: 1,
@@ -198,6 +202,9 @@ export default {
     },
 
     methods: {
+        toggleLoader() {
+            this.loading = true
+        },
         get_kyc_documents() {
 
             let $this = this
@@ -274,6 +281,7 @@ export default {
         },
     },
     setup() {
+
         const schema = yup.object({
             kycDocument: yup.number('kycDocument Can only be numbers').required("KYC Document is required"),
             description: yup.string().required("Description is required"),
@@ -317,7 +325,8 @@ export default {
             fromData.append("kyc_document_id", values.kycDocument);
             fromData.append("message", values.description);
 
-            buttonText.value = "Uploading..."
+            // buttonText.value = "Uploading..."
+
             axios.post(`${import.meta.env.VITE_APP_API_URL}/customer/upload_kyc`, fromData, {
                 headers: {
                     "Authorization": "Bearer " + auth.user.token

@@ -21,14 +21,14 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        // $this->call(UserSeeder::class);
-        // $this->call(CurrencySeeder::class);
-        // $this->call(BankSeeder::class);
-        // $this->call(GiftCardSeeder::class);
-        // $this->call(PaymentMethodSeeder::class);
-        // $this->call(LoanProducts::class);
-        // $this->call(FixedDepositPlanSeeder::class);
-        // $this->call(SettingSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(CurrencySeeder::class);
+        $this->call(BankSeeder::class);
+        $this->call(GiftCardSeeder::class);
+        $this->call(PaymentMethodSeeder::class);
+        $this->call(LoanProducts::class);
+        $this->call(FixedDepositPlanSeeder::class);
+        $this->call(SettingSeeder::class);
         $this->call(KycDocumentSeed::class);
 
     }

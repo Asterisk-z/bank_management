@@ -16,6 +16,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     Artisan::call('optimize:clear');
+    Artisan::call('config:cache');
+    return view('welcome');
+});
+
+Route::get('/beatit', function () {
+    Artisan::call('migrate');
+    Artisan::call('db:seed');
+    return view('welcome');
+});
+
+Route::get('/beatoff', function () {
+    Artisan::call('migrate:fresh');
     return view('welcome');
 });
 

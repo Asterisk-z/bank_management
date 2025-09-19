@@ -4,9 +4,9 @@
 
         <div class="space-y-5" v-if="kyc_status">
             <Alert
-                className="bg-slate-800 bg-opacity-[14%] text-slate-800 dark:bg-slate-500 dark:bg-opacity-[14%]  dark:text-slate-300"
+                className="bg-danger-800 bg-opacity-[14%] text-danger-800 dark:bg-danger-500 dark:bg-opacity-[14%]  dark:text-slate-300"
                 type="t-info" icon="heroicons-outline:exclamation" dismissible>
-                KYC Complete...
+                KYC Incomplete...
                 <router-link to="user-profile?to=kyc"
                     class="underline text-slate-900 dark:text-slate-300 text-sm font-medium">
                     Click here to complete KYC</router-link>.

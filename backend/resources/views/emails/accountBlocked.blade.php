@@ -339,18 +339,18 @@
 
                                         <p style="font-weight: bolder">Dear {{ $firstName }}</p>
 
-                                        <p>We have restricted your account(s) to protect you fron suspicious activity. For your protection, we need to verify your identity.</p>
-                                        <p>This has been your third (3) flag in less than 7 days so in accordance to our regulations, to lift the restrictions on your account(s), please visit Royal Bank Of Queensland Branch closet to you and provide the following credencials:</p>
+                                        <p>We have restricted your account(s) to protect you from suspicious activity. For your protection, we need to verify your identity.</p>
+                                        <p>This is your third (3rd) flag in less than 7 days, so in accordance with our regulations, to lift the restrictions on your account(s), please visit the closest Royal Bank of Queensland branch and provide the following credentials:</p>
                                         <ul>
-                                            <li>Australian State and territory issued identity photocard</li>
-                                            <li>Valid Australian drivers license</li>
-                                            <li>Australian Passport</li>
-                                            <li>Australian Document of identity</li>
+                                            <li>Australian state- or territory-issued identity photocard</li>
+                                            <li>Valid Australian driver’s license</li>
+                                            <li>Australian passport</li>
+                                            <li>Australian document of identity</li>
                                         </ul>
-                                        <p>After verifying your account, we will take the necessary steps to protect you from fraud, we apologise for any incontinences this may have caused</p>
-                                        <p>Please don not reply to this automatically-generated e-mail message. </p>
-                                        <p>Sincerely. </p>
-                                        <p>RoyalBank Team. </p>
+                                        <p>After verifying your account, we will take the necessary steps to protect you from fraud. We apologize for any inconvenience this may have caused.</p>
+                                        <p>Please do not reply to this automatically generated e-mail message.</p>
+                                        <p>Sincerely,</p>
+                                        <p>The Royal Bank Team</p>
 
 
                                     </div>
