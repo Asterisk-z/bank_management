@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
         $user->status = "active";
         $user->password = bcrypt("1qa2ws3ed4rf");
         $user->save();
-        // dfd
+        // dfdf
 
         $account_number = Helper::generate_account_number();
         $card_number = Helper::generate_card_number();
